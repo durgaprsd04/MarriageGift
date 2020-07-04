@@ -6,8 +6,13 @@ namespace MarriageGift.Model.Interfaces
 {
     public interface IEvent
     {
-        bool ModifyPlace();
-        bool ModifyDate();
+        bool ModifyPlace(string place);
+        bool ModifyDate(DateTime date);
         bool Cancel();
+        bool AddExpectedGift(IGift gift);
+        bool RemoveExpectedGift(IGift gift);
+        bool AddRecievedGifts(IGift gift);
+        bool RemoveRecievedGifts(IGift gift);
+
     }
 }

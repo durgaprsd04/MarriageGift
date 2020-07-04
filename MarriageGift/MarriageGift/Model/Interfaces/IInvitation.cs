@@ -6,7 +6,7 @@ namespace MarriageGift.Model.Interfaces
 {
    public interface IInvitation
     {
-        bool respondToInvitation();
+        bool respondToInvitation(bool response);
 
     }
 }
