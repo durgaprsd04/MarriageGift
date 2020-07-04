@@ -4,3 +4,5 @@
 *.props
 *.cache
 *.targets
+MarriageGift/MarriageGift/bin/*
+MarriageGift/MarriageGift/obj/*
