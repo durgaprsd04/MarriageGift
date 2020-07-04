@@ -1,2 +1,7 @@
 *.dll
+*.json
+*.pdb
+*.props
+*.cache
+
 MarriageGift/.vs/
