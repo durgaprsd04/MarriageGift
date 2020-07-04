@@ -1,13 +1,13 @@
 using System;
 using MarriageGift.Model.Interfaces;
-using MarriageGift.Model.GiftModel;
-
+using log4net;
 namespace MarriageGift.Model.EventModel
 {
 
     public class Event : IEvent
     {
         private readonly IOccassion occassion;
+        private readonly ILog logger;
         private string place;
         private string  eventId;
         private DateTime date;
@@ -21,7 +21,9 @@ namespace MarriageGift.Model.EventModel
 
         public string CustId => custId;
 
-        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, string custId)
+        public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
+
+        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, string custId,ILog logger )
         {
             eventId = Guid.NewGuid().ToString();
             this.occassion =occassion;
@@ -29,30 +31,58 @@ namespace MarriageGift.Model.EventModel
             this.place =place;
             this.custId=custId;
             this.giftsExpected=giftsExpected;
-            isCanceled =false;
+            IsCanceled =false;
+            this.logger = logger;
         }
 
-        public bool Cancel()
+        public bool Cancel(bool response)
         {
-            isCanceled=true;
-            return true;
+            var result = false;
+            try
+            {
+                IsCanceled = response;
+                result = true;
+            }
+            catch(Exception e)
+            {
+                logger.Error("Canceling of event failed because " + e.Message);
+                logger.Error(e.StackTrace);
+            }
+            return result;
         }
 
         public bool ModifyDate(DateTime newDate)
         {
-            date =newDate;
-            return true;
+            var result = false;
+            try
+            {
+                date = newDate;
+                result = true;
+            }
+            catch(Exception e)
+            {
+                logger.Error("Modify of event date failed because of " + e.Message);
+            }            
+            return result;
         }
 
         public bool ModifyPlace(string newPlace)
         {
-            place = newPlace;
-            return true;
+            var result = false;
+            try
+            {
+                place = newPlace;
+                result = true;
+            }
+            catch (Exception e)
+            {
+                logger.Error("Modify of event venue failed because of " + e.Message);
+            }
+            return result;
         }
         public bool AddExpectedGift(IGift gift)
         {
             var result = giftsExpected.AddGift(gift);
-
             return result;
         }
         public bool RemoveExpectedGift(IGift gift)

@@ -1,6 +1,7 @@
 ﻿using System;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.GiftModel;
+using log4net;
 namespace MarriageGift.Model.CustomerModel
 {
     class Customer:ICustomer
@@ -9,15 +10,16 @@ namespace MarriageGift.Model.CustomerModel
         private string userName;
         private readonly IInvitationCollection invitations;
         private readonly IEventCollection events;
-
+        private readonly ILog logger;
         public string CustId => custId;
 
-        public Customer(string userName, IInvitationCollection invitations, IEventCollection events)
+        public Customer(string userName, IInvitationCollection invitations, IEventCollection events, ILog logger)
         {
             custId = Guid.NewGuid().ToString();
             this.userName = userName;
             this.invitations = invitations;
             this.events = events;
+            this.logger = logger;
         }
         public bool AddMyEvents(IEvent myEvent)
         {
@@ -33,9 +35,8 @@ namespace MarriageGift.Model.CustomerModel
         public bool CancelEvent(string eventId)
         {
             var eventInQuestion = events.GetEventById( eventId);
-            var result = eventInQuestion.Cancel();
+            var result = eventInQuestion.Cancel(true);
             return result;
-
         }
 
         public bool ChangeEventTime(string eventId, DateTime date)

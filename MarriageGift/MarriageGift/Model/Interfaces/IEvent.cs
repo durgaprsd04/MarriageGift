@@ -8,7 +8,7 @@ namespace MarriageGift.Model.Interfaces
     {
         bool ModifyPlace(string place);
         bool ModifyDate(DateTime date);
-        bool Cancel();
+        bool Cancel(bool response);
         bool AddExpectedGift(IGift gift);
         bool RemoveExpectedGift(IGift gift);
         bool AddRecievedGifts(IGift gift);
