@@ -9,6 +9,8 @@ namespace MarriageGift.Model.Interfaces
         bool RespondToInvitation(bool response);
         IGiftCollection<IGift> GetGiftsForEvent();
         bool AddGiftForEvent(IGift gift);
+        bool AddCustomerToListofInvitees(ICustomer customer);
+        ICustomerCollection GetListofInvitees();
         bool RemoveGiftForEvent(IGift giftId);
     }
 }

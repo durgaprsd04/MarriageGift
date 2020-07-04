@@ -10,6 +10,8 @@ namespace MarriageGift.Model.CustomerModel
         private readonly IInvitationCollection invitations;
         private readonly IEventCollection events;
 
+        public string CustId => custId;
+
         public Customer(string userName, IInvitationCollection invitations, IEventCollection events)
         {
             custId = Guid.NewGuid().ToString();
@@ -25,7 +27,7 @@ namespace MarriageGift.Model.CustomerModel
 
         public bool AddMyInvitations(IInvitation invitation)
         {
-            var result = invitations.AddInvitation(invitation);
+            var result = invitations.AddInvitation(invitation, this);
             return result;
         }        
         public bool CancelEvent(string eventId)

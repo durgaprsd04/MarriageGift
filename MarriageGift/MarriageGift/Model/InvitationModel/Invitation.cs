@@ -6,19 +6,20 @@ namespace MarriageGift.Model.InvitationModel
 
     public class Invitation : IInvitation
     {
-        private string invitationId;
+        private readonly string invitationId;
         private string sender;
         private IEvent mainEvent;
         private bool isAccepted;
         private ICustomerCollection customerCollection;
-        public Invitation(string sender, IEvent mainEvent)
+        public Invitation(string sender, IEvent mainEvent, ICustomerCollection customerCollection)
         {
-            InvitationId = Guid.NewGuid().ToString();
+            invitationId = Guid.NewGuid().ToString();
             this.sender =sender;
             this.mainEvent = mainEvent;
+            this.customerCollection = customerCollection;
         }
-
-        public string InvitationId { get => invitationId; set => invitationId = value; }
+        
+        public string InvitationId => invitationId;
 
         public bool RespondToInvitation(bool response)
         {
@@ -38,6 +39,16 @@ namespace MarriageGift.Model.InvitationModel
         public bool RemoveGiftForEvent(IGift giftId)
         {
             return mainEvent.RemoveRecievedGifts(giftId);
+        }
+
+        public bool AddCustomerToListofInvitees(ICustomer customer)
+        {
+            return customerCollection.AddCustomer(customer);
+        }
+
+        public ICustomerCollection GetListofInvitees()
+        {
+            return customerCollection;
         }
     }
 }

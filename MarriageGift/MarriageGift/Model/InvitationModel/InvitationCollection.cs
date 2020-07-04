@@ -8,7 +8,7 @@ namespace MarriageGift.Model.InvitationModel
     public class InvitationCollection : IInvitationCollection
     {
         private Dictionary<string, IInvitation> invitationCollection = new Dictionary<string, IInvitation>();
-        public bool AddInvitation(IInvitation inviteItem)
+        public bool AddInvitation(IInvitation inviteItem, ICustomer customer)
         {
             var successFlag =false;
             var inviteGen = inviteItem as Invitation;
@@ -16,6 +16,7 @@ namespace MarriageGift.Model.InvitationModel
                 throw new ArgumentException("inviteItem");
             try
             {
+                inviteGen.AddCustomerToListofInvitees(customer);
                 invitationCollection.Add(inviteGen.InvitationId, inviteGen);
                 successFlag=true;
             }
@@ -43,11 +44,11 @@ namespace MarriageGift.Model.InvitationModel
             }
             return successFlag;
         }
-        public IInvitation GetInvitationById(string inviationId)
+        public IInvitation GetInvitationById(string invitationId)
         {
-            if(invitationCollection.ContainsKey(inviationId))
+            if(invitationCollection.ContainsKey(invitationId))
             {
-                return invitationCollection[inviationId];
+                return invitationCollection[invitationId];
             }
             return null;
         }
