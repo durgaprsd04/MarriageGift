@@ -1,0 +1,9 @@
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/bin/Debug/netcoreapp2.2/MarriageGift.deps.json
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/bin/Debug/netcoreapp2.2/MarriageGift.dll
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/bin/Debug/netcoreapp2.2/MarriageGift.pdb
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.csprojAssemblyReference.cache
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.AssemblyInfoInputs.cache
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.AssemblyInfo.cs
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.csproj.CoreCompileInputs.cache
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.dll
+/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGift/obj/Debug/netcoreapp2.2/MarriageGift.pdb

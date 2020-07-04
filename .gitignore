@@ -3,5 +3,4 @@
 *.pdb
 *.props
 *.cache
-
-MarriageGift/.vs/
+*.targets
