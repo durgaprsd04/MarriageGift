@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using MarriageGift.Model.CustomerModel;
+using MarriageGift.Model.EventModel;
 using MarriageGift.Model.Interfaces;
 using Moq;
 using log4net;
@@ -7,21 +8,29 @@ namespace MarriageGiftTest.Model.CustomerModel
 {
     public class CustomerTest
     {
+        private Customer customer;
+        private IEventCollection eventCollection;
+        private IEvent testEvent;
+        Mock<IEvent> mockEvent = new Mock<IEvent>();
         [SetUp]
         public void Setup()
         {
           
            string name="testname";
-            var mockEvent = new Mock<IEventCollection>();
-            var mockInvite = new Mock<IInvitationCollection>();
             var mockLog = new Mock<ILog>();
-            Customer  c = new Customer(name,mockInvite.Object, mockEvent.Object, mockLog.Object );
+            eventCollection = new EventCollection(mockLog.Object);
+         //   testEvent = new Event();
+            var mockInviteCollection = new Mock<IInvitationCollection>();
+            var mockEventCollection = new Mock<IEventCollection>();
+            customer = new Customer(name,mockInviteCollection.Object, mockEventCollection.Object, mockLog.Object ); 
+            mockEventCollection.Setup(t => t.AddEvent(mockEvent.Object)).Returns(true);
         }
 
         [Test]
-        public void Test1()
+        public void AddMyEvents_PositiveTest1()
         {
-            Assert.Pass();
+            var result = customer.AddMyEvents(mockEvent.Object);
+            Assert.IsTrue(result);
         }
     }
 }
