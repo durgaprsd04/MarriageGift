@@ -4,7 +4,7 @@ using MarriageGift.Model.GiftModel;
 using log4net;
 namespace MarriageGift.Model.CustomerModel
 {
-    class Customer:ICustomer
+   public class Customer:ICustomer
     {
         private readonly string custId;
         private string userName;
