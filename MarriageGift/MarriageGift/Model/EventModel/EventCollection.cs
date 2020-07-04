@@ -15,11 +15,7 @@ namespace MarriageGift.Model.EventModel
         {
             this.logger = logger;
             eventCollection = new Dictionary<string, IEvent>();
-        }
-        private EventCollection()
-        {
-            eventCollection = new Dictionary<string, IEvent>();
-        }
+        }       
         public bool AddEvent(IEvent eventItem)
         {
             var successFlag =false;
@@ -61,7 +57,7 @@ namespace MarriageGift.Model.EventModel
         }
         public IEventCollection AddEventsToCollection(IEnumerable<IEvent> eventCollection)
         {
-            var eventCollection1 = new EventCollection();
+            var eventCollection1 = new EventCollection(logger);
             try
             {
                 foreach (var eventElement in eventCollection)
@@ -97,7 +93,7 @@ namespace MarriageGift.Model.EventModel
         }
         public IEventCollection GetEventsByCustId(string custId)
         {
-            var eventCollection1 = new EventCollection();
+            var eventCollection1 = new EventCollection(logger);
             try{
                 var eventListForCustomer = from  x  in eventCollection 
                                         where ((Event)x.Value).CustId==custId

@@ -1,32 +1,36 @@
 ﻿using System;
 using MarriageGift.Model.Interfaces;
-
+using log4net;
 namespace MarriageGift.Model.OccasionModel
 {
     class Birthday:Occasions
     {
         private string person;
-        public Birthday(string person)
+        private readonly ILog logger;
+        public Birthday(string person, ILog logger)
         {
             occasionId = Guid.NewGuid().ToString();
             this.person = person;
+            this.logger = logger;
             occasion = Enums.Occasion.Birthday;
         }
 
         public override bool modifyOccasion(IOccassion occassionItem)
         {
             var successFlag = false;
-            var occassion = occassionItem as Birthday;
-            if (occassion == null)
-                throw new ArgumentException("occasionItem");
             try
             {
+                var occassion = occassionItem as Birthday;
+                if (occassion == null)
+                    throw new ArgumentException("occasionItem");
+            
                 person = occassion.person;
                 successFlag = true;
             }
             catch (Exception e)
             {
-                //ignored
+                logger.Error("Exception while moidfying person name"+e.Message);
+                logger.Error(e.Message);
             }
             return successFlag;
         }

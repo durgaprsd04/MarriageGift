@@ -1,7 +1,7 @@
 ﻿using System;
 using MarriageGift.Enums;
 using MarriageGift.Model.Interfaces;
-
+using log4net;
 namespace MarriageGift.Model
 {
     public class Gift: IGift
@@ -10,6 +10,7 @@ namespace MarriageGift.Model
         private string name;
         private GiftItemType giftItemType;
         private double price;
+        private readonly ILog logger;
 
         public string GiftId
         {
@@ -19,12 +20,13 @@ namespace MarriageGift.Model
             }
         }
 
-        public Gift(string name, GiftItemType giftItemType, double price)
+        public Gift(string name, GiftItemType giftItemType, double price, ILog logger)
         {
             giftId = Guid.NewGuid().ToString();
             this.name = name;
             this.giftItemType = giftItemType;
             this.price = price;
+            this.logger = logger;
         }
         public Gift(IGift gift)
         {
@@ -36,12 +38,12 @@ namespace MarriageGift.Model
         }
         public bool ModifyGift( IGift giftItem)
         {
-            var gift = giftItem as Gift;
-            if (gift == null)
-                throw new ArgumentException("giftItem");
             var successFlag = false;
             try
             {
+                var gift = giftItem as Gift;
+                if (gift == null)
+                    throw new ArgumentException("giftItem");       
                 name = gift.name;
                 giftItemType = gift.giftItemType;
                 price = gift.price;
@@ -49,7 +51,7 @@ namespace MarriageGift.Model
             }
             catch(Exception e)
             {                
-                // ignored for now
+               logger.Error("Exception occured while modifying Gift"+e.Message);
             }
             return successFlag;
         }

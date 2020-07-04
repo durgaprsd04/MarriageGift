@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
+using log4net;
 namespace MarriageGift.Model.GiftModel
 {
    public class GiftCollection : IGiftCollection<IGift>
     {
-        public readonly IDictionary<string, IGift> giftCollection;
-
-        public GiftCollection(IDictionary<string, IGift> giftCollection)
+        private readonly IDictionary<string, IGift> giftCollection;
+        private readonly ILog logger;
+        public GiftCollection(IDictionary<string, IGift> giftCollection, ILog logger)
         {
             this.giftCollection = giftCollection;
+            this.logger= logger;
         }
 
         public bool AddGift(IGift gift)
@@ -22,19 +24,28 @@ namespace MarriageGift.Model.GiftModel
             }
             catch(Exception e)
             {
-
-                //ignore now 
+                logger.Error("Exception occured while adding gift to collection "+e.Message);
+                logger.Error(e.Message);
             }
             return successFlag;
         }
 
         public IGift GetGiftById(string giftId)
         {
-            if(giftCollection.ContainsKey(giftId))
+            IGift gift=null;
+            try
             {
-                return giftCollection[giftId];
+                if(giftCollection.ContainsKey(giftId))
+                {
+                    gift = giftCollection[giftId];
+                }
             }
-            return null;
+            catch(Exception e)
+            {
+                logger.Error("Exception occured while fetching gift from collection "+e.Message);
+                logger.Error(e.Message);
+            }            
+            return gift;
         }
 
         public bool RemoveGift(IGift gift)
@@ -47,7 +58,8 @@ namespace MarriageGift.Model.GiftModel
             }
             catch(Exception e)
             {
-                //ignore now
+                logger.Error("Exception occured while removing gift"+e.Message);
+                logger.Error(e.Message);
             }
             return successFlag;
         }

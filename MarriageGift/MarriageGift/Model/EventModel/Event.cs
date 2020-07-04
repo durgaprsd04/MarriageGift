@@ -23,7 +23,7 @@ namespace MarriageGift.Model.EventModel
 
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
 
-        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, string custId,ILog logger )
+        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId,ILog logger )
         {
             eventId = Guid.NewGuid().ToString();
             this.occassion =occassion;
@@ -31,6 +31,7 @@ namespace MarriageGift.Model.EventModel
             this.place =place;
             this.custId=custId;
             this.giftsExpected=giftsExpected;
+            this.giftsRecieved =giftsExpected;
             IsCanceled =false;
             this.logger = logger;
         }
