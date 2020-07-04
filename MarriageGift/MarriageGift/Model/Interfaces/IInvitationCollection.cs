@@ -4,5 +4,6 @@ namespace MarriageGift.Model.Interfaces
     {
         bool AddInvitation(IInvitation invitation);
         bool RemoveInvitation(IInvitation invitation);
+        IInvitation GetInvitationById(string inviationId);
     }
 }

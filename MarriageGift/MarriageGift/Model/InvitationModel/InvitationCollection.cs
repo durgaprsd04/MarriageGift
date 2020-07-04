@@ -43,5 +43,13 @@ namespace MarriageGift.Model.InvitationModel
             }
             return successFlag;
         }
+        public IInvitation GetInvitationById(string inviationId)
+        {
+            if(invitationCollection.ContainsKey(inviationId))
+            {
+                return invitationCollection[inviationId];
+            }
+            return null;
+        }
     }
 }

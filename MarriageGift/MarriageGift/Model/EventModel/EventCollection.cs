@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using MarriageGift.Model.Interfaces;
 using System.Collections.Generic;
 
@@ -42,6 +43,40 @@ namespace MarriageGift.Model.EventModel
                 //
             }
             return successFlag;
+        }
+        public IEventCollection AddEventsToCollection(IEnumerable<IEvent> eventCollection)
+        {
+            var eventCollection1 = new EventCollection();
+            foreach(var eventElement in eventCollection)
+            {   
+                var ev = eventElement as Event;
+                if(ev!=null)
+                    eventCollection1.AddEvent(ev);
+            }
+            return eventCollection1;
+        }
+        public IEvent GetEventById(string eventId)
+        {
+            if(eventCollection.ContainsKey(eventId))
+            {
+                return eventCollection[eventId];
+            }
+            return null;
+        }
+        public IEventCollection GetEventsByCustId(string custId)
+        {
+            var eventCollection1 = new EventCollection();
+            try{
+                var eventListForCustomer = from  x  in eventCollection 
+                                        where ((Event)x.Value).CustId==custId
+                                        select x.Value;
+            eventCollection1 = (EventCollection)AddEventsToCollection(eventListForCustomer);
+            }
+            catch(Exception e)
+            {
+                //commented for now.
+            }
+            return eventCollection1;
         }
     }
 }

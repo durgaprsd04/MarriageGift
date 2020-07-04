@@ -12,18 +12,22 @@ namespace MarriageGift.Model.EventModel
         private string  eventId;
         private DateTime date;
         private bool isCanceled;
+        private readonly string custId;
 
         private IGiftCollection giftsRecieved;
         private IGiftCollection giftsExpected;
 
         public string EventId { get => eventId; set => eventId = value; }
 
-        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection giftsExpected)
+        public string CustId => custId;
+
+        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection giftsExpected, string custId)
         {
             eventId = Guid.NewGuid().ToString();
             this.occassion =occassion;
             this.date =date;
             this.place =place;
+            this.custId=custId;
             this.giftsExpected=giftsExpected;
             isCanceled =false;
         }
@@ -66,6 +70,10 @@ namespace MarriageGift.Model.EventModel
             return result;
         }
 
+        public IGiftCollection ExpectedGiftCollection()
+        {
+            return giftsExpected;
+        }
     }
 
 }

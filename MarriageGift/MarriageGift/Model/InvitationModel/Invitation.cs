@@ -10,6 +10,7 @@ namespace MarriageGift.Model.InvitationModel
         private string sender;
         private IEvent mainEvent;
         private bool isAccepted;
+        private ICustomerCollection customerCollection;
         public Invitation(string sender, IEvent mainEvent)
         {
             InvitationId = Guid.NewGuid().ToString();
@@ -19,10 +20,14 @@ namespace MarriageGift.Model.InvitationModel
 
         public string InvitationId { get => invitationId; set => invitationId = value; }
 
-        public bool respondToInvitation(bool response)
+        public bool RespondToInvitation(bool response)
         {
             isAccepted=response;
             return response;
+        }
+        public IGiftCollection GetGiftsForEvent()
+        {
+            return mainEvent.ExpectedGiftCollection();
         }
 
         
