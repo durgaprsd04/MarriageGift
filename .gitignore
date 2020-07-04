@@ -1,5 +1,4 @@
 *.dll
-*.json
 *.pdb
 *.props
 *.cache
