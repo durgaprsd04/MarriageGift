@@ -26,7 +26,14 @@ namespace MarriageGift.Model
             this.giftItemType = giftItemType;
             this.price = price;
         }
-
+        public Gift(IGift gift)
+        {
+            var gift1 = gift as Gift;
+            giftId = Guid.NewGuid().ToString();
+            name = gift1.name;
+            giftItemType = gift1.giftItemType;
+            price = gift1.price;
+        }
         public bool ModifyGift( IGift giftItem)
         {
             var gift = giftItem as Gift;
@@ -53,6 +60,10 @@ namespace MarriageGift.Model
             if (gift != null)
                 return string.Compare(gift.GiftId, GiftId);
             return -1;
+        }
+        public string GetGiftId()
+        {
+            return giftId;
         }
 
         

@@ -1,6 +1,6 @@
 ﻿using System;
 using MarriageGift.Model.Interfaces;
-
+using MarriageGift.Model.GiftModel;
 namespace MarriageGift.Model.CustomerModel
 {
     class Customer:ICustomer
@@ -60,17 +60,22 @@ namespace MarriageGift.Model.CustomerModel
         public bool BuyGiftForInvitation(string invitationId, string giftId)
         {
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
-            var inviteInQuestion.GetGiftsForEvent();
+            var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
+            return inviteInQuestion.AddGiftForEvent(new PresentableGift(userName, gift));
         }
 
-        public bool ModifyGiftForInvitation(string invitationId)
+        public bool ModifyGiftForInvitation(string invitationId, string giftIdToBeRemoved, string newGiftId)
         {
-            throw new NotImplementedException();
+            var isRemoved = RemoveGiftForInvitation(invitationId, giftIdToBeRemoved);
+            var isAdded = BuyGiftForInvitation(invitationId, newGiftId);
+            return isRemoved && isAdded;
         }
 
-        public bool RemoveGiftForInvitation(string invitationId)
+        public bool RemoveGiftForInvitation(string invitationId, string giftId)
         {
-            throw new NotImplementedException();
+            var inviteInQuestion = invitations.GetInvitationById(invitationId);
+            var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
+            return inviteInQuestion.RemoveGiftForEvent(gift);
         }
     }
 }

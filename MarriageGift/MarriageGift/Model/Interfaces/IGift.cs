@@ -7,5 +7,6 @@ namespace MarriageGift.Model.Interfaces
     public interface IGift : IComparable
     {
         bool ModifyGift(IGift gift);
+        string GetGiftId();
     }
 }

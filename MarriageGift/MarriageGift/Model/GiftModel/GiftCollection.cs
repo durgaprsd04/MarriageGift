@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using MarriageGift.Model.Interfaces;
-namespace MarriageGift.Model
+namespace MarriageGift.Model.GiftModel
 {
-    class GiftCollection : IGiftCollection
+   public class GiftCollection : IGiftCollection<IGift>
     {
         public readonly IDictionary<string, IGift> giftCollection;
 
@@ -13,15 +12,12 @@ namespace MarriageGift.Model
             this.giftCollection = giftCollection;
         }
 
-        public bool AddGift(IGift giftItem)
+        public bool AddGift(IGift gift)
         {
             var successFlag = false;
-            var gift = giftItem as Gift;
-            if (gift == null)
-                throw new ArgumentException("giftItem");
             try
             {
-                giftCollection.Add(gift.GiftId, gift);
+                giftCollection.Add(gift.GetGiftId(), gift);
                 successFlag = true;
             }
             catch(Exception e)
@@ -32,15 +28,21 @@ namespace MarriageGift.Model
             return successFlag;
         }
 
-        public bool RemoveGift(IGift giftItem)
+        public IGift GetGiftById(string giftId)
+        {
+            if(giftCollection.ContainsKey(giftId))
+            {
+                return giftCollection[giftId];
+            }
+            return null;
+        }
+
+        public bool RemoveGift(IGift gift)
         {
             var successFlag = false;
-            var gift = giftItem as Gift;
-            if (gift == null)
-                throw new ArgumentException("giftItem");
             try
             {
-                giftCollection.Remove(gift.GiftId);
+                giftCollection.Remove(gift.GetGiftId());
                 successFlag = true;
             }
             catch(Exception e)

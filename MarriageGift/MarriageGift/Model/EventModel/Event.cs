@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
+using MarriageGift.Model.GiftModel;
 
 namespace MarriageGift.Model.EventModel
 {
@@ -14,14 +14,14 @@ namespace MarriageGift.Model.EventModel
         private bool isCanceled;
         private readonly string custId;
 
-        private IGiftCollection giftsRecieved;
-        private IGiftCollection giftsExpected;
+        private IGiftCollection<IGift> giftsRecieved;
+        private IGiftCollection<IGift> giftsExpected;
 
         public string EventId { get => eventId; set => eventId = value; }
 
         public string CustId => custId;
 
-        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection giftsExpected, string custId)
+        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, string custId)
         {
             eventId = Guid.NewGuid().ToString();
             this.occassion =occassion;
@@ -52,6 +52,7 @@ namespace MarriageGift.Model.EventModel
         public bool AddExpectedGift(IGift gift)
         {
             var result = giftsExpected.AddGift(gift);
+
             return result;
         }
         public bool RemoveExpectedGift(IGift gift)
@@ -61,18 +62,24 @@ namespace MarriageGift.Model.EventModel
         }
         public bool AddRecievedGifts(IGift gift)
         {
-            var result = giftsRecieved.AddGift(gift);
-            return result;
+            var result1 =giftsExpected.RemoveGift(gift);
+            var result2 = giftsRecieved.AddGift(gift);
+            return result1&result1;
         }
         public bool RemoveRecievedGifts(IGift gift)
         {
-            var result = giftsRecieved.RemoveGift(gift);
-            return result;
+            var result1 = giftsRecieved.RemoveGift(gift);
+            var result2 = giftsExpected.AddGift(gift);
+            return result1&&result2;
         }
 
-        public IGiftCollection ExpectedGiftCollection()
+        public IGiftCollection<IGift> ExpectedGiftCollection()
         {
             return giftsExpected;
+        }
+        public IGiftCollection<IGift> RecievedGiftCollection()
+        {
+            return giftsRecieved;
         }
     }
 

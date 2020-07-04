@@ -7,7 +7,8 @@ namespace MarriageGift.Model.Interfaces
    public interface IInvitation
     {
         bool RespondToInvitation(bool response);
-        IGiftCollection GetGiftsForEvent();
-
+        IGiftCollection<IGift> GetGiftsForEvent();
+        bool AddGiftForEvent(IGift gift);
+        bool RemoveGiftForEvent(IGift giftId);
     }
 }

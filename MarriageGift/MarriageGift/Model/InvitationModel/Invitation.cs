@@ -25,12 +25,20 @@ namespace MarriageGift.Model.InvitationModel
             isAccepted=response;
             return response;
         }
-        public IGiftCollection GetGiftsForEvent()
+        public IGiftCollection<IGift> GetGiftsForEvent()
         {
             return mainEvent.ExpectedGiftCollection();
         }
 
-        
+        public bool AddGiftForEvent(IGift gift)
+        {
+            return mainEvent.AddRecievedGifts(gift);
+        }
+
+        public bool RemoveGiftForEvent(IGift giftId)
+        {
+            return mainEvent.RemoveRecievedGifts(giftId);
+        }
     }
 }
     
