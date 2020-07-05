@@ -5,6 +5,7 @@ using log4net;
 using MarriageGift.Model.CustomerModel;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Model.InvitationModel;
+using MarriageGift.Model.GiftModel;
 using MarriageGift.Exceptions;
 using MarriageGift.Model.Interfaces;
 
@@ -31,16 +32,26 @@ namespace MarriageGiftTest.Model.CustomerModel
         {
           var mockOccasion = new Mock<IOccassion>();
           var place ="test place";
-          var date = new DateTime(2020,6,3);         
+          var date = new DateTime(2020,6,3);
           var giftCollectionExpected = new Mock<IGiftCollection<IGift>>();
+          var giftCollectionRecieved = new Mock<IGiftCollection<IGift>>();
+          return  new Event(mockOccasion.Object, place, date, giftCollectionExpected.Object, giftCollectionRecieved.Object, custId, mockLog.Object);
+        }
+         public Event CreateEventWithGift(string custId, Mock<IGift> gift)
+        {
+          var mockOccasion = new Mock<IOccassion>();
+          var place ="test place";
+          var date = new DateTime(2020,6,3);
+          var giftCollectionExpected = new Mock<IGiftCollection<IGift>>();
+          giftCollectionExpected.Setup(x=> x.GetGiftById(gift.Object.GetGiftId())).Returns(gift.Object);
           var giftCollectionRecieved = new Mock<IGiftCollection<IGift>>();
           return  new Event(mockOccasion.Object, place, date, giftCollectionExpected.Object, giftCollectionRecieved.Object, custId, mockLog.Object);
         }
         public Event CreateEmptyEventWithGift(string custId, string giftId)
         {
-            var dummyEvent = CreateEmptyEvent(custId);
             var mockGift = new Mock<IGift>();
             mockGift.Setup(x => x.GetGiftId()).Returns(giftId);
+            var dummyEvent = CreateEventWithGift(custId,mockGift);            
             dummyEvent.AddExpectedGift(mockGift.Object);
             return dummyEvent;
         }
@@ -296,11 +307,10 @@ namespace MarriageGiftTest.Model.CustomerModel
         [Test]
         public void RemoveGiftForInvitation_PositiveTest1()
         {
-            //Arrange
             var dummyGiftId = Guid.NewGuid().ToString();
-            var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);
+            var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);           
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
-            customer.AddMyInvitations(dummyInvitation);
+            customer.AddMyInvitations(dummyInvitation);            
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             //Act
             var result = customer.RemoveGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
