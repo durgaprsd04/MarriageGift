@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using log4net;
@@ -6,6 +7,7 @@ using MarriageGift.Model.CustomerModel;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Model.InvitationModel;
 using MarriageGift.Model.GiftModel;
+using MarriageGift.Enums;
 using MarriageGift.Exceptions;
 using MarriageGift.Model.Interfaces;
 
@@ -37,22 +39,33 @@ namespace MarriageGiftTest.Model.CustomerModel
           var giftCollectionRecieved = new Mock<IGiftCollection<IGift>>();
           return  new Event(mockOccasion.Object, place, date, giftCollectionExpected.Object, giftCollectionRecieved.Object, custId, mockLog.Object);
         }
-         public Event CreateEventWithGift(string custId, Mock<IGift> gift)
+        public GiftCollection GetDummyGiftCollection()
+        {
+            var giftDict = new Dictionary<string, IGift>();
+            var giftCollection = new GiftCollection(giftDict, mockLog.Object);
+            return giftCollection;
+        }
+        public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
+        {
+            var giftCollection = GetDummyGiftCollection();
+            var gift = new Gift(giftId, "Pots",GiftItemType.Crockery, 2000,mockLog.Object);
+            giftCollection.AddGift(gift);
+            return giftCollection;
+            
+        }
+        public Event CreateEventWithGift(string custId, string giftId)
         {
           var mockOccasion = new Mock<IOccassion>();
           var place ="test place";
           var date = new DateTime(2020,6,3);
-          var giftCollectionExpected = new Mock<IGiftCollection<IGift>>();
-          giftCollectionExpected.Setup(x=> x.GetGiftById(gift.Object.GetGiftId())).Returns(gift.Object);
-          var giftCollectionRecieved = new Mock<IGiftCollection<IGift>>();
-          return  new Event(mockOccasion.Object, place, date, giftCollectionExpected.Object, giftCollectionRecieved.Object, custId, mockLog.Object);
+          var giftCollectionExpected = GetDummyGiftCollectionWithGiftId(giftId);
+          var giftCollectionRecieved = GetDummyGiftCollection();
+          return  new Event(mockOccasion.Object, place, date, giftCollectionExpected, giftCollectionRecieved, custId, mockLog.Object);
         }
+
         public Event CreateEmptyEventWithGift(string custId, string giftId)
         {
-            var mockGift = new Mock<IGift>();
-            mockGift.Setup(x => x.GetGiftId()).Returns(giftId);
-            var dummyEvent = CreateEventWithGift(custId,mockGift);            
-            dummyEvent.AddExpectedGift(mockGift.Object);
+            var dummyEvent = CreateEventWithGift(custId, giftId);
             return dummyEvent;
         }
         public Event CreateEmptyEventWithTwoGifts(string custId, string giftId1, string giftid2)

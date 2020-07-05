@@ -2,7 +2,7 @@
 using MarriageGift.Enums;
 using MarriageGift.Model.Interfaces;
 using log4net;
-namespace MarriageGift.Model
+namespace MarriageGift.Model.GiftModel
 {
     public class Gift: IGift
     {
@@ -19,7 +19,15 @@ namespace MarriageGift.Model
                 return giftId;
             }
         }
-
+        // TODO need to find  abetter solution
+        public Gift(string guid, string name, GiftItemType giftItemType, double price, ILog logger)
+        {
+            giftId = guid;
+            this.name = name;
+            this.giftItemType = giftItemType;
+            this.price = price;
+            this.logger = logger;
+        }
         public Gift(string name, GiftItemType giftItemType, double price, ILog logger)
         {
             giftId = Guid.NewGuid().ToString();
