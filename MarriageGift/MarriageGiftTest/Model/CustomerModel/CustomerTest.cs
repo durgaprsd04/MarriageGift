@@ -38,6 +38,10 @@ namespace MarriageGiftTest.Model.CustomerModel
           return  new Event(mockOccasion.Object, place, date, giftCollectionExpected.Object, giftCollectionRecieved.Object, custId, mockLog.Object);
 
         }
+        public Invitation CreateEmptyInvitation()
+        {
+          
+        }
         [Test]
         public void AddMyEvents_NegativeTest1()
         {
