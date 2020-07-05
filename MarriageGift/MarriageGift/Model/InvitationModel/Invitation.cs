@@ -23,13 +23,15 @@ namespace MarriageGift.Model.InvitationModel
         
         public string InvitationId => invitationId;
 
+        public bool IsAccepted { get => isAccepted;}
+
         public bool RespondToInvitation(bool response)
         {
             var successFlag =false;
             try
             {
                 isAccepted=response;
-                successFlag = response;
+                successFlag = true;
             }
             catch(Exception e)
             {

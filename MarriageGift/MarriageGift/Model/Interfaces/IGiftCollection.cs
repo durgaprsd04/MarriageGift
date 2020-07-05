@@ -5,5 +5,6 @@
         bool AddGift(IGift gift);
         bool RemoveGift(IGift gift);
         IGift GetGiftById(string giftId);
+        int Count();
     }
 }

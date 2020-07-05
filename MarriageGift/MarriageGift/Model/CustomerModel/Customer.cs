@@ -1,7 +1,8 @@
 ﻿using System;
+using log4net;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.GiftModel;
-using log4net;
+using MarriageGift.Exceptions;
 namespace MarriageGift.Model.CustomerModel
 {
    public class Customer:ICustomer
@@ -34,37 +35,55 @@ namespace MarriageGift.Model.CustomerModel
         }        
         public bool CancelEvent(string eventId)
         {
+            var result = false;
             var eventInQuestion = events.GetEventById( eventId);
-            var result = eventInQuestion.Cancel(true);
+            if (eventInQuestion == null)
+                throw new EventNotFoundException(eventId);
+            result = eventInQuestion.Cancel(true);            
             return result;
         }
 
         public bool ChangeEventTime(string eventId, DateTime date)
         {
-            var eventInQuestion = events.GetEventById( eventId);
-            var result = eventInQuestion.ModifyDate(date);
+            var result = false;
+            var eventInQuestion = events.GetEventById(eventId);
+            if (eventInQuestion == null)
+               throw new EventNotFoundException(eventId);
+            result = eventInQuestion.ModifyDate(date);                        
             return result;
         }
 
         public bool ChangeEventVenue(string eventId, string place)
         {
-            var eventInQuestion = events.GetEventById( eventId);
-            var result = eventInQuestion.ModifyPlace(place);
+            var result = false;
+            var eventInQuestion = events.GetEventById(eventId);
+            if (eventInQuestion == null)
+                throw new EventNotFoundException(eventId);
+            result = eventInQuestion.ModifyPlace(place);
             return result;
         }
 
         public bool RespondToInvitation(string invitationId, bool response)
         {
+            var result = false;
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
-            var result = inviteInQuestion.RespondToInvitation(response);
+            if (inviteInQuestion == null)
+                throw new InvitationNotFoundException(invitationId);
+            result = inviteInQuestion.RespondToInvitation(response);
             return result;
         }
 
         public bool BuyGiftForInvitation(string invitationId, string giftId)
         {
+            var result = false;
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
+            if (inviteInQuestion == null)
+                throw new InvitationNotFoundException(invitationId);
             var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
-            return inviteInQuestion.AddGiftForEvent(new PresentableGift(userName, gift));
+            if (gift == null)
+                throw new GiftNotFoundException(giftId);
+            result = inviteInQuestion.AddGiftForEvent(new PresentableGift(userName, gift));
+            return result;
         }
 
         public bool ModifyGiftForInvitation(string invitationId, string giftIdToBeRemoved, string newGiftId)
@@ -76,9 +95,15 @@ namespace MarriageGift.Model.CustomerModel
 
         public bool RemoveGiftForInvitation(string invitationId, string giftId)
         {
+            var result = false;
             var inviteInQuestion = invitations.GetInvitationById(invitationId);
+            if (inviteInQuestion == null)
+                throw new InvitationNotFoundException(invitationId);
             var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
-            return inviteInQuestion.RemoveGiftForEvent(gift);
+            if (gift == null)
+                throw new GiftNotFoundException(giftId);
+            result =inviteInQuestion.RemoveGiftForEvent(gift);
+            return result;
         }
     }
 }

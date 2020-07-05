@@ -22,6 +22,8 @@ namespace MarriageGift.Model.EventModel
         public string CustId => custId;
 
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
+        public DateTime Date { get => date; }
+        public string Place { get => place; }
 
         public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId,ILog logger )
         {

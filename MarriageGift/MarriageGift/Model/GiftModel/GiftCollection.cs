@@ -30,6 +30,11 @@ namespace MarriageGift.Model.GiftModel
             return successFlag;
         }
 
+        public int Count()
+        {
+            return giftCollection.Count;
+        }
+
         public IGift GetGiftById(string giftId)
         {
             IGift gift=null;
@@ -63,5 +68,6 @@ namespace MarriageGift.Model.GiftModel
             }
             return successFlag;
         }
+        
     }
 }
