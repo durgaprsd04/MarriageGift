@@ -19,22 +19,11 @@ namespace MarriageGift.Model.CustomerModel
 
         public bool AddCustomer(ICustomer customer)
         {
-            var result = false;
-            try
-            {
-                var cust = customer as Customer;
-                if (cust == null)
+            var cust = customer as Customer;
+            if (cust == null)
                 throw new ArgumentException("Customer");
-            
-                customerCollection.Add(cust.CustId, cust);
-                return true;
-            }
-            catch(Exception e)
-            {
-                logger.Error("Error occured while adding customer:" + e.Message);
-                logger.Error(e.Message);
-            }
-            return result;
+            customerCollection.Add(cust.CustId, cust);
+            return true;
         }
     }
 }
