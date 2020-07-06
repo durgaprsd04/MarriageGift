@@ -1,7 +1,8 @@
 ﻿using System;
+using log4net;
 using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
-using log4net;
+using MarriageGift.Exceptions;
 namespace MarriageGift.Model.GiftModel
 {
    public class GiftCollection : IGiftCollection<IGift>
@@ -16,18 +17,17 @@ namespace MarriageGift.Model.GiftModel
 
         public bool AddGift(IGift gift)
         {
-            var successFlag = false;
+            var result = false;
             try
             {
                 giftCollection.Add(gift.GetGiftId(), gift);
-                successFlag = true;
+                result = true;
             }
             catch(Exception e)
             {
-                logger.Error("Exception occured while adding gift to collection "+e.Message);
-                logger.Error(e.Message);
+                throw new GiftCollectionAddException(e.Message);
             }
-            return successFlag;
+            return result;
         }
 
         public int Count()
