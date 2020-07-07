@@ -58,13 +58,16 @@ namespace MarriageGift.Model.GiftModel
             var successFlag = false;
             try
             {
-                giftCollection.Remove(gift.GetGiftId());
-                successFlag = true;
+                if (giftCollection.ContainsKey(gift.GetGiftId()))
+
+                {
+                    giftCollection.Remove(gift.GetGiftId());
+                    successFlag = true;
+                }
             }
             catch(Exception e)
             {
-                logger.Error("Exception occured while removing gift"+e.Message);
-                logger.Error(e.Message);
+                throw new GiftCollectionRemoveException(e.Message);
             }
             return successFlag;
         }

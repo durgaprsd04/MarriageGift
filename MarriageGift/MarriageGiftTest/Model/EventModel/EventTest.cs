@@ -13,22 +13,32 @@ namespace MarriageGiftTest.Model.EventModel
 {
     [TestFixture]
     class EventTest
-    {
-        Event dummyEvent;
+    {        
         Mock<ILog> mockLog;
-        [SetUp]
+        IMock<IOccassion> mockOccasion;
+        string place;
+        DateTime date;
+        IGiftCollection<IGift> dummyExpectedGiftCollection;
+        IGiftCollection<IGift> dummyRecievedGiftCollection;
+        string dummyCustId = Guid.NewGuid().ToString();
+        IMock<Customer> customer;
+      [SetUp]
         public void Setup()
         {
-            var dummyCustId = Guid.NewGuid().ToString();
+            
             mockLog = new Mock<ILog>();
-            var mockOccasion = new Mock<IOccassion>();
-            var customer = new Mock<Customer>();
+            mockOccasion = new Mock<IOccassion>();
+            customer = new Mock<Customer>();
             //customer.Setup(x => x.CustId).Returns(dummyCustId);
-            var place = "testPlace";
-            var date = new DateTime(2020, 6, 30);
-            var dummyExpectedGiftCollection = GetDummyGiftCollection();
-            var dummyRecievedGiftCollection = GetDummyGiftCollection();
-            dummyEvent = new Event(mockOccasion.Object, place, date, dummyExpectedGiftCollection, dummyRecievedGiftCollection, dummyCustId, mockLog.Object);
+            place = "testPlace";
+            date = new DateTime(2020, 6, 30);
+            dummyExpectedGiftCollection = GetDummyGiftCollection();
+            dummyRecievedGiftCollection = GetDummyGiftCollection();
+            
+        }
+        public Event GetEvent()
+        {
+            return new Event(mockOccasion.Object, place, date, dummyExpectedGiftCollection, dummyRecievedGiftCollection, dummyCustId, mockLog.Object);
         }
         public GiftCollection GetDummyGiftCollection()
         {
@@ -46,12 +56,14 @@ namespace MarriageGiftTest.Model.EventModel
         [Test]
         public void Cancel_PositiveTest1()
         {
+            var dummyEvent = GetEvent();
             var result = dummyEvent.Cancel(true);
             Assert.IsTrue(result);
         }
         [Test]
         public void ModifyDate_PositiveTest1()
         {
+            var dummyEvent = GetEvent();
             var testDate = new DateTime(2020, 05, 30);
             var result = dummyEvent.ModifyDate(testDate);
             Assert.AreEqual(dummyEvent.Date, testDate);
@@ -60,6 +72,7 @@ namespace MarriageGiftTest.Model.EventModel
         [Test]
         public void ModifyPlace_PositiveTest1()
         {
+            var dummyEvent = GetEvent();
             var place = "new Place";
             var result = dummyEvent.ModifyPlace(place);
             Assert.IsTrue(result);
@@ -68,6 +81,7 @@ namespace MarriageGiftTest.Model.EventModel
         [Test]
         public void AddExpectedGift_NegativeTest1()
         {
+            var dummyEvent = GetEvent();
             var result = false;
             var errorType = string.Empty;
             try
@@ -88,6 +102,7 @@ namespace MarriageGiftTest.Model.EventModel
         [Test]
         public void AddExpectedGift_PositiveTest1()
         {
+            var dummyEvent = GetEvent();
             var dummyGiftId = Guid.NewGuid().ToString();
             var dummyGift = new Mock<IGift>();
             dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
@@ -96,16 +111,17 @@ namespace MarriageGiftTest.Model.EventModel
             Assert.IsTrue(result);
         }
         [Test]
-        public void AddRecievedGift_NegativeTest1()
+        public void RemoveExpectedGift_NegativeTest1()
         {
+            var dummyEvent = GetEvent();
             var result = false;
             var errorType = string.Empty;
             try
             {
                 var dummyGift = new Mock<IGift>();
-                dummyEvent.AddRecievedGifts(dummyGift.Object);
+                dummyEvent.RemoveExpectedGift(dummyGift.Object);
             }
-            catch (GiftCollectionAddException)
+            catch (GiftCollectionRemoveException)
             {
                 result = true;
             }
@@ -116,14 +132,94 @@ namespace MarriageGiftTest.Model.EventModel
             Assert.IsTrue(result, "Expected exception not found, got {0} instead", errorType);
         }
         [Test]
-        public void AddRecievedGift_PositiveTest1()
+        public void RemoveExpectedGift_PositiveTest1()
         {
+            var dummyEvent = GetEvent();
             var dummyGiftId = Guid.NewGuid().ToString();
             var dummyGift = new Mock<IGift>();
             dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
-            var result = dummyEvent.AddRecievedGifts(dummyGift.Object);
-            Assert.AreEqual(dummyEvent.RecievedGiftCollection().Count(), 1);
-            Assert.IsTrue(result);
+            var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
+            var result2 = dummyEvent.RemoveExpectedGift(dummyGift.Object);
+            Assert.AreEqual(dummyEvent.RecievedGiftCollection().Count(), 0);
+            Assert.IsTrue(result1&result2);
+        }
+        [Test]
+        public void AddRecievedGifts_PositiveTest1()
+        {
+            //Arrange
+            var dummyEvent = GetEvent();
+            var dummyGiftId = Guid.NewGuid().ToString();
+            var dummyGift = new Mock<IGift>();
+            dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
+            var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
+            //Act
+            var result2 = dummyEvent.AddRecievedGifts(dummyGift.Object);
+            var result3 = dummyEvent.ExpectedGiftCollection().Count();
+            var result4 = dummyEvent.RecievedGiftCollection().Count();
+            //Assert
+            Assert.IsTrue(result1 && result2, "Failure while adding to ExpectedGiftCollection/RecievedGiftCollection");
+            Assert.AreEqual(result3, 0);
+            Assert.AreEqual(result4, 1); 
+        }
+        [Test]
+        public void AddRecievedGifts_NegativeTest1()
+        {
+            //Arrange
+            var dummyEvent = GetEvent();
+            var dummyGiftId = Guid.NewGuid().ToString();
+            var dummyGiftId2 = Guid.NewGuid().ToString();
+            var dummyGift = new Mock<IGift>();
+            dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
+            var dummyGift2 = new Mock<IGift>();
+            dummyGift2.Setup(x => x.GetGiftId()).Returns(dummyGiftId2);
+            var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
+            //Act
+            var result2 = dummyEvent.AddRecievedGifts(dummyGift2.Object);
+            var result3 = dummyEvent.ExpectedGiftCollection().Count();
+            var result4 = dummyEvent.RecievedGiftCollection().Count();
+            //Assert
+            Assert.IsTrue(result1 && !result2, "Failure while adding to ExpectedGiftCollection/RecievedGiftCollection");
+            Assert.AreEqual(result3, 1);
+            Assert.AreEqual(result4, 0);
+        }
+        [Test]
+        public void RemoveRecievedGifts_PositiveTest1()
+        {
+            //Arrange
+            var dummyEvent = GetEvent();
+            var dummyGiftId = Guid.NewGuid().ToString();
+            var dummyGift = new Mock<IGift>();
+            dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
+            dummyEvent.AddExpectedGift(dummyGift.Object);
+            dummyEvent.AddRecievedGifts(dummyGift.Object);
+            //Act
+            dummyEvent.RemoveRecievedGifts(dummyGift.Object);
+            //Assert
+            var result1 = dummyEvent.RecievedGiftCollection().Count();
+            var result2 = dummyEvent.ExpectedGiftCollection().Count();
+            Assert.AreEqual(result1, 0);
+            Assert.AreEqual(result2, 1);
+        }
+        [Test]
+        public void RemoveRecievedGifts_NegativeTest1()
+        {
+            //Arrange
+            var dummyEvent = GetEvent();
+            var dummyGiftId = Guid.NewGuid().ToString();
+            var dummyGiftId2 = Guid.NewGuid().ToString();
+            var dummyGift = new Mock<IGift>();
+            dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
+            var dummyGift2 = new Mock<IGift>();
+            dummyGift2.Setup(x => x.GetGiftId()).Returns(dummyGiftId2);
+            dummyEvent.AddExpectedGift(dummyGift.Object);
+            dummyEvent.AddRecievedGifts(dummyGift.Object);
+            dummyEvent.RemoveRecievedGifts(dummyGift2.Object);
+            //Act
+            var result1 = dummyEvent.ExpectedGiftCollection().Count();
+            var result2 = dummyEvent.RecievedGiftCollection().Count();
+            //Assert            
+            Assert.AreEqual(result1, 0);
+            Assert.AreEqual(result2, 1);
         }
     }
 }

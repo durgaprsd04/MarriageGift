@@ -33,7 +33,7 @@ namespace MarriageGift.Model.EventModel
             this.place =place;
             this.custId=custId;
             this.giftsExpected=giftsExpected;
-            this.giftsRecieved =giftsExpected;
+            this.giftsRecieved =giftsRecieved;
             IsCanceled =false;
             this.logger = logger;
         }
@@ -96,13 +96,17 @@ namespace MarriageGift.Model.EventModel
         public bool AddRecievedGifts(IGift gift)
         {
             var result1 =giftsExpected.RemoveGift(gift);
-            var result2 = giftsRecieved.AddGift(gift);
+            var result2 = false;
+            if (result1)
+                result2 = giftsRecieved.AddGift(gift);
             return result1&result1;
         }
         public bool RemoveRecievedGifts(IGift gift)
         {
             var result1 = giftsRecieved.RemoveGift(gift);
-            var result2 = giftsExpected.AddGift(gift);
+            var result2 = false;
+            if (result1)
+                result2 = giftsExpected.AddGift(gift);
             return result1&&result2;
         }
 
