@@ -40,7 +40,11 @@ namespace MarriageGift.Model.InvitationModel
             }
             return successFlag;
         }
-        public IGiftCollection<IGift> GetGiftsForEvent()
+        public IGiftCollection<IGift> GetRecievedGiftsForEvent()
+        {
+            return mainEvent.RecievedGiftCollection();
+        }
+        public IGiftCollection<IGift> GetExpectedGiftsForEvent()
         {
             return mainEvent.ExpectedGiftCollection();
         }

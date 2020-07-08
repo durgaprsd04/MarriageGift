@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MarriageGift.Model.Interfaces;
+using MarriageGift.Exceptions;
 using System.Collections.Generic;
 using log4net;
 
@@ -9,29 +10,24 @@ namespace MarriageGift.Model.EventModel
     public class EventCollection : IEventCollection
     {
         private readonly Dictionary<string, IEvent> eventCollection;
-        private readonly ILog logger;
-
-        public EventCollection(ILog logger)
-        {
-            this.logger = logger;
+        public EventCollection()
+        {          
             eventCollection = new Dictionary<string, IEvent>();
         }       
         public bool AddEvent(IEvent eventItem)
         {
             var successFlag =false;
+            var eventGen = eventItem as Event;
+            if(eventGen==null)
+                throw new ArgumentException("eventItem");
             try
             {
-                var eventGen = eventItem as Event;
-                if(eventGen==null)
-                throw new ArgumentException("eventItem");
-            
                 eventCollection.Add(eventGen.EventId, eventGen);
-                successFlag=true;
+                successFlag = true;
             }
             catch(Exception e)
             {
-                logger.Error("Event addition failed " + e.Message);
-                logger.Error(e.StackTrace);
+                throw new EventCollectionAddException(e.Message);
             }
             return successFlag;
         }
@@ -39,25 +35,24 @@ namespace MarriageGift.Model.EventModel
         public bool RemoveEvent(IEvent eventItem)
         {
             var successFlag =false;
-            try
-            {
-                var eventGen = eventItem as Event;
-                if(eventGen==null)
+            var eventGen = eventItem as Event;
+            if (eventGen == null)
                 throw new ArgumentException("eventItem");
-            
-                eventCollection.Remove(eventGen.EventId);
-                successFlag=true;
-            }
-            catch(Exception e)
+
+            if (!eventCollection.ContainsKey(eventGen.EventId))
             {
-                logger.Error("Event addition failed " + e.Message);
-                logger.Error(e.StackTrace);
+                throw new EventCollectionRemoveException("Key not found in collecton");
+            }
+            else
+            {
+                eventCollection.Remove(eventGen.EventId);
+                successFlag = true;
             }
             return successFlag;
         }
         public IEventCollection AddEventsToCollection(IEnumerable<IEvent> eventCollection)
         {
-            var eventCollection1 = new EventCollection(logger);
+            var eventCollection1 = new EventCollection();
             try
             {
                 foreach (var eventElement in eventCollection)
@@ -69,8 +64,7 @@ namespace MarriageGift.Model.EventModel
             }
             catch(Exception e)
             {
-                logger.Error("Exception occured while generation colleciton " + e.Message);
-                logger.Error(e.StackTrace);
+                throw new EventCollectionAddException(e.Message);
             }
             
             return eventCollection1;
@@ -87,13 +81,13 @@ namespace MarriageGift.Model.EventModel
             } 
             catch(Exception e)
             {
-                logger.Error("Exception occured while fetching event based on eventId: " + e.Message);
+                throw new EventNotFoundException(e.Message);
             }            
             return event1;
         }
         public IEventCollection GetEventsByCustId(string custId)
         {
-            var eventCollection1 = new EventCollection(logger);
+            var eventCollection1 = new EventCollection();
             try{
                 var eventListForCustomer = from  x  in eventCollection 
                                         where ((Event)x.Value).CustId==custId
@@ -102,8 +96,7 @@ namespace MarriageGift.Model.EventModel
             }
             catch(Exception e)
             {
-                logger.Error("Exception occured while getting event based on customer Id" + e.Message);
-                logger.Error(e.Message);
+                new EventNotFoundException(e.Message);
             }
             return eventCollection1;
         }

@@ -79,10 +79,10 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
+            var gift = inviteInQuestion.GetExpectedGiftsForEvent().GetGiftById(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
-            result = inviteInQuestion.AddGiftForEvent(new PresentableGift(userName, gift));
+            result = inviteInQuestion.AddGiftForEvent(gift);
             return result;
         }
 
@@ -99,7 +99,7 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById(invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetGiftsForEvent().GetGiftById(giftId);
+            var gift = inviteInQuestion.GetRecievedGiftsForEvent().GetGiftById(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
             result =inviteInQuestion.RemoveGiftForEvent(gift);

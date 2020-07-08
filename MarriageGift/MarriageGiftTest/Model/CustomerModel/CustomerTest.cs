@@ -16,19 +16,25 @@ namespace MarriageGiftTest.Model.CustomerModel
     public class CustomerTest
     {
         private Customer customer;
-        private IEventCollection eventCollection;
-        Mock<IEvent> mockEvent = new Mock<IEvent>();
-        Mock<ILog> mockLog = new Mock<ILog>();
+        private IEventCollection eventCollection= new EventCollection();       
+        string name = "testCust";       
+        IMock<IEvent> mockEvent = new Mock<IEvent>();                  
+        EventCollection mockEventCollection = new EventCollection();
+        Mock<ILog> mockLog;
+        InvitationCollection mockInviteCollection;
         [SetUp]
         public void Setup()
-        {           
-          var name ="testCust";  
-          eventCollection = new EventCollection(mockLog.Object);
-          mockEvent = new Mock<IEvent>();
-          var mockInviteCollection = new InvitationCollection(mockLog.Object);
-          var mockEventCollection = new EventCollection(mockLog.Object);
-          customer = new Customer(name,mockInviteCollection, mockEventCollection, mockLog.Object ); 
-          
+        {
+            mockLog = new Mock<ILog>();
+            mockInviteCollection = new InvitationCollection(mockLog.Object);
+        }
+        public Customer GetCustomer()
+        {
+            return new Customer(name, mockInviteCollection, mockEventCollection, mockLog.Object);
+        }
+        public Customer GetCustomer(InvitationCollection invitationCollection)
+        {
+            return new Customer(name, invitationCollection, mockEventCollection, mockLog.Object);
         }
         public Event CreateEmptyEvent(string custId)
         {
@@ -106,8 +112,22 @@ namespace MarriageGiftTest.Model.CustomerModel
         [Test]
         public void AddMyEvents_NegativeTest1()
         {
-            var result = customer.AddMyEvents(mockEvent.Object);
-            Assert.IsFalse(result,"Expected false for dummy object type");
+            var result = false;
+            var errorType = string.Empty;
+            try
+            {
+                customer.AddMyEvents(mockEvent.Object);
+            }
+            catch(ArgumentNullException)
+            {
+                result = true;
+            }
+            catch(Exception e)
+            {
+                errorType = e.GetType().ToString();
+            }
+            
+            Assert.IsFalse(result, string.Format("Expected exception ArgumentNullException not found got  {0} instead", errorType));
         }
         [Test]
         public void AddMyEvents_PositiveTest1()
@@ -259,7 +279,8 @@ namespace MarriageGiftTest.Model.CustomerModel
         [Test]
         public void BuyGiftForInvitation_PositiveTest1()
         {
-          //Arrange
+            //Arrange
+            var customer = GetCustomer();
             var dummyGiftId = Guid.NewGuid().ToString();
             var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);           
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
@@ -321,6 +342,7 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void RemoveGiftForInvitation_PositiveTest1()
         {
             var dummyGiftId = Guid.NewGuid().ToString();
+            customer = GetCustomer();
             var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);           
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
             customer.AddMyInvitations(dummyInvitation);            
@@ -385,6 +407,7 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void ModifyGiftForInvitation_PositiveTest1()
         {
             //Arrange
+            var customer = GetCustomer();
             var dummyGiftId1 = Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
             var dummyEvent = CreateEmptyEventWithTwoGifts(customer.CustId, dummyGiftId1, dummyGiftId2);
@@ -432,6 +455,9 @@ namespace MarriageGiftTest.Model.CustomerModel
             var dummyGiftId1= Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
             var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId1,dummyGiftId2);
+                InvitationCollection invitationCollection = new InvitationCollection(mockLog.Object);
+                invitationCollection.AddInvitation(dummyInvitation, customer);
+            var customer = GetCustomer();
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId1);
             customer.ModifyGiftForInvitation(dummyGiftId2,dummyGiftId1, dummyGiftId1);

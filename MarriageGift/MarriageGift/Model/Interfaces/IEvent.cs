@@ -14,6 +14,6 @@ namespace MarriageGift.Model.Interfaces
         bool AddRecievedGifts(IGift gift);
         bool RemoveRecievedGifts(IGift gift);
         IGiftCollection<IGift> ExpectedGiftCollection();
-
+        IGiftCollection<IGift> RecievedGiftCollection();
     }
 }
