@@ -59,7 +59,6 @@ namespace MarriageGift.Model.GiftModel
             try
             {
                 if (giftCollection.ContainsKey(gift.GetGiftId()))
-
                 {
                     giftCollection.Remove(gift.GetGiftId());
                     successFlag = true;
