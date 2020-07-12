@@ -3,7 +3,7 @@ using MarriageGift.Model.Interfaces;
 using log4net;
 namespace MarriageGift.Model.OccasionModel
 {
-    class HouseWarming :Occasions
+  public  class HouseWarming :Occasions
     {
         private string owner;
         private ILog logger;
@@ -15,24 +15,16 @@ namespace MarriageGift.Model.OccasionModel
             occasion = Enums.Occasion.HouseWarming;
         }
 
+        public string Owner { get => owner;}
+
         public override bool modifyOccasion(IOccassion occassionItem)
         {
-            var successFlag = false;
-            try
-            {
-                var occassion = occassionItem as HouseWarming;
-                if (occassion == null)
-                    throw new ArgumentException("occasionItem");
+            var occassion = occassionItem as HouseWarming;
+            if (occassion == null)
+                throw new ArgumentNullException("occasionItem");
             
-                owner = occassion.owner;
-                successFlag = true;
-            }
-            catch (Exception e)
-            {
-                logger.Error("Error occured while modifying person name"+e.Message);
-                logger.Error(e.Message);
-            }
-            return successFlag;
+            owner = occassion.owner;
+            return true;
         }
 
     }

@@ -10,6 +10,8 @@ namespace MarriageGift.Model.GiftModel
 
         public string PresentableGiftId => presentableGiftId;
 
+        public string Presenter { get => presenter;}
+
         public PresentableGift(string presenter, IGift gift)
                :base(gift)
         {

@@ -25,5 +25,9 @@ namespace MarriageGift.Model.CustomerModel
             customerCollection.Add(cust.CustId, cust);
             return true;
         }
+        public int Count()
+        {
+            return customerCollection.Count;
+        }
     }
 }

@@ -16,25 +16,18 @@ namespace MarriageGift.Model.OccasionModel
             occasion = Enums.Occasion.Marriage;
         }
 
+        public string Bride { get => bride;}
+        public string Groom { get => groom;}
+
         public override bool modifyOccasion(IOccassion occassionItem)
         {
-            var successFlag = false;
-            try
-            {
-                var occassion = occassionItem as Marriage;
-                if (occassion == null)
-                    throw new ArgumentException("occasionItem");
+            var occassion = occassionItem as Marriage;
+            if (occassion == null)
+                throw new ArgumentNullException("occasionItem");
                 
-                bride = occassion.bride;
-                groom = occassion.groom;
-                successFlag = true;
-            }
-            catch(Exception e)
-            {
-               logger.Error("Error occured while modifying the occasion"+e.Message);
-               logger.Error(e.Message);
-            }
-            return successFlag;
+            bride = occassion.bride;
+            groom = occassion.groom;
+            return true;
         }
     }
 }

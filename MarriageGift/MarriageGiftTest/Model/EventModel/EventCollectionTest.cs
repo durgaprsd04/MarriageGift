@@ -47,13 +47,13 @@ namespace MarriageGiftTest.Model.EventModel
             var giftCollection = new GiftCollection(giftDict, mockLog.Object);
             return giftCollection;
         }
-        public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
-        {
-            var giftCollection = GetDummyGiftCollection();
-            var gift = new Gift(giftId, "Pots", GiftItemType.Crockery, 2000, mockLog.Object);
-            giftCollection.AddGift(gift);
-            return giftCollection;
-        }
+        //public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
+        //{
+        //    var giftCollection = GetDummyGiftCollection();
+        //    var gift = new Gift(giftId, "Pots", GiftItemType.Crockery, 2000, mockLog.Object);
+        //    giftCollection.AddGift(gift);
+        //    return giftCollection;
+        //}
         [Test]
         public void AddEvent_PositiveTest1()
         {

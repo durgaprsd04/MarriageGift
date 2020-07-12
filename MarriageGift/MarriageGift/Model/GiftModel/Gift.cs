@@ -19,6 +19,11 @@ namespace MarriageGift.Model.GiftModel
                 return giftId;
             }
         }
+
+        public string Name { get => name;}
+        public GiftItemType GiftItemType { get => giftItemType;}
+        public double Price { get => price; }
+
         // TODO need to find  abetter solution
         public Gift(string guid, string name, GiftItemType giftItemType, double price, ILog logger)
         {
@@ -75,7 +80,5 @@ namespace MarriageGift.Model.GiftModel
         {
             return giftId;
         }
-
-        
     }
 }

@@ -14,7 +14,11 @@ namespace MarriageGift.Model.GiftModel
             this.giftCollection = giftCollection;
             this.logger= logger;
         }
-
+        public GiftCollection( ILog logger)
+        {
+            this.giftCollection = new Dictionary<string, IGift>();
+            this.logger = logger;
+        }
         public bool AddGift(IGift gift)
         {
             var result = false;

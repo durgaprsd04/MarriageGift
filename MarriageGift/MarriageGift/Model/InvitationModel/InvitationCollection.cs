@@ -15,44 +15,24 @@ namespace MarriageGift.Model.InvitationModel
             invitationCollection = new Dictionary<string, IInvitation>();
         }
         public bool AddInvitation(IInvitation inviteItem, ICustomer customer)
-        {
-            var successFlag =false;
-            try
-            {
-                var inviteGen = inviteItem as Invitation;
-                if(inviteGen==null)
-                throw new ArgumentException("inviteItem");
+        {              
+            var inviteGen = inviteItem as Invitation;
+            if(inviteGen==null)
+                throw new ArgumentNullException("inviteItem");
            
-                inviteGen.AddCustomerToListofInvitees(customer);
-                invitationCollection.Add(inviteGen.InvitationId, inviteGen);
-                successFlag=true;
-            }
-            catch(Exception e)
-            {
-                logger.Error("Error while adding invitation "+e.Message);
-                logger.Error(e.StackTrace);
-            }
-            return successFlag;
+            inviteGen.AddCustomerToListofInvitees(customer);
+            invitationCollection.Add(inviteGen.InvitationId, inviteGen); 
+            return true;
         }
 
         public bool RemoveInvitation(IInvitation inviteItem)
         {
-            var successFlag =false;
-            try
-            {
-                var inviteGen = inviteItem as Invitation;
-                if(inviteGen==null)
-                    throw new ArgumentException("inviteItem");
-           
-                invitationCollection.Remove(inviteGen.InvitationId);
-                successFlag=true;
-            }
-            catch(Exception e)
-            {
-                logger.Error("Error while removing invitation "+e.Message);
-                logger.Error(e.StackTrace);
-            }
-            return successFlag;
+            var inviteGen = inviteItem as Invitation;
+            if(inviteGen==null)
+                throw new ArgumentNullException("inviteItem");
+                
+            invitationCollection.Remove(inviteGen.InvitationId);
+            return true;
         }
         public IInvitation GetInvitationById(string invitationId)
         {
@@ -68,6 +48,10 @@ namespace MarriageGift.Model.InvitationModel
                 logger.Error(e.Message);
             }
             return invitation;
+        }
+        public int Count()
+        {
+            return invitationCollection.Count;
         }
     }
 }
