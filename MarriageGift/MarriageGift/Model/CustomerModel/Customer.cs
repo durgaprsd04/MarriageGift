@@ -38,7 +38,7 @@ namespace MarriageGift.Model.CustomerModel
             var result = false;
             var eventInQuestion = events.GetEventById( eventId);
             if (eventInQuestion == null)
-                throw new EventNotFoundException(eventId);
+                throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.Cancel(true);            
             return result;
         }
@@ -48,7 +48,7 @@ namespace MarriageGift.Model.CustomerModel
             var result = false;
             var eventInQuestion = events.GetEventById(eventId);
             if (eventInQuestion == null)
-               throw new EventNotFoundException(eventId);
+               throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.ModifyDate(date);                        
             return result;
         }
@@ -58,7 +58,7 @@ namespace MarriageGift.Model.CustomerModel
             var result = false;
             var eventInQuestion = events.GetEventById(eventId);
             if (eventInQuestion == null)
-                throw new EventNotFoundException(eventId);
+                throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.ModifyPlace(place);
             return result;
         }

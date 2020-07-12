@@ -1,37 +1,28 @@
-﻿using System;
-using log4net;
+﻿using log4net;
 using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
-using MarriageGift.Exceptions;
 namespace MarriageGift.Model.GiftModel
 {
    public class GiftCollection : IGiftCollection<IGift>
     {
         private readonly IDictionary<string, IGift> giftCollection;
-        private readonly ILog logger;
         public GiftCollection(IDictionary<string, IGift> giftCollection, ILog logger)
         {
             this.giftCollection = giftCollection;
-            this.logger= logger;
         }
         public GiftCollection( ILog logger)
         {
-            this.giftCollection = new Dictionary<string, IGift>();
-            this.logger = logger;
+            giftCollection = new Dictionary<string, IGift>();
         }
         public bool AddGift(IGift gift)
         {
-            var result = false;
-            try
+            var successFlag = false;
+            if (giftCollection.ContainsKey(gift.GetGiftId()))
             {
                 giftCollection.Add(gift.GetGiftId(), gift);
-                result = true;
+                successFlag = true;
             }
-            catch(Exception e)
-            {
-                throw new GiftCollectionAddException(e.Message);
-            }
-            return result;
+            return successFlag;
         }
 
         public int Count()
@@ -42,35 +33,20 @@ namespace MarriageGift.Model.GiftModel
         public IGift GetGiftById(string giftId)
         {
             IGift gift=null;
-            try
+            if(giftCollection.ContainsKey(giftId))
             {
-                if(giftCollection.ContainsKey(giftId))
-                {
-                    gift = giftCollection[giftId];
-                }
-            }
-            catch(Exception e)
-            {
-                logger.Error("Exception occured while fetching gift from collection "+e.Message);
-                logger.Error(e.Message);
-            }            
+                gift = giftCollection[giftId];
+            }                        
             return gift;
         }
 
         public bool RemoveGift(IGift gift)
         {
             var successFlag = false;
-            try
+            if (giftCollection.ContainsKey(gift.GetGiftId()))
             {
-                if (giftCollection.ContainsKey(gift.GetGiftId()))
-                {
-                    giftCollection.Remove(gift.GetGiftId());
-                    successFlag = true;
-                }
-            }
-            catch(Exception e)
-            {
-                throw new GiftCollectionRemoveException(e.Message);
+                giftCollection.Remove(gift.GetGiftId());
+                successFlag = true;
             }
             return successFlag;
         }
