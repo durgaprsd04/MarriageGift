@@ -144,8 +144,21 @@ namespace MarriageGiftTest.Model.CustomerModel
         {
             customer = GetCustomer();
             var mockInvite = new Mock<IInvitation>();
-            var result = customer.AddMyInvitations(mockInvite.Object);
-            Assert.IsFalse(result,"Excpected false for dummy object type");
+            var expectedException =false;
+            var errorType=string.Empty;
+            try
+            {
+                 customer.AddMyInvitations(mockInvite.Object);
+            }
+            catch(ArgumentNullException)
+            {
+                expectedException=true;
+            }
+            catch(Exception e)
+            {
+                errorType=e.GetType().ToString();
+            }            
+            Assert.IsTrue(expectedException,string.Format("Excpected exception not found, found {0} instead", errorType));
         }
         [Test]
         public void AddMyInvitations_PositiveTest1()
