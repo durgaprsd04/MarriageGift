@@ -17,7 +17,7 @@ namespace MarriageGift.Model.EventModel
         public bool AddEvent(IEvent eventItem)
         {
             var successFlag =false;
-            var eventGen = eventItem as Event;
+            var eventGen = eventItem as Event;  
             if(eventGen==null)
                 throw new ArgumentException("eventItem");
             try
@@ -57,9 +57,7 @@ namespace MarriageGift.Model.EventModel
             {
                 foreach (var eventElement in eventCollection)
                 {
-                    var ev = eventElement as Event;
-                    if (ev != null && ev.IsCanceled)
-                        eventCollection1.AddEvent(ev);
+                    eventCollection1.AddEvent(eventElement);
                 }
             }
             catch(Exception e)
@@ -99,6 +97,10 @@ namespace MarriageGift.Model.EventModel
                 new EventNotFoundException(e.Message);
             }
             return eventCollection1;
+        }
+        public int Count()
+        {
+            return eventCollection.Count;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MarriageGift.Model.Interfaces
         bool RemoveEvent(IEvent event1);
         IEvent GetEventById(string eventId);
         IEventCollection AddEventsToCollection(IEnumerable<IEvent> eventCollection);
-        
+        int Count();
         IEventCollection GetEventsByCustId(string custId);
     }
 }

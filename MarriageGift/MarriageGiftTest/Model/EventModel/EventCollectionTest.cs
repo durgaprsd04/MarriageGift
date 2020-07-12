@@ -137,6 +137,23 @@ namespace MarriageGiftTest.Model.EventModel
             var result = eventCollection.RemoveEvent(event1);
             Assert.IsTrue(result, "Event remove failed");
         }
-        
+        [Test]
+        public void GetEventsByCustId_PositiveTest1()
+        {
+            eventCollection = new EventCollection();
+            var event1 = GetEvent();
+            eventCollection.AddEvent(event1);
+            var custList = eventCollection.GetEventsByCustId(dummyCustId);
+            Assert.AreEqual(custList.Count(),1);
+        }
+        [Test]
+        public void GetEventsByCustId_NegativeTest1()
+        {
+            eventCollection = new EventCollection();
+            var event1 = GetEvent();
+            eventCollection.AddEvent(event1);
+            var custList = eventCollection.GetEventsByCustId(Guid.NewGuid().ToString());
+            Assert.AreEqual(custList.Count(),0);
+        }       
     }
     }

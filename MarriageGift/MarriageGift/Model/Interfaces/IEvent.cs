@@ -12,7 +12,7 @@ namespace MarriageGift.Model.Interfaces
         bool AddExpectedGift(IGift gift);
         bool RemoveExpectedGift(IGift gift);
         bool AddRecievedGifts(IGift gift);
-        bool RemoveRecievedGifts(IGift gift);
+        bool RemoveRecievedGifts(IGift gift);        
         IGiftCollection<IGift> ExpectedGiftCollection();
         IGiftCollection<IGift> RecievedGiftCollection();
     }
