@@ -16,23 +16,11 @@ namespace MarriageGift.Model.CustomerModel
 
         public bool AddCustomer(ICustomer customer)
         {
-            var succesFlag = false;
             var cust = customer as Customer;
             if (cust == null)
                 throw new ArgumentException("Customer");
-            if (customerCollection.ContainsKey(cust.CustId))
-            {
-                try
-                {
-                    customerCollection.Add(cust.CustId, cust);
-                    succesFlag = true;
-                }
-                catch(Exception e)
-                {
-                    throw new CustomerCollectionAddException(e.Message);
-                }
-            }
-            return succesFlag;
+            customerCollection.Add(cust.CustId, cust);
+            return true;
         }
         public bool RemoveCustomer(ICustomer customer)
         {

@@ -190,7 +190,7 @@ namespace MarriageGiftTest.Model.CustomerModel
                 result1 = customer.AddMyEvents(dummyEvent);
                 customer.CancelEvent(Guid.NewGuid().ToString());
             }
-            catch(EventNotFoundException)
+            catch(CustomerNotFoundException)
             {
                 result2 = true;
             }
@@ -215,7 +215,7 @@ namespace MarriageGiftTest.Model.CustomerModel
                 var date = new DateTime(2020, 6, 4);
                 customer.ChangeEventTime(Guid.NewGuid().ToString(), date);
             }
-            catch(EventNotFoundException)
+            catch(CustomerNotFoundException)
             {
                 result2 = true;
             }
@@ -259,7 +259,7 @@ namespace MarriageGiftTest.Model.CustomerModel
                 var newVenue = "dummyVenue";
                 customer.ChangeEventVenue(Guid.NewGuid().ToString(), newVenue);
             }
-            catch (EventNotFoundException)
+            catch (CustomerNotFoundException)
             {
                 result2 = true;
             }

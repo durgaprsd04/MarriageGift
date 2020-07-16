@@ -14,21 +14,16 @@ namespace MarriageGift.Model.EventModel
         }       
         public bool AddEvent(IEvent eventItem)
         {
-            var succesFlag = false;
             var eventGen = eventItem as Event;  
             if(eventGen==null)
                 throw new ArgumentException("eventItem");
-            if (eventCollection.ContainsKey(eventGen.EventId))
-            {
-                eventCollection.Remove(eventGen.EventId);
-                succesFlag = true;
-            }
-            return succesFlag;
+            eventCollection.Add(eventGen.EventId, eventGen);            
+            return true;
         }
 
         public bool RemoveEvent(IEvent eventItem)
         {
-            var succesFlag = true;
+            var succesFlag = false;
             var eventGen = eventItem as Event;
             if (eventGen == null)
                 throw new ArgumentException("eventItem");

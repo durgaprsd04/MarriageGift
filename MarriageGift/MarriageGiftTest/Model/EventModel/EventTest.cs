@@ -89,7 +89,7 @@ namespace MarriageGiftTest.Model.EventModel
                 var dummyGift = new Mock<IGift>();
                 dummyEvent.AddExpectedGift(dummyGift.Object);
             }
-            catch(GiftCollectionAddException)
+            catch(ArgumentNullException)
             {
                 result = true;
             }
@@ -121,7 +121,7 @@ namespace MarriageGiftTest.Model.EventModel
                 var dummyGift = new Mock<IGift>();
                 dummyEvent.RemoveExpectedGift(dummyGift.Object);
             }
-            catch (GiftCollectionRemoveException)
+            catch (ArgumentNullException)
             {
                 result = true;
             }

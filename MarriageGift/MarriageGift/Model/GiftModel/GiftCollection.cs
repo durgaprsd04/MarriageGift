@@ -17,11 +17,8 @@ namespace MarriageGift.Model.GiftModel
         public bool AddGift(IGift gift)
         {
             var successFlag = false;
-            if (giftCollection.ContainsKey(gift.GetGiftId()))
-            {
-                giftCollection.Add(gift.GetGiftId(), gift);
-                successFlag = true;
-            }
+            giftCollection.Add(gift.GetGiftId(), gift);
+            successFlag = true;
             return successFlag;
         }
 

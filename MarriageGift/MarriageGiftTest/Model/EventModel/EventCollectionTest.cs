@@ -113,20 +113,8 @@ namespace MarriageGiftTest.Model.EventModel
             var event1 = GetEvent();
             var result = false;
             var exceptionType = string.Empty;
-            try
-            {
-                eventCollection.RemoveEvent(event1);
-            }
-            catch (EventCollectionRemoveException)
-            {
-                result = true;
-            }
-            catch (Exception e)
-            {
-                exceptionType = e.GetType().ToString();
-            }
-
-            Assert.IsTrue(result, string.Format("Expected Exception EventCollectionRemoveException not found got {0}", exceptionType));
+            result = eventCollection.RemoveEvent(event1);
+            Assert.IsFalse(result, "Eventcollection should return false");
         }
         [Test]
         public void AddEvent_NegativeTest2()
