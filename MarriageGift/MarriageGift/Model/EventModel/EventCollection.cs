@@ -7,10 +7,10 @@ namespace MarriageGift.Model.EventModel
 {
     public class EventCollection : IEventCollection
     {
-        private readonly Dictionary<string, IEvent> eventCollection;
+        private readonly Dictionary<string, IBaseObject> eventCollection;
         public EventCollection()
         {          
-            eventCollection = new Dictionary<string, IEvent>();
+            eventCollection = new Dictionary<string, IBaseObject>();
         }       
         public bool AddEvent(IEvent eventItem)
         {
@@ -34,12 +34,12 @@ namespace MarriageGift.Model.EventModel
             }
             return succesFlag;                
         }
-        public IEventCollection AddEventsToCollection(IEnumerable<IEvent> eventCollection)
+        public IEventCollection AddEventsToCollection(IEnumerable<IBaseObject> eventCollection)
         {
             var eventCollection1 = new EventCollection();
             foreach (var eventElement in eventCollection)
             {
-                eventCollection1.AddEvent(eventElement);
+                eventCollection1.AddEvent((IEvent)eventElement);
             }            
             return eventCollection1;
         }
@@ -48,7 +48,7 @@ namespace MarriageGift.Model.EventModel
             IEvent event1=null;
             if (eventCollection.ContainsKey(eventId))
             {
-                event1= eventCollection[eventId];
+                event1= (IEvent)eventCollection[eventId];
             }            
             return event1;
         }
@@ -64,6 +64,11 @@ namespace MarriageGift.Model.EventModel
         public int Count()
         {
             return eventCollection.Count;
+        }
+
+        public Dictionary<string, IBaseObject> GetUnderlyingDictionary()
+        {
+            return eventCollection;
         }
     }
 }

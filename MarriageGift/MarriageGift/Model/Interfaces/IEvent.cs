@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MarriageGift.Model.Interfaces
 {
-    public interface IEvent
+    public interface IEvent: IBaseObject
     {
         bool ModifyPlace(string place);
         bool ModifyDate(DateTime date);

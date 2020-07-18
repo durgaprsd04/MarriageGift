@@ -14,6 +14,10 @@ namespace MarriageGift.Model.GiftModel
         {
             giftCollection = new Dictionary<string, IGift>();
         }
+        public GiftCollection()
+        {
+            giftCollection = new Dictionary<string, IGift>();
+        }
         public bool AddGift(IGift gift)
         {
             var successFlag = false;

@@ -1,43 +1,25 @@
 using System;
-using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
-using MarriageGift.Exceptions.CustomerExceptions;
-using log4net;
 
 namespace MarriageGift.Model.CustomerModel
 {
-    public class CustomerCollection : ICustomerCollection
-    {
-        private readonly Dictionary<string, ICustomer> customerCollection;        
-        public CustomerCollection( ILog logger)
-        {
-            customerCollection = new Dictionary<string, ICustomer>();
-        }
-
+    public class CustomerCollection : GenericCollection, ICustomerCollection
+    {        
         public bool AddCustomer(ICustomer customer)
         {
-            var cust = customer as Customer;
-            if (cust == null)
+            if (!(customer is Customer cust))
                 throw new ArgumentException("Customer");
-            customerCollection.Add(cust.CustId, cust);
-            return true;
+            return Add(cust);
         }
         public bool RemoveCustomer(ICustomer customer)
         {
-            var succesFlag = false;
-            var cust = customer as Customer;
-            if (cust == null)
+            if (!(customer is Customer cust))
                 throw new ArgumentException("Customer");
-            if (customerCollection.ContainsKey(cust.CustId))
-            {
-                customerCollection.Remove(cust.CustId);
-                succesFlag = true;
-            }
-            return succesFlag;
+            return Remove(customer);
         }
-        public int Count()
+        public ICustomer GetCustomer(string custId)
         {
-            return customerCollection.Count;
-        }
+            return (ICustomer)GetItem(custId);
+        }       
     }
 }
