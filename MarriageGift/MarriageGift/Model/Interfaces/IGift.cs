@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MarriageGift.Model.Interfaces
 {
-    public interface IGift : IComparable
+    public interface IGift : IComparable, IBaseObject
     {
-        bool ModifyGift(IGift gift);
+        void ModifyGift(IGift gift);
         string GetGiftId();
     }
 }

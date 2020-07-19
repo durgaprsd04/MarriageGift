@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using MarriageGift.Controller.Interfaces;
-using MarriageGift.Model.Interfaces;
+using MarriageGift.Model;
 using log4net;
 namespace MarriageGift.Controller
 {
@@ -15,7 +15,7 @@ namespace MarriageGift.Controller
             this.logger = logger;
             this.streamWriter = streamWriter;
         }
-        public void SaveCustomer(ICustomer customer)
+        public void SaveCustomer(IBaseObject customer)
         {
             WriteRecords(customer.ToString());
         }

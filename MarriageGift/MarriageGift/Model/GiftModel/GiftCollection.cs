@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
 namespace MarriageGift.Model.GiftModel
 {
-   public class GiftCollection : IGiftCollection<IGift>
+   public class GiftCollection : GenericCollection,  IGiftCollection<IGift>
     {
         private readonly IDictionary<string, IGift> giftCollection;
         public GiftCollection(IDictionary<string, IGift> giftCollection, ILog logger)
@@ -20,10 +20,7 @@ namespace MarriageGift.Model.GiftModel
         }
         public bool AddGift(IGift gift)
         {
-            var successFlag = false;
-            giftCollection.Add(gift.GetGiftId(), gift);
-            successFlag = true;
-            return successFlag;
+            return Add(gift);
         }
 
         public int Count()

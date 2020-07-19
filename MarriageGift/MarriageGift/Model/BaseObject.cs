@@ -12,6 +12,10 @@ namespace MarriageGift.Model
         {
             id = Guid.NewGuid().ToString();
         }
+         protected BaseObject(string id)
+        {
+            this.id = id;
+        }
         public string getId()
         {
             return id;

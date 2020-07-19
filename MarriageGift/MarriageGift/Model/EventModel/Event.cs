@@ -4,38 +4,43 @@ using log4net;
 namespace MarriageGift.Model.EventModel
 {
 
-    public class Event : IEvent
+    public class Event : BaseObject, IEvent
     {
         private readonly IOccassion occassion;
         private readonly ILog logger;
-        private string place;
-        private string  eventId;
+        private string place;       
         private DateTime date;
         private bool isCanceled;
         private readonly string custId;
-
         private IGiftCollection<IGift> giftsRecieved;
-        private IGiftCollection<IGift> giftsExpected;
-
-        public string EventId { get => eventId; set => eventId = value; }
-
+        private IGiftCollection<IGift> giftsExpected;       
         public string CustId => custId;
 
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
         public DateTime Date { get => date; }
         public string Place { get => place; }
 
-        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId,ILog logger )
-        {
-            eventId = Guid.NewGuid().ToString();
+        public Event(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId)
+        : base()
+        {            
             this.occassion =occassion;
             this.date =date;
             this.place =place;
             this.custId=custId;
             this.giftsExpected=giftsExpected;
             this.giftsRecieved =giftsRecieved;
-            IsCanceled =false;
-            this.logger = logger;
+            IsCanceled =false;           
+        }
+        public Event(string eventId, IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId, bool isCanceled)
+        : base(eventId)
+        {            
+            this.occassion =occassion;
+            this.date =date;
+            this.place =place;
+            this.custId=custId;
+            this.giftsExpected=giftsExpected;
+            this.giftsRecieved =giftsRecieved;
+            IsCanceled =isCanceled;           
         }
 
         public bool Cancel(bool response)

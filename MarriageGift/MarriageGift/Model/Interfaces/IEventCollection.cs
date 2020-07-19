@@ -3,11 +3,10 @@ namespace MarriageGift.Model.Interfaces
 {
     public interface IEventCollection :IGenericCollection<IBaseObject>
     {
-        bool AddEvent(IEvent event1);
-        bool RemoveEvent(IEvent event1);
-        IEvent GetEventById(string eventId);
-        IEventCollection AddEventsToCollection(IEnumerable<IBaseObject> eventCollection);
-        int Count();
+        bool AddEvent(IEvent eventItem);
+        bool RemoveEvent(IEvent eventItem);
+        IEvent GetEvent(string eventId);
+        IEventCollection AddEventsToCollection(IEnumerable<IBaseObject> eventCollection);      
         IEventCollection GetEventsByCustId(string custId);
     }
 }
