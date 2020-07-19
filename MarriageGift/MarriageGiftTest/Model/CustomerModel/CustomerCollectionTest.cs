@@ -16,7 +16,7 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void Setup()
         {
             mockLogger = new Mock<ILog>();
-            customerCollection = new CustomerCollection(mockLogger.Object);
+            customerCollection = new CustomerCollection();
         }
         [Test]
         public void AddCustomer_NegativeTest1()
@@ -43,7 +43,7 @@ namespace MarriageGiftTest.Model.CustomerModel
         {
             var invitations = new Mock<IInvitationCollection>();
             var events = new Mock<IEventCollection>();
-            var customer = new Customer("testCust", invitations.Object, events.Object, mockLogger.Object);
+            var customer = new Customer("testCust","password");
             var result = customerCollection.AddCustomer(customer);
             Assert.IsTrue(result);
         }

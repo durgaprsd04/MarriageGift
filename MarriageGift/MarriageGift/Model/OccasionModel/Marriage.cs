@@ -6,13 +6,19 @@ namespace MarriageGift.Model.OccasionModel
    public class Marriage : Occasions
     {
         private string bride, groom;
-        private ILog logger;
-        public Marriage(string bride, string groom, ILog logger)
-        {
-            occasionId = Guid.NewGuid().ToString();
+        
+        public Marriage(string bride, string groom)
+        :base()
+        {           
             this.bride = bride;
             this.groom = groom;
-            this.logger = logger;
+            occasion = Enums.Occasion.Marriage;
+        }
+        public Marriage(string id, string bride, string groom)
+        :base(id)
+        {           
+            this.bride = bride;
+            this.groom = groom;
             occasion = Enums.Occasion.Marriage;
         }
 

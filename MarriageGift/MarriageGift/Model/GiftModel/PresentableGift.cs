@@ -12,7 +12,7 @@ namespace MarriageGift.Model.GiftModel
 
         public string Presenter { get => presenter;}
 
-        public PresentableGift(string presenter, IGift gift)
+        public PresentableGift(string presenter, Gift gift)
                :base(gift)
         {
             presentableGiftId = Guid.NewGuid().ToString();

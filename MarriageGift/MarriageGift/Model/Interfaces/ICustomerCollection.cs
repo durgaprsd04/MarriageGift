@@ -1,6 +1,6 @@
 namespace MarriageGift.Model.Interfaces
 {
-    public interface ICustomerCollection
+    public interface ICustomerCollection :IGenericCollection<IBaseObject> 
     {
         bool AddCustomer(ICustomer customer);
         bool RemoveCustomer(ICustomer customer);

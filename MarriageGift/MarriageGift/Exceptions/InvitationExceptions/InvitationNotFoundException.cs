@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MarriageGift.Exceptions
+namespace MarriageGift.Exceptions.InvitationExceptions
 {
     public class InvitationNotFoundException:Exception
     {

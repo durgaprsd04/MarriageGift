@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MarriageGift.Model.Interfaces
 {
-    public interface IOccassion
+    public interface IOccassion:IBaseObject
     {
         bool modifyOccasion(IOccassion occassion);
 

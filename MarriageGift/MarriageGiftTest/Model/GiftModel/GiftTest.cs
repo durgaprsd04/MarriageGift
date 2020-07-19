@@ -16,14 +16,13 @@ namespace MarriageGiftTest.Model.GiftModel
         public void Setup()
         {
             logger = new Mock<ILog>();
-            gift = new Gift("testgift", GiftItemType.Crockery, 200, logger.Object);
+            gift = new Gift("testgift", GiftItemType.Crockery, 200);
         }
         [Test]
         public void ModifyGift_PositiveTest1()
         {
-            var dummyGift = new Gift("testgift", GiftItemType.Crockery, 300, logger.Object);
-            var result = gift.ModifyGift(dummyGift);
-            Assert.IsTrue(result);
+            var dummyGift = new Gift("testgift", GiftItemType.Crockery, 300);
+            gift.ModifyGift(dummyGift);            
             Assert.AreEqual(dummyGift.Price, gift.Price);
         }
         [Test]
@@ -55,9 +54,9 @@ namespace MarriageGiftTest.Model.GiftModel
         [Test]
         public void CompareTo_NegativeTest()
         {
-            var dummyGift = new Gift("testgift", GiftItemType.Crockery, 300, logger.Object);
+            var dummyGift = new Gift("testgift", GiftItemType.Crockery, 300);
             var result = gift.CompareTo(dummyGift);
-            Assert.AreEqual(result, string.Compare(dummyGift.GiftId, gift.GiftId));
+            Assert.AreEqual(result, string.Compare(dummyGift.GetGiftId(), gift.GetGiftId()));
         }
 
     }

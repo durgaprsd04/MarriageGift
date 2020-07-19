@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MarriageGift.Model.Interfaces
 {
-   public interface IInvitation
+   public interface IInvitation :IBaseObject
     {
-        bool RespondToInvitation(bool response);
+        void RespondToInvitation(bool response);
         IGiftCollection<IGift> GetRecievedGiftsForEvent();
         IGiftCollection<IGift> GetExpectedGiftsForEvent();
         bool AddGiftForEvent(IGift gift);

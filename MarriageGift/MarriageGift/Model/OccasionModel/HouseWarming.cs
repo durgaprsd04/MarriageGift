@@ -6,15 +6,19 @@ namespace MarriageGift.Model.OccasionModel
   public  class HouseWarming :Occasions
     {
         private string owner;
-        private ILog logger;
-        public HouseWarming(string owner,ILog logger)
-        {
-            occasionId = Guid.NewGuid().ToString();
-            this.owner = owner;
-            this.logger=logger;
+       
+        public HouseWarming(string owner)
+        :base()
+        {           
+            this.owner = owner;            
             occasion = Enums.Occasion.HouseWarming;
         }
-
+         public HouseWarming(string id, string owner)
+        :base(id)
+        {           
+            this.owner = owner;            
+            occasion = Enums.Occasion.HouseWarming;
+        }
         public string Owner { get => owner;}
 
         public override bool modifyOccasion(IOccassion occassionItem)

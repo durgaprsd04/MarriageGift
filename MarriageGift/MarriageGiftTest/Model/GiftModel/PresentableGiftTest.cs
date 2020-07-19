@@ -16,7 +16,7 @@ namespace MarriageGiftTest.Model.GiftModel
         public void PresentableGift_PositivetTest1()
         {
             var mockLog = new Mock<ILog>();
-            var gift = new Gift("testGift", GiftItemType.Furniture, 200, mockLog.Object);
+            var gift = new Gift("testGift", GiftItemType.Furniture, 200);
             presentableGift = new PresentableGift("newGuy", gift);
             Assert.AreEqual(presentableGift.Presenter, "newGuy");
         }

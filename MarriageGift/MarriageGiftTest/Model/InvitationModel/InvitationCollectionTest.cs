@@ -15,24 +15,23 @@ namespace MarriageGiftTest.Model.InvitationModel
     {
         private InvitationCollection invitationCollection;
         private IMock<ILog> mockLog;
-        private Customer customer;
+        
         private Mock<IEvent> dummyEvent;
         private Mock<IEventCollection> eventCollection;
-        private ICustomerCollection customerCollection;
+        private ICustomer customer;
         private Invitation invitation;
         [SetUp]
         public void Setup()
         {
             mockLog = new Mock<ILog>();
             dummyEvent = new Mock<IEvent>();
-            customerCollection = new CustomerCollection(mockLog.Object);
-            invitation = new Invitation("sender", dummyEvent.Object, customerCollection, mockLog.Object);
-            eventCollection = new Mock<IEventCollection>();
-            customer = new Customer("customer", invitationCollection, eventCollection.Object, mockLog.Object);
+            customer = new Customer("username","password");
+            invitation = new Invitation(customer, dummyEvent.Object);
+            eventCollection = new Mock<IEventCollection>();            
         }
         public InvitationCollection GetEmptyInviteCollection()
         {
-            return new InvitationCollection(mockLog.Object);
+            return new InvitationCollection();
         }
         [Test]
         public void AddInvitation_PositiveTest1()

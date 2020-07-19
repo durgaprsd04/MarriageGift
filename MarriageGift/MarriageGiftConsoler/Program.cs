@@ -19,7 +19,7 @@ namespace MarriageGiftConsoler
     {
         static void Main(string[] args)
         {
-            var builder = new ContainerBuilder();
+            /* var builder = new ContainerBuilder();
             ILog logger = LogManager.GetLogger(typeof(Program));
             CustomerActionController customerActionController = new CustomerActionController();
             builder.RegisterType<InvitationCollection>().As<IInvitationCollection>();
@@ -68,7 +68,7 @@ namespace MarriageGiftConsoler
                     else if(input ==2)
                     {
 
-                        var regex = Console.ReadLine(); 
+                        /* var regex = Console.ReadLine(); 
                         var listOfCustomers = customerActionController.GetAllCustomers(regex);
                         if(listOfCustomers.Count()==0)
                         {
@@ -80,12 +80,12 @@ namespace MarriageGiftConsoler
                         listOfCustomers.Clear();
                         listOfCustomers.AddCustomer(userInQuestion);
                         var eventToBeInvitedFor = GetMyEvents(customer);  
-                        var invitation = new Invitation(customer.CustId, )
+                        var invitation = new Invitation(customer.CustId, ) 
                     }
                 }
-            }
+            } */
             Console.WriteLine("Hello World!");
-        }
+        }/*
         public static IEvent GetMyEvents(ICustomer customer)
         {
             var events = customer.GetMyEvents();
@@ -153,7 +153,7 @@ namespace MarriageGiftConsoler
             }
             return newOccassion;
             
-        }
+        }*/
       
     }
 }

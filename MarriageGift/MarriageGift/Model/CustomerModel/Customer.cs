@@ -1,38 +1,36 @@
 ﻿using System;
 using log4net;
-using MarriageGift.Controller;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.InvitationModel;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Controller.Interfaces;
-using MarriageGift.Exceptions;
+using MarriageGift.Exceptions.CustomerExceptions;
+using MarriageGift.Exceptions.InvitationExceptions;
+using MarriageGift.Exceptions.GiftExceptions;
+using MarriageGift.Exceptions.EventExceptions;
 namespace MarriageGift.Model.CustomerModel
 {
    public class Customer: BaseObject, ICustomer
     {         
         private readonly string passWord;
         private string userName;
-        private readonly IInvitationCollection invitations;
-        private readonly IEventCollection events;
-        private readonly ILog logger;
-        private readonly ISaveToFileController saveToFileController;      
+        private readonly IInvitationCollection invitations= new InvitationCollection();
+        private readonly IEventCollection events= new EventCollection();
 
        
         public Customer(string userName, string passWord)
         :base()
         {   
             this.userName  =userName;
-            this.passWord = passWord;
-            this.invitations = new InvitationCollection();
-            this.events = new EventCollection();
+            this.passWord = passWord;           
         }
         public Customer(string custId, string userName, string passWord, IInvitationCollection invitations, IEventCollection events)
         :base(custId)
         {   
             this.userName  =userName;
             this.passWord = passWord;
-            this.invitations = new InvitationCollection();
-            this.events = new EventCollection(); 
+            this.invitations =invitations;
+            this.events = events;
         }
         public bool AddMyEvents(IEvent myEvent)
         {
@@ -75,14 +73,12 @@ namespace MarriageGift.Model.CustomerModel
             return result;
         }
 
-        public bool RespondToInvitation(string invitationId, bool response)
-        {
-            var result = false;
+        public void RespondToInvitation(string invitationId, bool response)
+        {          
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            result = inviteInQuestion.RespondToInvitation(response);
-            return result;
+            inviteInQuestion.RespondToInvitation(response);            
         }
 
         public bool BuyGiftForInvitation(string invitationId, string giftId)
@@ -91,7 +87,7 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetExpectedGiftsForEvent().GetGift(giftId);
+            var gift = inviteInQuestion.GetExpectedGiftsForEvent().GetGiftById(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
             result = inviteInQuestion.AddGiftForEvent(gift);
@@ -111,16 +107,12 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById(invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetRecievedGiftsForEvent().GetGift(giftId);
+            var gift = inviteInQuestion.GetRecievedGiftsForEvent().GetGiftById(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
             result =inviteInQuestion.RemoveGiftForEvent(gift);
             return result;
-        }
-        public void SaveToFile()
-        {
-            saveToFileController.SaveCustomer(this);
-        }
+        }       
         public override string ToString()
         {
             return base.getId() + "|" + userName;
@@ -129,6 +121,17 @@ namespace MarriageGift.Model.CustomerModel
         public IGenericCollection<IBaseObject> GetMyEvents()
         {
             return events;
+        }
+
+        public bool InviteForEvent(string eventId, ICustomer customer)
+        {
+            var eventInQuestion = events.GetEvent(eventId);
+            if(eventInQuestion==null)
+                throw new EventNotFoundException(eventId);
+            var invite = new Invitation(this, eventInQuestion);           
+            invite.AddCustomerToListofInvitees(customer);
+            customer.AddMyInvitations(invite);
+            return true;
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace MarriageGift.Exceptions
+namespace MarriageGift.Exceptions.EventExceptions
 {
-    public class CustomerNotFoundException:Exception
+    public class EventNotFoundException:Exception
     {
-        public CustomerNotFoundException(string eventId):base(string.Format("Event not found for id {0}",eventId))
+        public EventNotFoundException(string eventId):base(string.Format("Event not found for id {0}",eventId))
         {
 
         }

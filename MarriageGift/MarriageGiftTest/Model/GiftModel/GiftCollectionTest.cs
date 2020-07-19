@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.Interfaces;
 using NUnit.Framework;
@@ -22,7 +21,7 @@ namespace MarriageGiftTest.Model.GiftModel
         }
         public GiftCollection GetGiftCollection()
         {
-            return new GiftCollection(giftDummyCollection, logger.Object);
+            return new GiftCollection();
         }
         [Test]
         public void AddGift_PositiveTest1()

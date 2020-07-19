@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Moq;
 using log4net;
 using MarriageGift.Enums;
-using MarriageGift.Exceptions;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.CustomerModel;
@@ -38,18 +37,18 @@ namespace MarriageGiftTest.Model.EventModel
         }
         public Event GetEvent()
         {
-            return new Event(mockOccasion.Object, place, date, dummyExpectedGiftCollection, dummyRecievedGiftCollection, dummyCustId, mockLog.Object);
+            return new Event(mockOccasion.Object, place, date,dummyCustId);
         }
         public GiftCollection GetDummyGiftCollection()
         {
             var giftDict = new Dictionary<string, IGift>();
-            var giftCollection = new GiftCollection(giftDict, mockLog.Object);
+            var giftCollection = new GiftCollection();
             return giftCollection;
         }
         public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
         {
             var giftCollection = GetDummyGiftCollection();
-            var gift = new Gift(giftId, "Pots", GiftItemType.Crockery, 2000, mockLog.Object);
+            var gift = new Gift(giftId, "Pots", GiftItemType.Crockery, 2000);
             giftCollection.AddGift(gift);
             return giftCollection;
         }
@@ -107,7 +106,7 @@ namespace MarriageGiftTest.Model.EventModel
             var dummyGift = new Mock<IGift>();
             dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
             var result = dummyEvent.AddExpectedGift(dummyGift.Object);
-            Assert.AreEqual(dummyEvent.ExpectedGiftCollection().Count(), 1);
+            Assert.AreEqual(((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count(), 1);
             Assert.IsTrue(result);
         }
         [Test]
@@ -140,7 +139,7 @@ namespace MarriageGiftTest.Model.EventModel
             dummyGift.Setup(x => x.GetGiftId()).Returns(dummyGiftId);
             var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
             var result2 = dummyEvent.RemoveExpectedGift(dummyGift.Object);
-            Assert.AreEqual(dummyEvent.RecievedGiftCollection().Count(), 0);
+            Assert.AreEqual(((GiftCollection)dummyEvent.RecievedGiftCollection()).Count(), 0);
             Assert.IsTrue(result1&result2);
         }
         [Test]
@@ -154,8 +153,8 @@ namespace MarriageGiftTest.Model.EventModel
             var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
             //Act
             var result2 = dummyEvent.AddRecievedGifts(dummyGift.Object);
-            var result3 = dummyEvent.ExpectedGiftCollection().Count();
-            var result4 = dummyEvent.RecievedGiftCollection().Count();
+            var result3 = ((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count();
+            var result4 = ((GiftCollection)dummyEvent.RecievedGiftCollection()).Count();
             //Assert
             Assert.IsTrue(result1 && result2, "Failure while adding to ExpectedGiftCollection/RecievedGiftCollection");
             Assert.AreEqual(result3, 0);
@@ -175,8 +174,8 @@ namespace MarriageGiftTest.Model.EventModel
             var result1 = dummyEvent.AddExpectedGift(dummyGift.Object);
             //Act
             var result2 = dummyEvent.AddRecievedGifts(dummyGift2.Object);
-            var result3 = dummyEvent.ExpectedGiftCollection().Count();
-            var result4 = dummyEvent.RecievedGiftCollection().Count();
+            var result3 = ((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count();
+            var result4 = ((GiftCollection)dummyEvent.RecievedGiftCollection()).Count();
             //Assert
             Assert.IsTrue(result1 && !result2, "Failure while adding to ExpectedGiftCollection/RecievedGiftCollection");
             Assert.AreEqual(result3, 1);
@@ -195,8 +194,8 @@ namespace MarriageGiftTest.Model.EventModel
             //Act
             dummyEvent.RemoveRecievedGifts(dummyGift.Object);
             //Assert
-            var result1 = dummyEvent.RecievedGiftCollection().Count();
-            var result2 = dummyEvent.ExpectedGiftCollection().Count();
+            var result1 = ((GiftCollection)dummyEvent.RecievedGiftCollection()).Count();
+            var result2 = ((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count();
             Assert.AreEqual(result1, 0);
             Assert.AreEqual(result2, 1);
         }
@@ -215,8 +214,8 @@ namespace MarriageGiftTest.Model.EventModel
             dummyEvent.AddRecievedGifts(dummyGift.Object);
             dummyEvent.RemoveRecievedGifts(dummyGift2.Object);
             //Act
-            var result1 = dummyEvent.ExpectedGiftCollection().Count();
-            var result2 = dummyEvent.RecievedGiftCollection().Count();
+            var result1 = ((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count();
+            var result2 = ((GiftCollection)dummyEvent.RecievedGiftCollection()).Count();
             //Assert            
             Assert.AreEqual(result1, 0);
             Assert.AreEqual(result2, 1);

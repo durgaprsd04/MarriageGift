@@ -12,11 +12,11 @@ namespace MarriageGift.Model.Interfaces
          bool CancelEvent(string eventId);
          bool ChangeEventTime(string eventId, DateTime date);
          bool ChangeEventVenue(string eventId, string place);
-         bool RespondToInvitation(string invitationId, bool response);
+         bool InviteForEvent(string eventId, ICustomer customer);
+         void RespondToInvitation(string invitationId, bool response);
          bool BuyGiftForInvitation(string invitationId, string giftId);
          bool ModifyGiftForInvitation(string invitationId, string giftIdToBeRemoved, string newGiftId);
-         bool RemoveGiftForInvitation(string invitationId, string giftId);
-         void SaveToFile();
+         bool RemoveGiftForInvitation(string invitationId, string giftId);         
     }
    
 }

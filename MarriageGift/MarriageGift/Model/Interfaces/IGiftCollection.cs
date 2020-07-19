@@ -4,6 +4,6 @@
     {
         bool AddGift(IGift gift);
         bool RemoveGift(IGift gift);
-        IGift GetGift(string giftId);       
+        IGift GetGiftById(string giftId);       
     }
 }

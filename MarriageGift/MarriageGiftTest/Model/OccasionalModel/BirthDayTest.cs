@@ -14,8 +14,8 @@ namespace MarriageGiftTest.Model.OccasionalModel
         [Test]
         public void modifyOccasion_PositiveTest1()
         {
-            birthDay = new Birthday("Harry", mockLog.Object);
-            var birthDayNew = new Birthday("Sammy", mockLog.Object);
+            birthDay = new Birthday("Harry");
+            var birthDayNew = new Birthday("Sammy");
             birthDay.modifyOccasion(birthDayNew);
             Assert.AreEqual(birthDay.Person, "Sammy");
         }
@@ -24,7 +24,7 @@ namespace MarriageGiftTest.Model.OccasionalModel
         {
             var expectedException = false;
             var exceptionType = string.Empty;
-            birthDay = new Birthday("Harry", mockLog.Object);
+            birthDay = new Birthday("Harry");
             var birthDayNew = new Mock<IOccassion>();
             try
             {

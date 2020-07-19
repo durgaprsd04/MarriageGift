@@ -19,8 +19,8 @@ namespace MarriageGiftTest.Model.OccasionalModel
         public void modifyOccasion_PositiveTest1()
         {
             //Arrange
-            var house = new HouseWarming("owner1", mockLog.Object);
-            var house2 = new HouseWarming("owner2", mockLog.Object);
+            var house = new HouseWarming("owner1");
+            var house2 = new HouseWarming("owner2");
             //Act
             house.modifyOccasion(house2);
             //Assert
@@ -30,7 +30,7 @@ namespace MarriageGiftTest.Model.OccasionalModel
         public void modifyOccasion_NegativeTest1()
         {
             //Arrange
-            var house = new HouseWarming("owner1", mockLog.Object);
+            var house = new HouseWarming("owner1");
             var expectedException = false;
             var errorType = string.Empty;
             //Act

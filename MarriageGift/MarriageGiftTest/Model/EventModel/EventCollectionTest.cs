@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using log4net;
-using MarriageGift.Enums;
-using MarriageGift.Exceptions;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.CustomerModel;
@@ -30,7 +28,6 @@ namespace MarriageGiftTest.Model.EventModel
             mockLog = new Mock<ILog>();
             mockOccasion = new Mock<IOccassion>();
             customer = new Mock<Customer>();
-            //customer.Setup(x => x.CustId).Returns(dummyCustId);
             place = "testPlace";
             date = new DateTime(2020, 6, 30);
             dummyExpectedGiftCollection = GetDummyGiftCollection();
@@ -39,21 +36,16 @@ namespace MarriageGiftTest.Model.EventModel
         }
         public Event GetEvent()
         {
-            return new Event(mockOccasion.Object, place, date, dummyExpectedGiftCollection, dummyRecievedGiftCollection, dummyCustId, mockLog.Object);
+            var eventId = Guid.NewGuid().ToString();
+            return new Event(eventId, mockOccasion.Object, place, date, dummyExpectedGiftCollection, dummyRecievedGiftCollection, dummyCustId, false);
         }
         public GiftCollection GetDummyGiftCollection()
         {
             var giftDict = new Dictionary<string, IGift>();
-            var giftCollection = new GiftCollection(giftDict, mockLog.Object);
+            var giftCollection = new GiftCollection();
             return giftCollection;
         }
-        //public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
-        //{
-        //    var giftCollection = GetDummyGiftCollection();
-        //    var gift = new Gift(giftId, "Pots", GiftItemType.Crockery, 2000, mockLog.Object);
-        //    giftCollection.AddGift(gift);
-        //    return giftCollection;
-        //}
+       
         [Test]
         public void AddEvent_PositiveTest1()
         {
@@ -132,7 +124,7 @@ namespace MarriageGiftTest.Model.EventModel
             var event1 = GetEvent();
             eventCollection.AddEvent(event1);
             var custList = eventCollection.GetEventsByCustId(dummyCustId);
-            Assert.AreEqual(custList.Count(),1);
+            Assert.AreEqual(((EventCollection)custList).Count(),1);
         }
         [Test]
         public void GetEventsByCustId_NegativeTest1()
@@ -141,7 +133,7 @@ namespace MarriageGiftTest.Model.EventModel
             var event1 = GetEvent();
             eventCollection.AddEvent(event1);
             var custList = eventCollection.GetEventsByCustId(Guid.NewGuid().ToString());
-            Assert.AreEqual(custList.Count(),0);
+            Assert.AreEqual(((EventCollection)custList).Count(),0);
         }       
     }
     }

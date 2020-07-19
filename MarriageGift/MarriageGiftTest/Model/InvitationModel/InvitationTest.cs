@@ -16,31 +16,34 @@ namespace MarriageGiftTest.Model.InvitationModel
     {
         private Mock<ILog> logger;        
         string custId;
-        CustomerCollection customerCollection;
+        ICustomer customer, customer1;
         GiftCollection giftR;
         GiftCollection giftE;
         [SetUp]
         public void Setup()
         {
             logger = new Mock<ILog>();
-            giftR = new GiftCollection(logger.Object);
-            giftE= new GiftCollection(logger.Object);
+            giftR = new GiftCollection();
+            giftE= new GiftCollection();
             custId = Guid.NewGuid().ToString();            
-            customerCollection = new CustomerCollection(logger.Object);
+            customer = new Customer("userName","password");
+
+            customer1 = new Customer("userName2","password");
 
         }
         public Event GetEvent(string custId,GiftCollection giftCollectionR, GiftCollection  giftCollectionE)
         {           
+            string eventId = Guid.NewGuid().ToString();
             var OccasionMock = new Mock<IOccassion>();
-            return new Event(OccasionMock.Object, "thisPlace", new DateTime(2020, 05, 05), giftCollectionE, giftCollectionR, custId, logger.Object);
+            return new Event(eventId, OccasionMock.Object, "thisPlace", new DateTime(2020, 05, 05), giftCollectionE, giftCollectionR, custId,false);
         }
         public Invitation GetInvitation(GiftCollection giftCollectionR, GiftCollection giftCollectionE)
         {
-            return new Invitation("sender", GetEvent(custId, giftCollectionR, giftCollectionE), customerCollection, logger.Object);
+            return new Invitation(customer, GetEvent(customer1.getId(), giftCollectionR,giftCollectionE));
         }
         public Invitation GetInvitation(GiftCollection giftCollectionR, GiftCollection giftCollectionE, CustomerCollection customerCollection)
         {
-            return new Invitation("sender", GetEvent(custId, giftCollectionR, giftCollectionE), customerCollection, logger.Object);
+            return new Invitation(customer, GetEvent(customer1.getId(), giftCollectionR, giftCollectionE));
         }
         [Test]
         public void RespondToInvitation_PositiveTest()
@@ -58,7 +61,7 @@ namespace MarriageGiftTest.Model.InvitationModel
             giftE.AddGift(giftE1.Object);
             var invitation = GetInvitation(giftR, giftE);
             var expectedGifts= invitation.GetExpectedGiftsForEvent();
-            Assert.AreEqual(expectedGifts.Count(), 1);
+            Assert.AreEqual(((GiftCollection)expectedGifts).Count(), 1);
             Assert.IsNotNull(expectedGifts.GetGiftById(giftExGiftId));
         }
         [Test]
@@ -70,7 +73,7 @@ namespace MarriageGiftTest.Model.InvitationModel
             giftR.AddGift(giftR1.Object);
             var invitation = GetInvitation(giftR, giftE);
             var expectedGifts = invitation.GetRecievedGiftsForEvent();
-            Assert.AreEqual(expectedGifts.Count(), 1);
+            Assert.AreEqual(((GiftCollection)expectedGifts).Count(), 1);
             Assert.IsNotNull(expectedGifts.GetGiftById(giftExGiftId));
         }
         [Test]
@@ -80,7 +83,7 @@ namespace MarriageGiftTest.Model.InvitationModel
             var expectedGifts = invitation.GetRecievedGiftsForEvent();
             var giftExGiftId = Guid.NewGuid().ToString();
             //Assert
-            Assert.AreEqual(expectedGifts.Count(), 0);
+            Assert.AreEqual(((GiftCollection)expectedGifts).Count(), 0);
             Assert.IsNull(expectedGifts.GetGiftById(giftExGiftId));
         }
         [Test]
@@ -90,32 +93,32 @@ namespace MarriageGiftTest.Model.InvitationModel
             var expectedGifts = invitation.GetExpectedGiftsForEvent();
             var giftExGiftId = Guid.NewGuid().ToString();
             //Assert
-            Assert.AreEqual(expectedGifts.Count(), 0);
+            Assert.AreEqual(((GiftCollection)expectedGifts).Count(), 0);
             Assert.IsNull(expectedGifts.GetGiftById(giftExGiftId));
         }
         public Customer GetCustomer()
         {
             var eventCollection = new Mock<IEventCollection>();
             var inviteCollection = new Mock<IInvitationCollection>();
-            return new Customer("nameTest", inviteCollection.Object, eventCollection.Object, logger.Object);
+            return new Customer("userName", "password");
         }
         [Test]
         public void AddCustomerToListofInvitees_PositiveTest1()
         {
-            var custCollection = new CustomerCollection(logger.Object);
+            var custCollection = new CustomerCollection();
             var customer = GetCustomer();
             custCollection.AddCustomer(customer);
             var invitation = GetInvitation(giftR, giftE, custCollection);
             var list = invitation.GetListofInvitees();
-            Assert.AreEqual(list.Count(), 1);            
+            Assert.AreEqual(((CustomerCollection)list).Count(), 1);            
         }
         [Test]
         public void AddCustomerToListofInvitees_NegativeTest1()
         {
-            var custCollection = new CustomerCollection(logger.Object);
+            var custCollection = new CustomerCollection();
             var invitation = GetInvitation(giftR, giftE, custCollection);
             var list = invitation.GetListofInvitees();
-            Assert.AreEqual(list.Count(), 0);
+            Assert.AreEqual(((CustomerCollection)list).Count(), 0);
         }
 
     }

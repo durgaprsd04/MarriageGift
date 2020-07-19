@@ -5,16 +5,20 @@ namespace MarriageGift.Model.OccasionModel
 {
     public class Birthday:Occasions
     {
-        private string person;
-        private readonly ILog logger;
+        private string person;       
 
         public string Person { get => person; }
 
-        public Birthday(string person, ILog logger)
-        {
-            occasionId = Guid.NewGuid().ToString();
-            this.person = person;
-            this.logger = logger;
+        public Birthday(string person)
+        :base()
+        {            
+            this.person = person;           
+            occasion = Enums.Occasion.Birthday;
+        }
+        public Birthday(string id, string person)
+        :base(id)
+        {            
+            this.person = person;           
             occasion = Enums.Occasion.Birthday;
         }
 

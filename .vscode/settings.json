@@ -1,6 +1,6 @@
 {
     "dotnet-test-explorer.treeMode": "full",
-    "dotnet-test-explorer.testProjectPath": "MarriageGift",
+    "dotnet-test-explorer.testProjectPath": "MarriageGift/MarriageGiftTest",
     "coverage-gutters.manualCoverageFilePaths": [
     "/home/lenovo/Documents/GitCode/MarriageGift/MarriageGift/MarriageGiftTest/testresults/lcov.info"
     ]

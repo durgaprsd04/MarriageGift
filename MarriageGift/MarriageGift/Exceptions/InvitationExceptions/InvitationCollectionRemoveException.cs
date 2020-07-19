@@ -1,4 +1,4 @@
-﻿namespace MarriageGift.Exceptions
+﻿namespace MarriageGift.Exceptions.InvitationExceptions
 {
     public class InvitationCollectionRemoveException:CollectionException
     {

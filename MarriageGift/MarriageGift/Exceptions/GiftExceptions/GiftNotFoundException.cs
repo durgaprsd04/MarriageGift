@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MarriageGift.Exceptions
+namespace MarriageGift.Exceptions.GiftExceptions
 {
     public class GiftNotFoundException:Exception
     {

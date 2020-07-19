@@ -8,7 +8,9 @@ using MarriageGift.Model.EventModel;
 using MarriageGift.Model.InvitationModel;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Enums;
-using MarriageGift.Exceptions;
+using MarriageGift.Exceptions.CustomerExceptions;
+using MarriageGift.Exceptions.GiftExceptions;
+using MarriageGift.Exceptions.InvitationExceptions;
 using MarriageGift.Model.Interfaces;
 
 namespace MarriageGiftTest.Model.CustomerModel
@@ -17,7 +19,8 @@ namespace MarriageGiftTest.Model.CustomerModel
     {
         private Customer customer;
         private IEventCollection eventCollection= new EventCollection();       
-        string name = "testCust";       
+        string name = "testCust";    
+        string password ="passWord";   
         IMock<IEvent> mockEvent = new Mock<IEvent>();                  
         EventCollection mockEventCollection = new EventCollection();
         Mock<ILog> mockLog;
@@ -26,37 +29,36 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void Setup()
         {
             mockLog = new Mock<ILog>();
-            mockInviteCollection = new InvitationCollection(mockLog.Object);
+            mockInviteCollection = new InvitationCollection();
         }
         public Customer GetCustomer()
         {
-            return new Customer(name, mockInviteCollection, mockEventCollection, mockLog.Object);
+            return new Customer(name,password);
         }
         public Customer GetCustomer(InvitationCollection invitationCollection)
         {
-            return new Customer(name, invitationCollection, mockEventCollection, mockLog.Object);
+            var custId = Guid.NewGuid().ToString();
+            return new Customer(custId, name, password,invitationCollection, mockEventCollection);
         }
         public Event CreateEmptyEvent(string custId)
         {
           var mockOccasion = new Mock<IOccassion>();
           var place ="test place";
-          var date = new DateTime(2020,6,3);
-            var giftDictE = new Dictionary<string, IGift>();
-            var giftDictR = new Dictionary<string, IGift>();
-            var giftCollectionExpected = new GiftCollection(giftDictE, mockLog.Object);
-          var giftCollectionRecieved = new GiftCollection(giftDictR, mockLog.Object);
-          return  new Event(mockOccasion.Object, place, date, giftCollectionExpected, giftCollectionRecieved, custId, mockLog.Object);
+          var date = new DateTime(2020,6,3);            
+          var giftCollectionExpected = new GiftCollection();
+          var giftCollectionRecieved = new GiftCollection();
+          return  new Event(mockOccasion.Object, place, date,custId);
         }
         public GiftCollection GetDummyGiftCollection()
         {
             var giftDict = new Dictionary<string, IGift>();
-            var giftCollection = new GiftCollection(giftDict, mockLog.Object);
+            var giftCollection = new GiftCollection();
             return giftCollection;
         }
         public GiftCollection GetDummyGiftCollectionWithGiftId(string giftId)
         {
             var giftCollection = GetDummyGiftCollection();
-            var gift = new Gift(giftId, "Pots",GiftItemType.Crockery, 2000,mockLog.Object);
+            var gift = new Gift(giftId, "Pots",GiftItemType.Crockery, 2000);
             giftCollection.AddGift(gift);
             return giftCollection;
             
@@ -64,11 +66,12 @@ namespace MarriageGiftTest.Model.CustomerModel
         public Event CreateEventWithGift(string custId, string giftId)
         {
           var mockOccasion = new Mock<IOccassion>();
+          var eventId =Guid.NewGuid().ToString();
           var place ="test place";
           var date = new DateTime(2020,6,3);
           var giftCollectionExpected = GetDummyGiftCollectionWithGiftId(giftId);
           var giftCollectionRecieved = GetDummyGiftCollection();
-          return  new Event(mockOccasion.Object, place, date, giftCollectionExpected, giftCollectionRecieved, custId, mockLog.Object);
+          return  new Event(eventId ,mockOccasion.Object, place, date, giftCollectionExpected, giftCollectionRecieved, custId,false);
         }
 
         public Event CreateEmptyEventWithGift(string custId, string giftId)
@@ -88,17 +91,15 @@ namespace MarriageGiftTest.Model.CustomerModel
             return dummyEvent;
         }
         public Invitation CreateEmptyInvitation()
-        {
-            string sender = "dummySender";
-            var mockCustCollection = new Mock<ICustomerCollection>();
+        {           
+            var dummyCustomer = new Customer("testName", "password");
             var mockEvent = new Mock<IEvent>();
-            return  new Invitation(sender, mockEvent.Object, mockCustCollection.Object, mockLog.Object);
+            return  new Invitation(dummyCustomer, mockEvent.Object);
         }
         public Invitation CreateEmptyInvitationWithCustomEvent(IEvent dummyEvent)
         {
-            string sender = "dummySender";
-            var mockCustCollection = new Mock<ICustomerCollection>();
-            return new Invitation(sender, dummyEvent, mockCustCollection.Object, mockLog.Object);
+            var dummyCustomer = new Customer("testName", "password");
+            return new Invitation(dummyCustomer, dummyEvent);
         }
         public Invitation CreateEmptyInvitationWithCustomEventCustomGiftId(string custId, string dummyGiftId)
         {
@@ -135,7 +136,7 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void AddMyEvents_PositiveTest1()
         {
           customer = GetCustomer();
-          var dummyEvent = CreateEmptyEvent(customer.CustId);
+          var dummyEvent = CreateEmptyEvent(customer.getId());
           var result = customer.AddMyEvents(dummyEvent);
           Assert.IsTrue(result,"Expected true for dummy object type");
         }
@@ -172,9 +173,9 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void CancelEvent_PositiveTest1()
         {
             customer = GetCustomer();
-            var dummyEvent = CreateEmptyEvent(customer.CustId);
+            var dummyEvent = CreateEmptyEvent(customer.getId());
             var result1= customer.AddMyEvents(dummyEvent);
-            var result2 =customer.CancelEvent(dummyEvent.EventId);
+            var result2 =customer.CancelEvent(dummyEvent.getId());
             Assert.IsTrue(result1 && result2);
         }
         [Test]
@@ -186,7 +187,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var errorType =string.Empty;
             try
             {
-                var dummyEvent = CreateEmptyEvent(customer.CustId);
+                var dummyEvent = CreateEmptyEvent(customer.getId());
                 result1 = customer.AddMyEvents(dummyEvent);
                 customer.CancelEvent(Guid.NewGuid().ToString());
             }
@@ -210,7 +211,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var errorType = string.Empty;
             try
             {
-                var dummyEvent = CreateEmptyEvent(customer.CustId);
+                var dummyEvent = CreateEmptyEvent(customer.getId());
                 result1 = customer.AddMyEvents(dummyEvent);
                 var date = new DateTime(2020, 6, 4);
                 customer.ChangeEventTime(Guid.NewGuid().ToString(), date);
@@ -230,19 +231,19 @@ namespace MarriageGiftTest.Model.CustomerModel
         public void ChangeEventTime_PositiveTest1()
         {
             customer = GetCustomer();
-            var dummyEvent = CreateEmptyEvent(customer.CustId);
+            var dummyEvent = CreateEmptyEvent(customer.getId());
             var result1 = customer.AddMyEvents(dummyEvent);
             var date = new DateTime(2020, 6, 4);
-            var result2 = customer.ChangeEventTime(dummyEvent.EventId, date);
+            var result2 = customer.ChangeEventTime(dummyEvent.getId(), date);
         }
         [Test]
         public void ChangeEventVenue_PositiveTest1()
         {
             customer = GetCustomer();
-            var dummyEvent = CreateEmptyEvent(customer.CustId);
+            var dummyEvent = CreateEmptyEvent(customer.getId());
             var result1 = customer.AddMyEvents(dummyEvent);
             var newVenue = "dummyVenue";
-            var result2 = customer.ChangeEventVenue(dummyEvent.EventId, newVenue);
+            var result2 = customer.ChangeEventVenue(dummyEvent.getId(), newVenue);
             Assert.IsTrue(dummyEvent.Place==newVenue);
         }
         [Test]
@@ -254,7 +255,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var errorType = string.Empty;
             try
             {
-                var dummyEvent = CreateEmptyEvent(customer.CustId);
+                var dummyEvent = CreateEmptyEvent(customer.getId());
                 result1 = customer.AddMyEvents(dummyEvent);
                 var newVenue = "dummyVenue";
                 customer.ChangeEventVenue(Guid.NewGuid().ToString(), newVenue);
@@ -275,7 +276,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             customer = GetCustomer();
             var dummyInvite = CreateEmptyInvitation();
             var result1 = customer.AddMyInvitations(dummyInvite);
-            var result2 = customer.RespondToInvitation(dummyInvite.InvitationId, false);
+            customer.RespondToInvitation(dummyInvite.getId(), false);
             Assert.IsFalse(dummyInvite.IsAccepted);
         }
         [Test]
@@ -306,14 +307,14 @@ namespace MarriageGiftTest.Model.CustomerModel
             //Arrange
             var customer = GetCustomer();
             var dummyGiftId = Guid.NewGuid().ToString();
-            var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);           
+            var dummyEvent = CreateEmptyEventWithGift(customer.getId(), dummyGiftId);           
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
             customer.AddMyInvitations(dummyInvitation);
             //Act
             var result = customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             //Assert
-            Assert.IsTrue(dummyEvent.ExpectedGiftCollection().Count() == 0,"Expected gift collection count should become zero");
-            Assert.IsTrue(dummyEvent.RecievedGiftCollection().Count() == 1, "Recieved gift collection count should be 1");
+            Assert.IsTrue(((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count() == 0,"Expected gift collection count should become zero");
+            Assert.IsTrue(((GiftCollection)dummyEvent.RecievedGiftCollection()).Count() == 1, "Recieved gift collection count should be 1");
             Assert.IsTrue(result, "Function BuyGiftForInvitation should return true");
         }
         [Test]
@@ -326,7 +327,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var errorType = string.Empty;
             try
             {
-                var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId);
+                var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId);
                 customer.AddMyInvitations(dummyInvitation);
                 customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId2);
             }
@@ -350,7 +351,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var errorType = string.Empty;
             try
             {
-                var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId);
+                var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId);
                 customer.AddMyInvitations(dummyInvitation);
                 customer.BuyGiftForInvitation(dummyInviteId2, dummyGiftId);
             }
@@ -369,15 +370,15 @@ namespace MarriageGiftTest.Model.CustomerModel
         {
             var dummyGiftId = Guid.NewGuid().ToString();
             customer = GetCustomer();
-            var dummyEvent = CreateEmptyEventWithGift(customer.CustId, dummyGiftId);           
+            var dummyEvent = CreateEmptyEventWithGift(customer.getId(), dummyGiftId);           
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
             customer.AddMyInvitations(dummyInvitation);            
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             //Act
             var result = customer.RemoveGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             //Assert
-            Assert.IsTrue(dummyEvent.ExpectedGiftCollection().Count() == 1, "Expected gift collection count should become zero");
-            Assert.IsTrue(dummyEvent.RecievedGiftCollection().Count() == 0, "Recieved gift collection count should be 1");
+            Assert.IsTrue(((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count() == 1, "Expected gift collection count should become zero");
+            Assert.IsTrue(((GiftCollection)dummyEvent.RecievedGiftCollection()).Count() == 0, "Recieved gift collection count should be 1");
             Assert.IsTrue(result, "Function BuyGiftForInvitation should return true");
         }
         [Test]
@@ -390,7 +391,7 @@ namespace MarriageGiftTest.Model.CustomerModel
           {
             var dummyGiftId = Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
-            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId);
+            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId);
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             customer.RemoveGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId2);
@@ -416,7 +417,7 @@ namespace MarriageGiftTest.Model.CustomerModel
           {
             var dummyGiftId = Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
-            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId);
+            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId);
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId);
             customer.RemoveGiftForInvitation(dummyGiftId2, dummyGiftId);
@@ -438,15 +439,15 @@ namespace MarriageGiftTest.Model.CustomerModel
             var customer = GetCustomer();
             var dummyGiftId1 = Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
-            var dummyEvent = CreateEmptyEventWithTwoGifts(customer.CustId, dummyGiftId1, dummyGiftId2);
+            var dummyEvent = CreateEmptyEventWithTwoGifts(customer.getId(), dummyGiftId1, dummyGiftId2);
             var dummyInvitation = CreateEmptyInvitationWithCustomEvent(dummyEvent);
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId1);
             //Act
             var result = customer.ModifyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId1,dummyGiftId2);
             //Assert
-            Assert.IsTrue(dummyEvent.ExpectedGiftCollection().Count() == 1, "Expected gift collection count should become zero");
-            Assert.IsTrue(dummyEvent.RecievedGiftCollection().Count() == 1, "Recieved gift collection count should be 1");
+            Assert.IsTrue(((GiftCollection)dummyEvent.ExpectedGiftCollection()).Count() == 1, "Expected gift collection count should become zero");
+            Assert.IsTrue(((GiftCollection)dummyEvent.RecievedGiftCollection()).Count() == 1, "Recieved gift collection count should be 1");
             Assert.IsTrue(result, "Function BuyGiftForInvitation should return true");
         }
         [Test]
@@ -459,7 +460,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var dummyGiftId1= Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
             
-            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId1,dummyGiftId2);
+            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId1,dummyGiftId2);
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId1);
             result =customer.ModifyGiftForInvitation(dummyInvitation.InvitationId,dummyGiftId1, dummyGiftId1);
@@ -475,7 +476,7 @@ namespace MarriageGiftTest.Model.CustomerModel
             var customer = GetCustomer();
             var dummyGiftId1= Guid.NewGuid().ToString();
             var dummyGiftId2 = Guid.NewGuid().ToString();
-            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.CustId, dummyGiftId1,dummyGiftId2);
+            var dummyInvitation = CreateEmptyInvitationWithCustomEventCustomGiftId(customer.getId(), dummyGiftId1,dummyGiftId2);
             customer.AddMyInvitations(dummyInvitation);
             customer.BuyGiftForInvitation(dummyInvitation.InvitationId, dummyGiftId1);
             customer.ModifyGiftForInvitation(dummyGiftId2,dummyGiftId1, dummyGiftId1);

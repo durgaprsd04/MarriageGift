@@ -1,4 +1,4 @@
-﻿namespace MarriageGift.Exceptions
+﻿namespace MarriageGift.Exceptions.GiftExceptions
 {
     public class GiftCollectionRemoveException:CollectionException
     {

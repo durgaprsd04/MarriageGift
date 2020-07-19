@@ -1,44 +1,37 @@
 using System;
 using MarriageGift.Model.Interfaces;
-using log4net;
+using MarriageGift.Model.CustomerModel;
 namespace MarriageGift.Model.InvitationModel
 {
 
-    public class Invitation : IInvitation
+    public class Invitation :BaseObject,  IInvitation
     {
         private readonly string invitationId;
-        private string sender;
+        private ICustomer sender;
         private IEvent mainEvent;
         private bool isAccepted;
-        private ICustomerCollection customerCollection;
-        private readonly ILog  logger;
-        public Invitation(string sender, IEvent mainEvent, ICustomerCollection customerCollection, ILog logger)
-        {
-            invitationId = Guid.NewGuid().ToString();
+        private ICustomerCollection customerCollection = new CustomerCollection();
+        
+        public Invitation(ICustomer sender, IEvent mainEvent)
+        :base()
+        {           
             this.sender =sender;
-            this.mainEvent = mainEvent;
-            this.customerCollection = customerCollection;
-            this.logger = logger;
+            this.mainEvent = mainEvent;                       
+        }
+         public Invitation(string inviteId, ICustomer sender, IEvent mainEvent)
+        :base(inviteId)
+        {           
+            this.sender =sender;
+            this.mainEvent = mainEvent;                       
         }
         
         public string InvitationId => invitationId;
 
         public bool IsAccepted { get => isAccepted;}
 
-        public bool RespondToInvitation(bool response)
+        public void RespondToInvitation(bool response)
         {
-            var successFlag =false;
-            try
-            {
-                isAccepted=response;
-                successFlag = true;
-            }
-            catch(Exception e)
-            {
-                logger.Error("Error occured while accepting invitiation "+e.Message);
-                logger.Error(e.Message);
-            }
-            return successFlag;
+            isAccepted=response;
         }
         public IGiftCollection<IGift> GetRecievedGiftsForEvent()
         {
