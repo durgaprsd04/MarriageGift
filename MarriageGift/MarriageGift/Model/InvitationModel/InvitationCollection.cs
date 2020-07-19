@@ -8,7 +8,7 @@ namespace MarriageGift.Model.InvitationModel
     public class InvitationCollection : IInvitationCollection
     {
         private Dictionary<string, IInvitation>    invitationCollection;
-        public InvitationCollection(ILog logger)
+        public InvitationCollection()
         {
             invitationCollection = new Dictionary<string, IInvitation>();
         }

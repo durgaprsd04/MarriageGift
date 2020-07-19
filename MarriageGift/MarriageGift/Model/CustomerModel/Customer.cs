@@ -1,6 +1,9 @@
 ﻿using System;
 using log4net;
+using MarriageGift.Controller;
 using MarriageGift.Model.Interfaces;
+using MarriageGift.Model.InvitationModel;
+using MarriageGift.Model.EventModel;
 using MarriageGift.Controller.Interfaces;
 using MarriageGift.Exceptions;
 namespace MarriageGift.Model.CustomerModel
@@ -12,22 +15,25 @@ namespace MarriageGift.Model.CustomerModel
         private readonly IInvitationCollection invitations;
         private readonly IEventCollection events;
         private readonly ILog logger;
-        private readonly ISaveToFileController saveToFileController;
-       
+        private readonly ISaveToFileController saveToFileController;      
 
-        public Customer(string userName, IInvitationCollection invitations, IEventCollection events, ILog logger)
-            :base()
-        {            
-            this.userName = userName;
-            this.invitations = invitations;
-            this.events = events;
-            this.logger = logger;
+       
+        public Customer(string userName, string passWord)
+        :base()
+        {   
+            this.userName  =userName;
+            this.passWord = passWord;
+            this.invitations = new InvitationCollection();
+            this.events = new EventCollection();
         }
-        public Customer(string userName, IInvitationCollection invitations, IEventCollection events, ISaveToFileController saveToFileController, ILog logger):this(userName, invitations, events, logger)
-        {            
-            this.saveToFileController = saveToFileController;            
+        public Customer(string custId, string userName, string passWord, IInvitationCollection invitations, IEventCollection events)
+        :base(custId)
+        {   
+            this.userName  =userName;
+            this.passWord = passWord;
+            this.invitations = new InvitationCollection();
+            this.events = new EventCollection(); 
         }
-        
         public bool AddMyEvents(IEvent myEvent)
         {
             var result = events.AddEvent(myEvent);
@@ -42,7 +48,7 @@ namespace MarriageGift.Model.CustomerModel
         public  bool CancelEvent(string eventId)
         {
             var result = false;
-            var eventInQuestion = events.GetEventById( eventId);
+            var eventInQuestion = events.GetEvent( eventId);
             if (eventInQuestion == null)
                 throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.Cancel(true);            
@@ -52,7 +58,7 @@ namespace MarriageGift.Model.CustomerModel
         public  bool ChangeEventTime(string eventId, DateTime date)
         {
             var result = false;
-            var eventInQuestion = events.GetEventById(eventId);
+            var eventInQuestion = events.GetEvent(eventId);
             if (eventInQuestion == null)
                throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.ModifyDate(date);                        
@@ -62,7 +68,7 @@ namespace MarriageGift.Model.CustomerModel
         public bool ChangeEventVenue(string eventId, string place)
         {
             var result = false;
-            var eventInQuestion = events.GetEventById(eventId);
+            var eventInQuestion = events.GetEvent(eventId);
             if (eventInQuestion == null)
                 throw new CustomerNotFoundException(eventId);
             result = eventInQuestion.ModifyPlace(place);
@@ -85,7 +91,7 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById( invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetExpectedGiftsForEvent().GetGiftById(giftId);
+            var gift = inviteInQuestion.GetExpectedGiftsForEvent().GetGift(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
             result = inviteInQuestion.AddGiftForEvent(gift);
@@ -105,7 +111,7 @@ namespace MarriageGift.Model.CustomerModel
             var inviteInQuestion = invitations.GetInvitationById(invitationId);
             if (inviteInQuestion == null)
                 throw new InvitationNotFoundException(invitationId);
-            var gift = inviteInQuestion.GetRecievedGiftsForEvent().GetGiftById(giftId);
+            var gift = inviteInQuestion.GetRecievedGiftsForEvent().GetGift(giftId);
             if (gift == null)
                 throw new GiftNotFoundException(giftId);
             result =inviteInQuestion.RemoveGiftForEvent(gift);

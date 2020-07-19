@@ -5,6 +5,11 @@ namespace MarriageGift.Model.CustomerModel
 {
     public class CustomerCollection : GenericCollection, ICustomerCollection
     {        
+        public CustomerCollection():
+        base()
+        {
+            
+        }
         public bool AddCustomer(ICustomer customer)
         {
             if (!(customer is Customer cust))

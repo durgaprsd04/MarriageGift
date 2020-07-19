@@ -4,81 +4,57 @@ using MarriageGift.Model.Interfaces;
 using log4net;
 namespace MarriageGift.Model.GiftModel
 {
-    public class Gift: IGift
-    {
-        private readonly string giftId;
+    public class Gift: BaseObject, IGift
+    {       
         private string name;
         private GiftItemType giftItemType;
         private double price;
-        private readonly ILog logger;
-
-        public string GiftId
-        {
-            get
-            {
-                return giftId;
-            }
-        }
+       
 
         public string Name { get => name;}
         public GiftItemType GiftItemType { get => giftItemType;}
         public double Price { get => price; }
 
         // TODO need to find  abetter solution
-        public Gift(string guid, string name, GiftItemType giftItemType, double price, ILog logger)
-        {
-            giftId = guid;
+        public Gift(string giftId, string name, GiftItemType giftItemType, double price)
+        :base(giftId)
+        {         
             this.name = name;
             this.giftItemType = giftItemType;
-            this.price = price;
-            this.logger = logger;
+            this.price = price;            
         }
-        public Gift(string name, GiftItemType giftItemType, double price, ILog logger)
-        {
-            giftId = Guid.NewGuid().ToString();
+        public Gift(string name, GiftItemType giftItemType, double price)
+        :base()
+        {           
             this.name = name;
             this.giftItemType = giftItemType;
-            this.price = price;
-            this.logger = logger;
+            this.price = price;            
         }
-        public Gift(IGift gift)
+        public Gift(Gift gift)
+        :this(gift.getId(),gift.name, gift.giftItemType, gift.price)
         {
-            var gift1 = gift as Gift;
-            giftId = Guid.NewGuid().ToString();
-            name = gift1.name;
-            giftItemType = gift1.giftItemType;
-            price = gift1.price;
+           
         }
-        public bool ModifyGift( IGift giftItem)
+        public void ModifyGift( IGift giftItem)
         {
-            var successFlag = false;
-            try
-            {
-                var gift = giftItem as Gift;
-                if (gift == null)
-                    throw new ArgumentException("giftItem");       
-                name = gift.name;
-                giftItemType = gift.giftItemType;
-                price = gift.price;
-                successFlag = true;
-            }
-            catch(Exception e)
-            {                
-               logger.Error("Exception occured while modifying Gift"+e.Message);
-            }
-            return successFlag;
+            var gift = giftItem as Gift;
+            if (gift == null)
+                throw new ArgumentException("giftItem");       
+            name = gift.name;
+            giftItemType = gift.giftItemType;
+            price = gift.price;            
         }
-
         public int CompareTo(object obj)
         {
             var gift = obj as Gift;
             if (gift != null)
-                return string.Compare(gift.GiftId, GiftId);
+                return string.Compare(gift.getId(), base.getId());
             return -1;
         }
+
         public string GetGiftId()
         {
-            return giftId;
+            return this.getId();
         }
     }
 }
