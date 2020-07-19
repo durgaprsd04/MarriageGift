@@ -1,9 +1,7 @@
 ﻿using System;
-using log4net;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.InvitationModel;
 using MarriageGift.Model.EventModel;
-using MarriageGift.Controller.Interfaces;
 using MarriageGift.Exceptions.CustomerExceptions;
 using MarriageGift.Exceptions.InvitationExceptions;
 using MarriageGift.Exceptions.GiftExceptions;
