@@ -8,6 +8,8 @@ namespace MarriageGift.Model.Interfaces
     {       
          bool AddMyEvents(IEvent myEvent);
          bool AddMyInvitations(IInvitation invitation);
+        string GetUserName();
+        string GetPassword();
          IGenericCollection<IBaseObject> GetMyEvents();
          bool CancelEvent(string eventId);
          bool ChangeEventTime(string eventId, DateTime date);

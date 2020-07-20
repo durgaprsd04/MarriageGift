@@ -1,0 +1,44 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=335647f3_002D6ef8_002D484d_002D837a_002D98e07b277a1e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetEventsByCustId_PositiveTest1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.EventModel.EventCollectionTest.GetEventsByCustId_PositiveTest1&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=438fba08_002Db7fc_002D469a_002Db999_002De503cadb3519/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CustomerCollectionTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.CustomerModel.CustomerCollectionTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.OccasionalModel.BirthDayTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.GiftModel.GiftTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.GiftModel.PresentableGiftTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.GiftModel.GiftCollectionTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=43f4e83f_002D7f51_002D4459_002Da140_002D8c6994f3bc46/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EventTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.EventModel.EventTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8bb17de5_002D32b0_002D4eff_002Da00a_002D319b46b3a52b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EventTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.EventModel.EventTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d4c1b4df_002D6d39_002D4e90_002Dbab1_002D6c690ae5c294/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CustomerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.CustomerModel.CustomerTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.OccasionalModel.MarriageTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df6efb7c_002D26b7_002D4fd2_002Db77f_002Dcddcb29ab0e9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EventCollectionTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.EventModel.EventCollectionTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.OccasionalModel.HouseWarmingTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.InvitationModel.InvitationCollectionTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.InvitationModel.InvitationTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f7318801_002D6fe5_002D47aa_002Da6c0_002Daf8ae69eda51/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EventTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB::.NETCoreApp,Version=v2.1::MarriageGiftTest.Model.EventModel.EventTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using MarriageGift.Controller.Interfaces;
+﻿using System.IO;
+
 using MarriageGift.Model;
 using log4net;
-namespace MarriageGift.Controller
+using MarriageGift.FAO.Interfaces;
+
+namespace MarriageGift.FAO
 {
-    public class SaveToFileController: ISaveToFileController
+    public class SaveToFileController: ISaveToFileFao
     {
         private readonly ILog logger;
         private readonly StreamWriter streamWriter;

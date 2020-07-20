@@ -10,7 +10,6 @@ using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.OccasionModel;
 using MarriageGift.Enums;
 using MarriageGift.Controller;
-using MarriageGift.Controller.Interfaces;
 using log4net;
 
 namespace MarriageGiftConsoler

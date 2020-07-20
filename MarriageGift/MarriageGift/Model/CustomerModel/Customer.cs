@@ -11,7 +11,7 @@ namespace MarriageGift.Model.CustomerModel
    public class Customer: BaseObject, ICustomer
     {         
         private readonly string passWord;
-        private string userName;
+        private readonly string userName;
         private readonly IInvitationCollection invitations= new InvitationCollection();
         private readonly IEventCollection events= new EventCollection();
 
@@ -120,6 +120,10 @@ namespace MarriageGift.Model.CustomerModel
         {
             return events;
         }
+        public string GetUserName() => userName;
+
+        public string GetPassword() => passWord;
+
 
         public bool InviteForEvent(string eventId, ICustomer customer)
         {
