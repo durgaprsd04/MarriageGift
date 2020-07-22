@@ -92,6 +92,13 @@ namespace MarriageGift.Model.EventModel
             var result = giftsExpected.AddGift(gift);
             return result;
         }
+        public bool AddExpectedGifts(IGiftCollection<IGift> gifts)
+        {
+            var result = true;
+            foreach (var gift in gifts.GetUnderlyingDictionary().Values)
+                result = result && giftsExpected.Add(gift);
+            return result;
+        }
         public bool RemoveExpectedGift(IGift gift)
         {
             var result  = giftsExpected.RemoveGift(gift);

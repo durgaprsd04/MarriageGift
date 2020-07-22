@@ -22,9 +22,9 @@ namespace MarriageGift.DAO.Wrappers
             baseDao.Insert(baseObject);
         }
 
-        public void Read(string id)
+        public IBaseObject Read(string id)
         {
-            baseDao.Read(id);
+            return baseDao.Read(id);
         }
 
         public void Update(IBaseObject baseObject)

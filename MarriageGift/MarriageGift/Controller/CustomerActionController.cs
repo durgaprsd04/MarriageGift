@@ -1,26 +1,37 @@
 ﻿using MarriageGift.Model.CustomerModel;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.GiftModel;
+using MarriageGift.Model.EventModel;
+using MarriageGift.Exceptions;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Exceptions.CustomerExceptions;
 using MarriageGift.FAO.Interfaces;
 using MarriageGift.Controller.Interfaces;
 using System;
 using log4net;
+using MarriageGift.Model.InvitationModel;
 
 namespace MarriageGift.Controller
 {
     public class CustomerActionController :ICustomerController
     {
         private readonly ICustomer customer;
-        private readonly IGenericDao genericaDao;
+        private readonly IGenericDao customerDao;
+        private readonly IGenericDao eventDao;
+        private readonly IGenericDao occassionDao;
+        private readonly IGenericDao invitationDao;
+        private readonly IGenericDao giftDao;
         private readonly ISaveToFileFao saveToFileFAO;
         private readonly ILog logger;
 
-        public CustomerActionController(ICustomer customer, IGenericDao genericaDao, ISaveToFileFao saveToFileFAO, ILog logger )
+        public CustomerActionController(ICustomer customer, IGenericDao customerDao, IGenericDao eventDao, IGenericDao invitationDao, IGenericDao occassionDao,IGenericDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
         {
             this.customer = customer;
-            this.genericaDao = genericaDao;
+            this.customerDao = customerDao;
+            this.eventDao = eventDao;
+            this.occassionDao = occassionDao;
+            this.invitationDao = invitationDao;
+            this.giftDao = giftDao;
             this.saveToFileFAO = saveToFileFAO;
             this.logger = logger;
         }
@@ -28,7 +39,7 @@ namespace MarriageGift.Controller
         {
             try
             {
-                genericaDao.Insert(customer);
+                customerDao.Update(customer);
             }
            catch(Exception e)
             {
@@ -52,27 +63,93 @@ namespace MarriageGift.Controller
 
         public bool CreateEvent(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR)
         {
-            throw new NotImplementedException();
+            var result = false;
+            try
+            {
+                var newEvent = new Event(occassion, place, date, customer.getId());
+                newEvent.AddExpectedGifts(giftE);
+                eventDao.Insert(newEvent);
+                result= true;
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.EventExceptions.EventCollectionAddException(e.Message);
+            }
+            return result;
         }
 
-        public bool InvitePerson(string custId)
+        public bool InvitePerson(IEvent eventInQ)
         {
-            throw new NotImplementedException();
+            var result = false;
+            try
+            {
+                var invite = new Invitation(customer, eventInQ);
+                invitationDao.Insert(invite);
+                result=true;
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.InvitationExceptions.InvitationCollectionAddException(e.Message);
+            }
+            return result;
         }
 
-        public bool BuyGiftForEvent(string eventId, string giftId)
+        public bool BuyGiftForEvent(IInvitation invite, string giftId)
         {
-            throw new NotImplementedException();
+            var result = false;
+            try
+            {
+                var gift = (IGift)giftDao.Read(giftId);
+                invite.AddGiftForEvent(gift);
+                var eventInQuestion = invite.GetEvent();
+                eventDao.Update(eventInQuestion);
+                invitationDao.Update(invite);
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.GiftExceptions.GiftCollectionAddException(e.Message);
+            }
+            return result;
         }
 
-        public bool RemoveGiftForEvent(string eventId, string giftId)
+        public bool RemoveGiftForEvent(IInvitation invite, string giftId)
         {
-            throw new NotImplementedException();
+            var result = false;
+            try
+            {
+                var gift = (IGift)giftDao.Read(giftId);
+                invite.RemoveGiftForEvent(gift);
+                var eventInQuestion = invite.GetEvent();
+                eventDao.Update(eventInQuestion);
+                invitationDao.Update(invite);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.GiftExceptions.GiftCollectionRemoveException(e.Message);
+            }
+            return result;
         }
 
-        public bool RespondToInvite(string inviteId)
+        public bool RespondToInvite(string inviteId, bool response)
         {
-            throw new NotImplementedException();
+            var result = false;
+            try
+            {
+                var invite = (Invitation)invitationDao.Read(inviteId);
+                invite.RespondToInvitation(response);
+                invitationDao.Update(invite);
+                result = true;
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.InvitationExceptions.InvitationNotFoundException(e.Message);
+            }
+            return result;
         }
     }
 }

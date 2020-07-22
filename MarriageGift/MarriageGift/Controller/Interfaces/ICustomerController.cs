@@ -8,9 +8,9 @@ namespace MarriageGift.Controller.Interfaces
     {
         bool login(string username, string password);
         bool CreateEvent(IOccassion occassion, string place,DateTime date,IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR);
-        bool InvitePerson(string custId);
-        bool BuyGiftForEvent(string eventId, string giftId);
-        bool RemoveGiftForEvent(string eventId, string giftId);
-        bool RespondToInvite(string inviteId);
+        bool InvitePerson(IEvent eventInQuestion);
+        bool BuyGiftForEvent(IInvitation invitation, string giftId);
+        bool RemoveGiftForEvent(IInvitation invitation, string giftId);
+        bool RespondToInvite(string inviteId, bool response);
     }
 }

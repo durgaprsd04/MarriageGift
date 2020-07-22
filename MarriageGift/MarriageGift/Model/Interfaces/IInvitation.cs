@@ -10,6 +10,7 @@ namespace MarriageGift.Model.Interfaces
         IGiftCollection<IGift> GetRecievedGiftsForEvent();
         IGiftCollection<IGift> GetExpectedGiftsForEvent();
         bool AddGiftForEvent(IGift gift);
+        IEvent GetEvent();
         bool AddCustomerToListofInvitees(ICustomer customer);
         ICustomerCollection GetListofInvitees();
         bool RemoveGiftForEvent(IGift giftId);

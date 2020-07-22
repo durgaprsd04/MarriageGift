@@ -61,6 +61,11 @@ namespace MarriageGift.Model.InvitationModel
         {
             return customerCollection;
         }
+
+        public IEvent GetEvent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
     

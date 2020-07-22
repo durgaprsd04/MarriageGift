@@ -15,9 +15,9 @@ namespace MarriageGift.DAO.Wrappers
             OccassionDao.Insert(baseObject);
         }
 
-        public void Read(string id)
+        public IBaseObject Read(string id)
         {
-            OccassionDao.Read(id);
+            return OccassionDao.Read(id);
         }
 
         public void Update(IBaseObject baseObject)

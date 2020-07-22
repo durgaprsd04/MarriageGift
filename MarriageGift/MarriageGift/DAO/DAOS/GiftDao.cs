@@ -16,7 +16,7 @@ namespace MarriageGift.DAO.DAOS
             throw new NotImplementedException();
         }
 
-        internal static void Read(string id)
+        internal static IBaseObject Read(string id)
         {
             throw new NotImplementedException();
         }

@@ -18,7 +18,7 @@ namespace MarriageGift.DAO.DAOS
         {
             throw new NotImplementedException();
         }
-        internal static IEventCollection Read(string custId)
+        internal static IOccassion Read(string custId)
         {
             throw new NotImplementedException();
         }
