@@ -3,7 +3,7 @@ using MarriageGift.Model;
 using MarriageGift.DAO.Interfaces;
 namespace MarriageGift.DAO.Wrappers
 {
-    class InvitationDaoWrapper : IGenericDao
+    public class InvitationDaoWrapper : IInvitationDao
     {
         public void Delete(string id)
         {

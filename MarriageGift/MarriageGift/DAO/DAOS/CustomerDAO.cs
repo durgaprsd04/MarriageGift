@@ -78,5 +78,21 @@ namespace MarriageGift.DAO.DAOS
                 conn.Close();
             }
         }
+        internal static bool Login(string username,string password)
+        {
+            var flag = false;
+            var query = string.Format(CURDQueries.Customers.LoginCustomers.loginCustomer, username, password);
+            var sqlCommand = new SqlCommand();
+            sqlCommand.CommandText = query;
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                sqlCommand.Connection = conn;
+                var result = sqlCommand.ExecuteScalar();
+                flag = result == null ? false : true;
+                conn.Close();
+            }
+            return flag;
+        }
     }
 }

@@ -6,6 +6,8 @@ using MarriageGift.Exceptions.CustomerExceptions;
 using MarriageGift.Exceptions.InvitationExceptions;
 using MarriageGift.Exceptions.GiftExceptions;
 using MarriageGift.Exceptions.EventExceptions;
+using System.Runtime.Serialization;
+
 namespace MarriageGift.Model.CustomerModel
 {
    public class Customer: BaseObject, ICustomer
@@ -134,6 +136,13 @@ namespace MarriageGift.Model.CustomerModel
             invite.AddCustomerToListofInvitees(customer);
             customer.AddMyInvitations(invite);
             return true;
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("customer_id", getId(), typeof(string));
+            info.AddValue("customer_name", userName, typeof(string));
+            info.AddValue("customer_id", passWord, typeof(string));
         }
     }
 }

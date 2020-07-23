@@ -1,28 +1,29 @@
-﻿using MarriageGift.DAO.DAOS;
+﻿using MarriageGift.DAO.Interfaces;
+using MarriageGift.DAO.DAOS;
 using MarriageGift.Model;
-using MarriageGift.DAO.Interfaces;
+
 namespace MarriageGift.DAO.Wrappers
 {
-    public class EventDaoWrapper : IEventDao
+    public class GiftDaoWrapper:IGiftDao
     {
         public void Delete(string id)
         {
-            EventDao.Delete(id);
+            GiftDao.Delete(id);
         }
 
         public void Insert(IBaseObject baseObject)
         {
-            EventDao.Insert(baseObject);
+            GiftDao.Insert(baseObject);
         }
 
         public IBaseObject Read(string id)
         {
-            return EventDao.Read(id);
+            return GiftDao.Read(id);
         }
 
         public void Update(IBaseObject baseObject)
         {
-            EventDao.Update(baseObject);
+            GiftDao.Update(baseObject);
         }
     }
 }

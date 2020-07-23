@@ -29,6 +29,11 @@
                                                             + " set password='{1}'"
                                                             + " where customer_id ={2}";
             }
+            public static class  LoginCustomers
+            {
+                public static readonly string loginCustomer = "select customer_id from customer"
+                                                        + "where username = '{0}' and[password]='{1}'";
+            }
         }
        
         public class SelectEvents

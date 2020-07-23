@@ -4,7 +4,7 @@ using MarriageGift.Model;
 
 namespace MarriageGift.DAO.Wrappers
 {
-    class CustomerDaoWrapper : IGenericDao
+    public class CustomerDaoWrapper : ICustomerDao
     {
         public void Delete(string id)
         {
@@ -14,6 +14,11 @@ namespace MarriageGift.DAO.Wrappers
         public void Insert(IBaseObject baseObject)
         {
             CustomerDao.Insert(baseObject);
+        }
+
+        public bool Login(string username, string password)
+        {
+            return CustomerDao.Login(username, password);
         }
 
         public IBaseObject Read(string id)

@@ -1,8 +1,5 @@
-﻿using MarriageGift.Model.CustomerModel;
-using MarriageGift.Model.Interfaces;
-using MarriageGift.Model.GiftModel;
+﻿using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.EventModel;
-using MarriageGift.Exceptions;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Exceptions.CustomerExceptions;
 using MarriageGift.FAO.Interfaces;
@@ -16,15 +13,15 @@ namespace MarriageGift.Controller
     public class CustomerActionController :ICustomerController
     {
         private readonly ICustomer customer;
-        private readonly IGenericDao customerDao;
-        private readonly IGenericDao eventDao;
-        private readonly IGenericDao occassionDao;
-        private readonly IGenericDao invitationDao;
-        private readonly IGenericDao giftDao;
+        private readonly ICustomerDao customerDao;
+        private readonly IEventDao eventDao;
+        private readonly IOccassionDao occassionDao;
+        private readonly IInvitationDao invitationDao;
+        private readonly IGiftDao giftDao;
         private readonly ISaveToFileFao saveToFileFAO;
         private readonly ILog logger;
 
-        public CustomerActionController(ICustomer customer, IGenericDao customerDao, IGenericDao eventDao, IGenericDao invitationDao, IGenericDao occassionDao,IGenericDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
+        public CustomerActionController(ICustomer customer, ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
         {
             this.customer = customer;
             this.customerDao = customerDao;
@@ -34,6 +31,11 @@ namespace MarriageGift.Controller
             this.giftDao = giftDao;
             this.saveToFileFAO = saveToFileFAO;
             this.logger = logger;
+        }
+        public void CustomerController()
+        {
+            Console.WriteLine("test hello world  ");
+            Console.ReadKey();
         }
         public void SaveCustomer()
         {
@@ -47,18 +49,15 @@ namespace MarriageGift.Controller
                 throw new CustomerCollectionAddException(e.Message);
             }
         }
-        public IGiftCollection<IGift> GetAvailableGiftCollection(ILog logger)
-        {
-            return new GiftCollection(); 
-        }
-        public ICustomerCollection GetAllCustomers(string regex)
-        {
-            return new CustomerCollection();
-        }
 
-        public bool login(string username, string password)
+        public bool Login(string username, string password)
         {
-            throw new NotImplementedException();
+            var result = customerDao.Login(username, password);
+            if (result)
+                logger.Info("Login successful");
+            else
+                logger.Info("login unsuccessful");
+            return result;
         }
 
         public bool CreateEvent(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR)
@@ -148,6 +147,39 @@ namespace MarriageGift.Controller
             {
                 logger.Error(e.Message);
                 throw new Exceptions.InvitationExceptions.InvitationNotFoundException(e.Message);
+            }
+            return result;
+        }
+
+        public bool ModifEvent(IEvent eventInQ)
+        {
+            var result = false;
+            try
+            {
+                eventInQ.Cancel(true);
+                eventDao.Update(eventInQ);
+                result = true;
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new Exceptions.EventExceptions.EventNotFoundException(e.Message);
+            }
+            return result;
+        }
+
+        public bool SaveCustomerToFile()
+        {
+            var result = false;
+            try
+            {
+                saveToFileFAO.SaveObject(customer);
+                result = true;
+            }
+            catch(Exception e)
+            {
+                logger.Error(e.Message);
+                throw new CustomerNotFoundException(e.Message);
             }
             return result;
         }

@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace MarriageGift.Model.Interfaces
 {
-    public interface ICustomer:IBaseObject
+    public interface ICustomer:IBaseObject, ISerializable
     {       
          bool AddMyEvents(IEvent myEvent);
          bool AddMyInvitations(IInvitation invitation);

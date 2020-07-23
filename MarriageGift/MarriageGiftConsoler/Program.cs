@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using MarriageGift.DAO.Interfaces;
+using MarriageGift.Controller.Interfaces;
+using MarriageGift.DAO.Wrappers;
 using Autofac;
 using System.IO;
-using MarriageGift.Model;
+using MarriageGift.FAO.Interfaces;
+using MarriageGift.FAO;
 using MarriageGift.Model.InvitationModel;
 using MarriageGift.Model.EventModel;
 using MarriageGift.Model.CustomerModel;
@@ -18,72 +22,90 @@ namespace MarriageGiftConsoler
     {
         static void Main(string[] args)
         {
-            /* var builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             ILog logger = LogManager.GetLogger(typeof(Program));
-            CustomerActionController customerActionController = new CustomerActionController();
-            builder.RegisterType<InvitationCollection>().As<IInvitationCollection>();
-            builder.RegisterType<EventCollection>().As<IEventCollection>();
-            builder.RegisterType<StreamWriter>().WithParameter("customer.txt", true);
-            builder.RegisterType<SaveToFileController>().As<ISaveToFileController>();
-            builder.Register(c=> LogManager.GetLogger(typeof(Customer))).As<ILog>();
-            builder.RegisterType<Customer>().As<ICustomer>().WithParameter("userName", "Jeff");
+            builder.RegisterType<EventDaoWrapper>().As<IEventDao>();
+            builder.RegisterType<CustomerDaoWrapper>().As<ICustomerDao>();
+            builder.RegisterType<GiftDaoWrapper>().As<IGiftDao>();
+            builder.RegisterType<InvitationDaoWrapper>().As<IInvitationDao>();
+            builder.RegisterType<OccasionDaoWrapper>().As<IOccassionDao>();
+            builder.Register(s => new StreamWriter("customer.txt", true)).As<StreamWriter>();
+            builder.Register(f => new FileStream("customer.dat", FileMode.Create)).As<FileStream>();
+            builder.RegisterType<SaveToFileFao>().As<ISaveToFileFao>();
+            builder.Register(c => new Customer("Jeff", "pass@jeff")).As<ICustomer>();
+            builder.Register(l=>logger).As<ILog>();
+            builder.RegisterType<CustomerActionController>().As<ICustomerController>();
             
             var Container = builder.Build();
             using (var scope = Container.BeginLifetimeScope())
             {
-                var customer = (Customer)scope.Resolve<ICustomer>();
-                customer.SaveToFile();
-                var input = 1;
-                while(input>10 && input<1 )
+                var customerController = (CustomerActionController)scope.Resolve<ICustomerController>();
+                customerController.CustomerController();
+            }
+                /*
+                builder.RegisterType<InvitationCollection>().As<IInvitationCollection>();
+                builder.RegisterType<EventCollection>().As<IEventCollection>();
+                builder.RegisterType<StreamWriter>().WithParameter("customer.txt", true);
+                builder.RegisterType<SaveToFileController>().As<ISaveToFileController>();
+                builder.Register(c=> LogManager.GetLogger(typeof(Customer))).As<ILog>();
+                builder.RegisterType<Customer>().As<ICustomer>().WithParameter("userName", "Jeff");
+
+                var Container = builder.Build();
+                using (var scope = Container.BeginLifetimeScope())
                 {
-                    Console.WriteLine("**********************************");
-                    Console.WriteLine(" 1 AddMyEvents");
-                    Console.WriteLine(" 2 Invite CustToEvent");
-                    Console.WriteLine(" 3 CancelEvent");
-                    Console.WriteLine(" 4 ChangeEventTime");
-                    Console.WriteLine(" 5 ChangeEventVenue");
-                    Console.WriteLine(" 6 RespondToInvitation");
-                    Console.WriteLine(" 7 BuyGiftForInvitation");
-                    Console.WriteLine(" 8 ModifyGiftForInvitation");
-                    Console.WriteLine(" 9 RemoveGiftForInvitation");
-                    Console.WriteLine(" 0 Exit");
-                    Console.WriteLine("**********************************");
-
-                    var choice = Console.ReadKey();
-                    input = Convert.ToInt16(choice.KeyChar);
-                    if(input ==1)
+                    var customer = (Customer)scope.Resolve<ICustomer>();
+                    customer.SaveToFile();
+                    var input = 1;
+                    while(input>10 && input<1 )
                     {
-                        var result = DisplayEvents();
-                        var occasion = GetOccassionInputs(result, logger);
-                        Console.WriteLine("Enter place for the event");
-                        var place = Console.ReadLine();
-                        Console.WriteLine("Enter date for the event");
-                        var date = DateTime.Parse(Console.ReadLine());
-                        var giftcollection1 = customerActionController.GetAvailableGiftCollection(logger);
-                        var giftcollection2= customerActionController.GetAvailableGiftCollection(logger);
-                        var eventInQuestion= new Event(occasion, place, date, giftcollection1, giftcollection2, customer.CustId, logger);
-                        customer.AddMyEvents(eventInQuestion);
-                    }
-                    else if(input ==2)
-                    {
+                        Console.WriteLine("**********************************");
+                        Console.WriteLine(" 1 AddMyEvents");
+                        Console.WriteLine(" 2 Invite CustToEvent");
+                        Console.WriteLine(" 3 CancelEvent");
+                        Console.WriteLine(" 4 ChangeEventTime");
+                        Console.WriteLine(" 5 ChangeEventVenue");
+                        Console.WriteLine(" 6 RespondToInvitation");
+                        Console.WriteLine(" 7 BuyGiftForInvitation");
+                        Console.WriteLine(" 8 ModifyGiftForInvitation");
+                        Console.WriteLine(" 9 RemoveGiftForInvitation");
+                        Console.WriteLine(" 0 Exit");
+                        Console.WriteLine("**********************************");
 
-                        /* var regex = Console.ReadLine(); 
-                        var listOfCustomers = customerActionController.GetAllCustomers(regex);
-                        if(listOfCustomers.Count()==0)
+                        var choice = Console.ReadKey();
+                        input = Convert.ToInt16(choice.KeyChar);
+                        if(input ==1)
                         {
-                            Console.WriteLine("No customer found");
-                            break;
+                            var result = DisplayEvents();
+                            var occasion = GetOccassionInputs(result, logger);
+                            Console.WriteLine("Enter place for the event");
+                            var place = Console.ReadLine();
+                            Console.WriteLine("Enter date for the event");
+                            var date = DateTime.Parse(Console.ReadLine());
+                            var giftcollection1 = customerActionController.GetAvailableGiftCollection(logger);
+                            var giftcollection2= customerActionController.GetAvailableGiftCollection(logger);
+                            var eventInQuestion= new Event(occasion, place, date, giftcollection1, giftcollection2, customer.CustId, logger);
+                            customer.AddMyEvents(eventInQuestion);
                         }
-                        var userId = DisplayUsersForInvites(listOfCustomers);
-                        var userInQuestion = listOfCustomers.GetCustomer(userId);
-                        listOfCustomers.Clear();
-                        listOfCustomers.AddCustomer(userInQuestion);
-                        var eventToBeInvitedFor = GetMyEvents(customer);  
-                        var invitation = new Invitation(customer.CustId, ) 
+                        else if(input ==2)
+                        {
+
+                            /* var regex = Console.ReadLine(); 
+                            var listOfCustomers = customerActionController.GetAllCustomers(regex);
+                            if(listOfCustomers.Count()==0)
+                            {
+                                Console.WriteLine("No customer found");
+                                break;
+                            }
+                            var userId = DisplayUsersForInvites(listOfCustomers);
+                            var userInQuestion = listOfCustomers.GetCustomer(userId);
+                            listOfCustomers.Clear();
+                            listOfCustomers.AddCustomer(userInQuestion);
+                            var eventToBeInvitedFor = GetMyEvents(customer);  
+                            var invitation = new Invitation(customer.CustId, ) 
+                        }
                     }
-                }
-            } */
-            Console.WriteLine("Hello World!");
+                } */
+                Console.WriteLine("Hello World!");
         }/*
         public static IEvent GetMyEvents(ICustomer customer)
         {

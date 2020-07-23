@@ -1,6 +1,7 @@
 ﻿namespace MarriageGift.DAO.Interfaces
 {
-    interface ICustomerDao : IGenericDao
+    public interface ICustomerDao : IGenericDao
     {
+        bool Login(string username, string password);
     }
 }
