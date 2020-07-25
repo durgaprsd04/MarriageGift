@@ -155,8 +155,7 @@ namespace MarriageGift.Controller
         {
             var result = false;
             try
-            {
-                eventInQ.Cancel(true);
+            {               
                 eventDao.Update(eventInQ);
                 result = true;
             }
@@ -182,6 +181,18 @@ namespace MarriageGift.Controller
                 throw new CustomerNotFoundException(e.Message);
             }
             return result;
+        }
+
+        public bool ChangePassword(string username, string password)
+        {
+
+            //todo not implementted.
+            return true;
+        }
+
+        public string GetCustomerId()
+        {
+            return customer.getId();
         }
     }
 }

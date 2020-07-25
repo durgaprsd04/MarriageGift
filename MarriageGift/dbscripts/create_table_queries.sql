@@ -1,4 +1,5 @@
 ﻿--create database MarriageGift;
+use MarriageGift;
 CREATE TABLE CUSTOMER
 (
  customer_id varchar(200) PRIMARY KEY,

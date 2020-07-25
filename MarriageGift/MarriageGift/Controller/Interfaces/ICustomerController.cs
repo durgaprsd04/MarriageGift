@@ -6,6 +6,7 @@ namespace MarriageGift.Controller.Interfaces
     public interface ICustomerController
     {
         bool Login(string username, string password);
+        bool ChangePassword(string username, string password);
         bool CreateEvent(IOccassion occassion, string place,DateTime date,IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR);
         bool InvitePerson(IEvent eventInQuestion);
         bool BuyGiftForEvent(IInvitation invitation, string giftId);
@@ -13,5 +14,6 @@ namespace MarriageGift.Controller.Interfaces
         bool RespondToInvite(string inviteId, bool response);
         bool ModifEvent(IEvent eventInQ);
         bool SaveCustomerToFile();
+        string GetCustomerId();
     }
 }

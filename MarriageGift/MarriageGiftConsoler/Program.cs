@@ -40,7 +40,63 @@ namespace MarriageGiftConsoler
             using (var scope = Container.BeginLifetimeScope())
             {
                 var customerController = (CustomerActionController)scope.Resolve<ICustomerController>();
-                customerController.CustomerController();
+                Console.WriteLine("Enter username:");
+                var userName = Console.ReadLine();
+                Console.WriteLine("Enter password:");
+                var password = Console.ReadLine();
+                
+                var isExisting = customerController.Login(userName, password);
+                if(!isExisting)
+                {
+                    Console.WriteLine("New user Created, chagne password");
+                    var newPassword = Console.ReadLine();
+                    var isSuccess=customerController.ChangePassword(userName, password);
+                    if(isSuccess)
+                        Console.WriteLine("New user created");
+                }
+                var input =0;
+                do 
+                {
+                    Console.Clear();
+                    Console.WriteLine("**********************************");
+                    Console.WriteLine(" 1 Create Event");
+                    Console.WriteLine(" 2 Invite to Event");
+                    Console.WriteLine(" 3 Modify Event");                   
+                    Console.WriteLine(" 4 BuyGiftForInvitation");                   
+                    Console.WriteLine(" 5 RemoveGiftForInvitation");
+                    Console.WriteLine(" 6 Respond to Event");
+                    Console.WriteLine(" 7 Change Password");
+                    Console.WriteLine(" 8 Exit");
+                    Console.WriteLine("**********************************");
+                    input = Convert.ToChar(Console.ReadKey());
+                    switch(input)
+                    {
+                        case '1':
+                            var result = DisplayEvents();
+                            var occasion = GetOccassionInputs(result, logger);
+                            Console.WriteLine("Enter place for the event");
+                            var place = Console.ReadLine();
+                            Console.WriteLine("Enter date for the event");
+                            var date = DateTime.Parse(Console.ReadLine());
+                            customerController.CreateEvent(occasion, place, date, new MarriageGift.Model.GiftModel.GiftCollection(),new MarriageGift.Model.GiftModel.GiftCollection());                          
+                            break;
+                        case '2':
+                            break;
+                        case '3':
+                            break;
+                        case '4':
+                            break;
+                        case '5':
+                            break;
+                        case '6':
+                            break;
+                        case '7':
+                            break;
+                    }
+                    if(input=='8')
+                        break;
+                }
+                while(input<57 && input>48);
             }
                 /*
                 builder.RegisterType<InvitationCollection>().As<IInvitationCollection>();
@@ -106,7 +162,50 @@ namespace MarriageGiftConsoler
                     }
                 } */
                 Console.WriteLine("Hello World!");
-        }/*
+        }
+        public static Occasion  DisplayEvents()
+        {
+            var input = 1;
+            while(input>4 && input<1)
+            {
+                Console.Clear();
+                Console.WriteLine(" 1 Birthday");
+                Console.WriteLine(" 2 Marriage");
+                Console.WriteLine(" 3 HouseWarming");
+                var choice = Console.ReadKey();
+                input = Convert.ToInt16(choice.KeyChar);
+            }
+            return (Occasion)input;            
+        }
+        public static IOccassion GetOccassionInputs(Occasion occasion, ILog logger)
+            {
+            IOccassion newOccassion=null;
+            string name1 = string.Empty, name2 = string.Empty;
+            switch (occasion)
+            {
+               
+                case Occasion.Birthday:
+                    Console.WriteLine("Get birthyguy name");
+                     name1 = Console.ReadLine();
+                    newOccassion = new Birthday(name1);
+                    break;
+                case Occasion.HouseWarming:
+                    Console.WriteLine("Get houseonwers name");
+                     name1 = Console.ReadLine();
+                    newOccassion = new HouseWarming(name1);
+                    break;
+                case Occasion.Marriage:
+                    Console.WriteLine("Get bride and grooms name");
+                    name1 = Console.ReadLine();
+                    name2 = Console.ReadLine();
+                    newOccassion = new Marriage(name1, name2);
+                    break;
+            }
+            return newOccassion;
+            
+        }
+        
+        /*
         public static IEvent GetMyEvents(ICustomer customer)
         {
             var events = customer.GetMyEvents();
@@ -134,47 +233,8 @@ namespace MarriageGiftConsoler
             return localDict[key];
 
         }
-        public static Occasion  DisplayEvents()
-        {
-            var input = 1;
-            while(input>4 && input<1)
-            {
-                Console.Clear();
-                Console.WriteLine(" 1 Birthday");
-                Console.WriteLine(" 2 Marriage");
-                Console.WriteLine(" 3 HouseWarming");
-                var choice = Console.ReadKey();
-                input = Convert.ToInt16(choice.KeyChar);
-            }
-            return (Occasion)input;            
-        }
-        public static IOccassion GetOccassionInputs(Occasion occasion, ILog logger)
-            {
-            IOccassion newOccassion=null;
-            string name1 = string.Empty, name2 = string.Empty;
-            switch (occasion)
-            {
-               
-                case Occasion.Birthday:
-                    Console.WriteLine("Get birthyguy name");
-                     name1 = Console.ReadLine();
-                    newOccassion = new Birthday(name1, logger);
-                    break;
-                case Occasion.HouseWarming:
-                    Console.WriteLine("Get houseonwers name");
-                     name1 = Console.ReadLine();
-                    newOccassion = new HouseWarming(name1, logger);
-                    break;
-                case Occasion.Marriage:
-                    Console.WriteLine("Get bride and grooms name");
-                    name1 = Console.ReadLine();
-                    name2 = Console.ReadLine();
-                    newOccassion = new Marriage(name1, name2, logger);
-                    break;
-            }
-            return newOccassion;
-            
-        }*/
+        
+        */
       
     }
 }
