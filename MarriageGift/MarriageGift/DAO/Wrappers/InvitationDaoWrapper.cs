@@ -10,6 +10,11 @@ namespace MarriageGift.DAO.Wrappers
             InvitationDao.Delete(id);
         }
 
+        public IGenericCollection<IBaseObject> GetListOfObjectsByName(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Insert(IBaseObject baseObject)
         {
             InvitationDao.Insert(baseObject);

@@ -144,5 +144,10 @@ namespace MarriageGift.Model.CustomerModel
             info.AddValue("customer_name", userName, typeof(string));
             info.AddValue("customer_id", passWord, typeof(string));
         }
+
+        public IGenericCollection<IBaseObject> GetMyInvitations()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

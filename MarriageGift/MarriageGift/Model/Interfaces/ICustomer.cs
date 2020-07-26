@@ -11,6 +11,7 @@ namespace MarriageGift.Model.Interfaces
         string GetUserName();
         string GetPassword();
          IGenericCollection<IBaseObject> GetMyEvents();
+            IGenericCollection<IBaseObject> GetMyInvitations();
          bool CancelEvent(string eventId);
          bool ChangeEventTime(string eventId, DateTime date);
          bool ChangeEventVenue(string eventId, string place);

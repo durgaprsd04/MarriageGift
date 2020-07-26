@@ -78,13 +78,13 @@ namespace MarriageGift.Controller
             return result;
         }
 
-        public bool InvitePerson(IEvent eventInQ)
+        public bool InvitePerson(IEvent eventInQ, ICustomer customer1)
         {
             var result = false;
             try
             {
-                var invite = new Invitation(customer, eventInQ);
-                invitationDao.Insert(invite);
+                customer.InviteForEvent(eventInQ.getId(),customer1 );
+                customerDao.Insert(customer);
                 result=true;
             }
             catch(Exception e)

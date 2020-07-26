@@ -8,5 +8,6 @@ namespace MarriageGift.DAO.Interfaces
         void Insert(IBaseObject baseObject);
         IBaseObject Read(string id);
         void Update(IBaseObject baseObject);
+        IGenericCollection<IBaseObject> GetListOfObjectsByName(string name); 
     }
 }

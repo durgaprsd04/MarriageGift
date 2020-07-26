@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Globalization;
 using System.Collections.Generic;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Controller.Interfaces;
@@ -7,8 +9,10 @@ using Autofac;
 using System.IO;
 using MarriageGift.FAO.Interfaces;
 using MarriageGift.FAO;
-using MarriageGift.Model.InvitationModel;
+using MarriageGift.Model;
 using MarriageGift.Model.EventModel;
+using MarriageGift.Model.InvitationModel;
+using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.CustomerModel;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.OccasionModel;
@@ -40,6 +44,9 @@ namespace MarriageGiftConsoler
             using (var scope = Container.BeginLifetimeScope())
             {
                 var customerController = (CustomerActionController)scope.Resolve<ICustomerController>();
+                var customerDao = (CustomerDaoWrapper)scope.Resolve<ICustomerDao>();
+                var eventDao = (EventDaoWrapper)scope.Resolve<IEventDao>();
+                var customer = (Customer)scope.Resolve<ICustomer>();
                 Console.WriteLine("Enter username:");
                 var userName = Console.ReadLine();
                 Console.WriteLine("Enter password:");
@@ -64,7 +71,7 @@ namespace MarriageGiftConsoler
                     Console.WriteLine(" 3 Modify Event");                   
                     Console.WriteLine(" 4 BuyGiftForInvitation");                   
                     Console.WriteLine(" 5 RemoveGiftForInvitation");
-                    Console.WriteLine(" 6 Respond to Event");
+                    Console.WriteLine(" 6 Respond to Invite");
                     Console.WriteLine(" 7 Change Password");
                     Console.WriteLine(" 8 Exit");
                     Console.WriteLine("**********************************");
@@ -81,16 +88,36 @@ namespace MarriageGiftConsoler
                             customerController.CreateEvent(occasion, place, date, new MarriageGift.Model.GiftModel.GiftCollection(),new MarriageGift.Model.GiftModel.GiftCollection());                          
                             break;
                         case '2':
+                            var custId = (Customer)GetObjectBasedOnName(customerDao);
+                            var events = (Event)GetObjectBasedOnNameFromCurrentScope(customer, "events");
+                            customerController.InvitePerson(events, custId);                            
                             break;
                         case '3':
-                            break;
+                            var getEventToBeModified =(IEvent)GetObjectBasedOnNameFromCurrentScope(customer, "events");
+                            var modfiedEvent = GetModifiedEvent(getEventToBeModified);
+                            customerController.ModifEvent(modfiedEvent);
+                            break;  
                         case '4':
+                            var getInviteInQuestion = (IInvitation)GetObjectBasedOnNameFromCurrentScope(customer, "invite");
+                            var gift = GetObjectBasedOnNameFromCurrentScope(getInviteInQuestion, "gift");
+                            customerController.BuyGiftForEvent(getInviteInQuestion, gift.getId());
                             break;
                         case '5':
+                            var getInviteInQuestion1 = (IInvitation)GetObjectBasedOnNameFromCurrentScope(customer, "invite");
+                            var gift1 = GetObjectBasedOnNameFromCurrentScope(getInviteInQuestion1, "gift");
+                            customerController.RemoveGiftForEvent(getInviteInQuestion1, gift1.getId());
                             break;
                         case '6':
+                            var getInviteInQuestion2 = (IInvitation)GetObjectBasedOnNameFromCurrentScope(customer, "invite");
+                            Console.WriteLine("Respond to invite true/false");
+                            Console.WriteLine(getInviteInQuestion2);
+                            var response = Convert.ToBoolean(Console.ReadLine().ToLower());
+                            customerController.RespondToInvite(getInviteInQuestion2.getId(), response );
                             break;
                         case '7':
+                                Console.WriteLine("Change password");
+                                var newPassword = Console.ReadLine();
+                                var isSuccess=customerController.ChangePassword(userName, password);
                             break;
                     }
                     if(input=='8')
@@ -98,70 +125,81 @@ namespace MarriageGiftConsoler
                 }
                 while(input<57 && input>48);
             }
-                /*
-                builder.RegisterType<InvitationCollection>().As<IInvitationCollection>();
-                builder.RegisterType<EventCollection>().As<IEventCollection>();
-                builder.RegisterType<StreamWriter>().WithParameter("customer.txt", true);
-                builder.RegisterType<SaveToFileController>().As<ISaveToFileController>();
-                builder.Register(c=> LogManager.GetLogger(typeof(Customer))).As<ILog>();
-                builder.RegisterType<Customer>().As<ICustomer>().WithParameter("userName", "Jeff");
-
-                var Container = builder.Build();
-                using (var scope = Container.BeginLifetimeScope())
-                {
-                    var customer = (Customer)scope.Resolve<ICustomer>();
-                    customer.SaveToFile();
-                    var input = 1;
-                    while(input>10 && input<1 )
-                    {
-                        Console.WriteLine("**********************************");
-                        Console.WriteLine(" 1 AddMyEvents");
-                        Console.WriteLine(" 2 Invite CustToEvent");
-                        Console.WriteLine(" 3 CancelEvent");
-                        Console.WriteLine(" 4 ChangeEventTime");
-                        Console.WriteLine(" 5 ChangeEventVenue");
-                        Console.WriteLine(" 6 RespondToInvitation");
-                        Console.WriteLine(" 7 BuyGiftForInvitation");
-                        Console.WriteLine(" 8 ModifyGiftForInvitation");
-                        Console.WriteLine(" 9 RemoveGiftForInvitation");
-                        Console.WriteLine(" 0 Exit");
-                        Console.WriteLine("**********************************");
-
-                        var choice = Console.ReadKey();
-                        input = Convert.ToInt16(choice.KeyChar);
-                        if(input ==1)
-                        {
-                            var result = DisplayEvents();
-                            var occasion = GetOccassionInputs(result, logger);
-                            Console.WriteLine("Enter place for the event");
-                            var place = Console.ReadLine();
-                            Console.WriteLine("Enter date for the event");
-                            var date = DateTime.Parse(Console.ReadLine());
-                            var giftcollection1 = customerActionController.GetAvailableGiftCollection(logger);
-                            var giftcollection2= customerActionController.GetAvailableGiftCollection(logger);
-                            var eventInQuestion= new Event(occasion, place, date, giftcollection1, giftcollection2, customer.CustId, logger);
-                            customer.AddMyEvents(eventInQuestion);
-                        }
-                        else if(input ==2)
-                        {
-
-                            /* var regex = Console.ReadLine(); 
-                            var listOfCustomers = customerActionController.GetAllCustomers(regex);
-                            if(listOfCustomers.Count()==0)
-                            {
-                                Console.WriteLine("No customer found");
-                                break;
-                            }
-                            var userId = DisplayUsersForInvites(listOfCustomers);
-                            var userInQuestion = listOfCustomers.GetCustomer(userId);
-                            listOfCustomers.Clear();
-                            listOfCustomers.AddCustomer(userInQuestion);
-                            var eventToBeInvitedFor = GetMyEvents(customer);  
-                            var invitation = new Invitation(customer.CustId, ) 
-                        }
-                    }
-                } */
+                
                 Console.WriteLine("Hello World!");
+        }
+        public static IEvent GetModifiedEvent(IEvent eventInQ)
+        {
+            Console.WriteLine("Enter new place, leave empty for old");
+            var place = Console.ReadLine();
+            Console.WriteLine("Enter new date(yyyyMMdd), leave empty for old");
+            var date = DateTime.ParseExact(Console.ReadLine(),"yyyyMMdd", CultureInfo.InvariantCulture);
+            if(!string.IsNullOrWhiteSpace(place))
+            {
+                ((Event)eventInQ).ModifyPlace(place);
+            }
+            if(!string.IsNullOrWhiteSpace(place))
+            {
+                ((Event)eventInQ).ModifyDate(date);
+            }
+            return eventInQ;
+        }
+        public static IBaseObject GetObjectBasedOnName(IGenericDao customerDao)
+        {
+            Console.WriteLine("Enter name of customer you want to find");
+            var name = Console.ReadLine();
+            var listOfCustomers = customerDao.GetListOfObjectsByName(name);
+            int i=0;
+            Dictionary<int,IBaseObject> tempDict = new Dictionary<int, IBaseObject>();
+            foreach(var customer in listOfCustomers.GetUnderlyingDictionary().Values)
+            {
+                tempDict.Add(i, customer);
+                Console.WriteLine($"{i} : {customer}");
+
+            }
+            var choice = Convert.ToInt32(Console.ReadLine());
+            if(tempDict.Count>=choice )
+                return null;
+            else
+                return tempDict[choice];
+            
+        }
+         public static IBaseObject GetObjectBasedOnNameFromCurrentScope(IBaseObject object1, string key)
+        {
+            Console.WriteLine("Enter name of customer you want to find");
+            var name = Console.ReadLine();
+            IEnumerable<IBaseObject> listOfCustomers=null;           
+            if(object1 is ICustomer)
+            {
+                    var ObjInQuestion= (ICustomer)object1;
+                    if(key=="events")
+                        listOfCustomers = ObjInQuestion.GetMyEvents().GetUnderlyingDictionary().Values.Where(x=> ((Event)x).Place.Contains(name));
+                    else  
+                        listOfCustomers = ObjInQuestion.GetMyInvitations().GetUnderlyingDictionary().Values.Where(x=> ((Invitation)x).getId().Contains(name));
+            }
+               
+            else if(object1 is IInvitation)
+            {
+                    var ObjInQuestion = (IInvitation)object1;
+                    listOfCustomers = ObjInQuestion.GetExpectedGiftsForEvent().GetUnderlyingDictionary().Values.Where(x => ((Gift)x).Name.Contains(name));
+            }
+                
+            
+            
+            int i=0;
+            Dictionary<int,IBaseObject> tempDict = new Dictionary<int, IBaseObject>();
+            foreach(var element in listOfCustomers)
+            {
+                tempDict.Add(i, element);
+                Console.WriteLine($"{i} : {element}");
+
+            }
+            var choice = Convert.ToInt32(Console.ReadLine());
+            if(tempDict.Count>=choice )
+                return null;
+            else
+                return tempDict[choice];
+            
         }
         public static Occasion  DisplayEvents()
         {
