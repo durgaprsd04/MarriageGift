@@ -15,3 +15,4 @@ Primarily designed to create an event, the event goers will provide gift/wishes/
 2. Create WEB Api calls.
 3. Finalise on front end framework
 4. Publish the app
+5. enable console level code
