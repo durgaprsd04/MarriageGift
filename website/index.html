@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/custom.js"></script>
   <script>
@@ -26,12 +26,12 @@
         Customer Actions
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" onclick="myalert()">Create Event</a>
-        <a class="dropdown-item" href="#">Invite User</a>
-        <a class="dropdown-item" href="#">Modify Event</a>
-        <a class="dropdown-item" href="#">Buy Gift for Invite</a>
-        <a class="dropdown-item" href="#">Remove Gift for Invite</a>
-        <a class="dropdown-item" href="#">Respond to Invite</a>
+        <a class="dropdown-item" onclick="inviteUser()">Invite User</a>
+        <a class="dropdown-item" onclick="createEvent1()">Create Event</a>
+        <a class="dropdown-item" onclick="modifyEvent()">Modify Event</a>
+        <a class="dropdown-item" onclick="BuyGiftForInvite()">Buy Gift for Invite</a>
+        <a class="dropdown-item" onclick="RemoveGiftForInvite()">Remove Gift for Invite</a>
+        <a class="dropdown-item" onclick="RespondToInvite()">Respond to Invite</a>
       </div>
     </li>
 </ul>
@@ -53,35 +53,157 @@
 <div class="container">
   <h3>Placeholder for forms</h3>
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, maxime. Ex quia rerum eveniet sint magni porro a explicabo repudiandae eos voluptatem, inventore cupiditate. Maxime earum rem voluptatum sunt ut!</p>
-  <div id="addEvent" style="display:none">
+  <div id="createEvent" style="display:none">
     <form>
         <div class="form-group">
-          <label for="exampleFormControlInput1">Email address</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          <label for="occassionType">Select Occassion Type</label>
+          <select id="occasion" name="occasionList" size="1">
+              <option value="Marriage">Marriage</option>
+              <option value="Birthday">Birthday</option>
+              <option value="HouseWarming">HouseWarming</option>
+        </select>
         </div>
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Example select</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <label for="place">Place of Event</label>
+          <input id="eventPlace" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="date">Date of Event</label>
+          <input id="eventDate" type="date" />
+        </div>
+        <div class="form-group">
+          <label for="date">Time of Event</label>
+          <input id="eventDate" type="time" />
+        </div>
+        <div class="form-group">
+          <label for="date">DateTime of Event</label>
+          <select id="occasion" name="giftExpectedList" size="1" multiple>
+            <option value="Gift1">Gift1</option>
+            <option value="Gift2">Gift2</option>
+            <option value="Gift3">Gift3</option>
+            <option value="Gift4">Gift4</option>
           </select>
         </div>
+      </form>
+  </div>
+  <div id="InviteUser" style="display:none">
+    <form>
         <div class="form-group">
-          <label for="exampleFormControlSelect2">Example multiple select</label>
-          <select multiple class="form-control" id="exampleFormControlSelect2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+          <label for="eventList">Select Event to Invite</label>
+          <select id="eventList" name="eventList" size="1">
+              <option value="event1">event1</option>
+              <option value="event1">event1</option>
+              <option value="event1">event1</option>
+        </select>
         </div>
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Example textarea</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <label for="customerList">Select customer to Invite</label>
+          <select id="customerList" name="customerList" size="1">
+              <option value="cust1">cust1</option>
+              <option value="cust1">cust1</option>
+              <option value="cust1">cust1</option>
+        </select>
+        </div>
+      </form>
+  </div>
+  <div id="modifyEvent" style="display:none">
+    <form>
+        <div class="form-group">
+          <label for="eventList">Select Event to Invite</label>
+          <select id="eventList" name="eventList" size="1">
+              <option value="event1">event1</option>
+              <option value="event1">event1</option>
+              <option value="event1">event1</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="occassionType">Select Occassion Type</label>
+          <select id="occasion" name="occasionList" size="1">
+              <option value="Marriage">Marriage</option>
+              <option value="Birthday">Birthday</option>
+              <option value="HouseWarming">HouseWarming</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="place">Place of Event</label>
+          <input id="eventPlace" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="date">Date of Event</label>
+          <input id="eventDate" type="date" />
+        </div>
+        <div class="form-group">
+          <label for="date">Time of Event</label>
+          <input id="eventDate" type="time" />
+        </div>
+        <div class="form-group">
+          <label for="date">DateTime of Event</label>
+          <select id="occasion" name="giftExpectedList" size="1" multiple>
+            <option value="Gift1">Gift1</option>
+            <option value="Gift2">Gift2</option>
+            <option value="Gift3">Gift3</option>
+            <option value="Gift4">Gift4</option>
+          </select>
+        </div>
+      </form>
+  </div>
+  <div id="BuyGiftForInvite" style="display:none">
+    <form>
+        <div class="form-group">
+          <label for="inviteList">Select Event to Invite</label>
+          <select id="inviteList" name="inviteList" size="1">
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="gift1">Select customer to Invite</label>
+          <select id="customerList" name="customerList" size="1">
+              <option value="gift1">gift1</option>
+              <option value="gift1">gift1</option>
+              <option value="gift1">gift1</option>
+        </select>
+        </div>
+      </form>
+  </div>
+  <div id="RemoveGiftForInvite" style="display:none">
+    <form>
+        <div class="form-group">
+          <label for="inviteList">Select Event to Invite</label>
+          <select id="inviteList" name="inviteList" size="1">
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="gift1">Select gift to remove</label>
+          <select id="customerList" name="customerList" size="1">
+              <option value="gift1">gift1</option>
+              <option value="gift1">gift1</option>
+              <option value="gift1">gift1</option>
+        </select>
+        </div>
+      </form>
+  </div>
+  <div id="RespondToInvite" style="display:none">
+    <form>
+        <div class="form-group">
+          <label for="inviteList">Select Event to Invite</label>
+          <select id="inviteList" name="inviteList" size="1">
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+              <option value="invite1">invite1</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="gift1">Coming to function</label>
+          <select id="customerList" name="customerList" size="1">
+              <option value="true">True</option>
+              <option value="false">False</option>
+              <option value="notsure">Not Sure</option>
+        </select>
         </div>
       </form>
   </div>
