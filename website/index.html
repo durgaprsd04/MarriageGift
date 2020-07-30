@@ -38,11 +38,12 @@
   <!-- Customer logistics -->
 
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown ml-auto">
+        <li class="nav-item dropdown ml-right">
             <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
-              Username
+              User  actions
             </a>
             <div class="dropdown-menu">
+              <a class="dropdown-item" onclick="ChangePassword()">Change Password</a>
               <a class="dropdown-item" href="#">Logout</a>
             </div>
           </li>
@@ -51,161 +52,179 @@
 <br>
 
 <div class="container">
-  <h3>Placeholder for forms</h3>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, maxime. Ex quia rerum eveniet sint magni porro a explicabo repudiandae eos voluptatem, inventore cupiditate. Maxime earum rem voluptatum sunt ut!</p>
-  <div id="createEvent" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="occassionType">Select Occassion Type</label>
-          <select id="occasion" name="occasionList" size="1">
-              <option value="Marriage">Marriage</option>
-              <option value="Birthday">Birthday</option>
-              <option value="HouseWarming">HouseWarming</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="place">Place of Event</label>
-          <input id="eventPlace" type="text" />
-        </div>
-        <div class="form-group">
-          <label for="date">Date of Event</label>
-          <input id="eventDate" type="date" />
-        </div>
-        <div class="form-group">
-          <label for="date">Time of Event</label>
-          <input id="eventDate" type="time" />
-        </div>
-        <div class="form-group">
-          <label for="date">DateTime of Event</label>
-          <select id="occasion" name="giftExpectedList" size="1" multiple>
-            <option value="Gift1">Gift1</option>
-            <option value="Gift2">Gift2</option>
-            <option value="Gift3">Gift3</option>
-            <option value="Gift4">Gift4</option>
-          </select>
-        </div>
-      </form>
-  </div>
-  <div id="InviteUser" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="eventList">Select Event to Invite</label>
-          <select id="eventList" name="eventList" size="1">
-              <option value="event1">event1</option>
-              <option value="event1">event1</option>
-              <option value="event1">event1</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="customerList">Select customer to Invite</label>
-          <select id="customerList" name="customerList" size="1">
-              <option value="cust1">cust1</option>
-              <option value="cust1">cust1</option>
-              <option value="cust1">cust1</option>
-        </select>
-        </div>
-      </form>
-  </div>
-  <div id="modifyEvent" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="eventList">Select Event to Invite</label>
-          <select id="eventList" name="eventList" size="1">
-              <option value="event1">event1</option>
-              <option value="event1">event1</option>
-              <option value="event1">event1</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="occassionType">Select Occassion Type</label>
-          <select id="occasion" name="occasionList" size="1">
-              <option value="Marriage">Marriage</option>
-              <option value="Birthday">Birthday</option>
-              <option value="HouseWarming">HouseWarming</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="place">Place of Event</label>
-          <input id="eventPlace" type="text" />
-        </div>
-        <div class="form-group">
-          <label for="date">Date of Event</label>
-          <input id="eventDate" type="date" />
-        </div>
-        <div class="form-group">
-          <label for="date">Time of Event</label>
-          <input id="eventDate" type="time" />
-        </div>
-        <div class="form-group">
-          <label for="date">DateTime of Event</label>
-          <select id="occasion" name="giftExpectedList" size="1" multiple>
-            <option value="Gift1">Gift1</option>
-            <option value="Gift2">Gift2</option>
-            <option value="Gift3">Gift3</option>
-            <option value="Gift4">Gift4</option>
-          </select>
-        </div>
-      </form>
-  </div>
-  <div id="BuyGiftForInvite" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="inviteList">Select Event to Invite</label>
-          <select id="inviteList" name="inviteList" size="1">
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="gift1">Select customer to Invite</label>
-          <select id="customerList" name="customerList" size="1">
-              <option value="gift1">gift1</option>
-              <option value="gift1">gift1</option>
-              <option value="gift1">gift1</option>
-        </select>
-        </div>
-      </form>
-  </div>
-  <div id="RemoveGiftForInvite" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="inviteList">Select Event to Invite</label>
-          <select id="inviteList" name="inviteList" size="1">
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="gift1">Select gift to remove</label>
-          <select id="customerList" name="customerList" size="1">
-              <option value="gift1">gift1</option>
-              <option value="gift1">gift1</option>
-              <option value="gift1">gift1</option>
-        </select>
-        </div>
-      </form>
-  </div>
-  <div id="RespondToInvite" style="display:none">
-    <form>
-        <div class="form-group">
-          <label for="inviteList">Select Event to Invite</label>
-          <select id="inviteList" name="inviteList" size="1">
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-              <option value="invite1">invite1</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="gift1">Coming to function</label>
-          <select id="customerList" name="customerList" size="1">
-              <option value="true">True</option>
-              <option value="false">False</option>
-              <option value="notsure">Not Sure</option>
-        </select>
-        </div>
-      </form>
+   <div class="row">
+      <h3>Placeholder for forms</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, maxime. Ex quia rerum eveniet sint magni porro a explicabo repudiandae eos voluptatem, inventore cupiditate. Maxime earum rem voluptatum sunt ut!</p>
+      <div class="col-xl-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div class="col-xl-6">
+          <div id="createEvent" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="occassionType">Occassion Type</label>
+                  <select class="col-xl-6" id="occasion" name="occasionList" size="1">
+                      <option value="Marriage">Marriage</option>
+                      <option value="Birthday">Birthday</option>
+                      <option value="HouseWarming">HouseWarming</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="place">Place of Event</label>
+                  <input class="col-xl-6 " id="eventPlace" type="text"/>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="date">Date of Event</label>
+                  <input class="col-xl-6" id="eventDate" type="date" />
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3 ">
+                  <label class="col-xl-6" for="date">Time of Event</label>
+                  <input class="col-xl-6" id="eventDate" type="time" />
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3 ">
+                  <label class="col-xl-6" for="date">DateTime of Event</label>
+                  <select class="col-xl-6" id="occasion" name="giftExpectedList" size="3" multiple>
+                    <option value="Gift1">Gift1</option>
+                    <option value="Gift2">Gift2</option>
+                    <option value="Gift3">Gift3</option>
+                    <option value="Gift4">Gift4</option>
+                  </select>
+                </div>
+              </form>
+          </div>
+          <div id="InviteUser" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="eventList">Event</label>
+                  <select class="col-xl-6" id="eventList" name="eventList" size="1">
+                      <option value="event1">event1</option>
+                      <option value="event1">event1</option>
+                      <option value="event1">event1</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="customerList">Customer</label>
+                  <select class="col-xl-6" id="customerList" name="customerList" size="1">
+                      <option value="cust1">cust1</option>
+                      <option value="cust1">cust1</option>
+                      <option value="cust1">cust1</option>
+                </select>
+                </div>
+              </form>
+          </div>
+          <div id="modifyEvent" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6" for="eventList">Select Event to Invite</label>
+                  <select class="col-xl-6"  id="eventList" name="eventList" size="1">
+                      <option value="event1">event1</option>
+                      <option value="event1">event1</option>
+                      <option value="event1">event1</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="occassionType">Select Occassion Type</label>
+                  <select class="col-xl-6" id="occasion" name="occasionList" size="1">
+                      <option value="Marriage">Marriage</option>
+                      <option value="Birthday">Birthday</option>
+                      <option value="HouseWarming">HouseWarming</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="place">Place of Event</label>
+                  <input class="col-xl-6" id="eventPlace" type="text" />
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="date">Date of Event</label>
+                  <input class="col-xl-6"  id="eventDate" type="date" />
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="date">Time of Event</label>
+                  <input class="col-xl-6"  id="eventDate" type="time" />
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="date">DateTime of Event</label>
+                  <select class="col-xl-6"  id="occasion" name="giftExpectedList" size="1" multiple>
+                    <option value="Gift1">Gift1</option>
+                    <option value="Gift2">Gift2</option>
+                    <option value="Gift3">Gift3</option>
+                    <option value="Gift4">Gift4</option>
+                  </select>
+                </div>
+              </form>
+          </div>
+          <div id="BuyGiftForInvite" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="inviteList">Select Event to Invite</label>
+                  <select  class="col-xl-6"  id="inviteList" name="inviteList" size="1">
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="gift1">Select customer to Invite</label>
+                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
+                      <option value="gift1">gift1</option>
+                      <option value="gift1">gift1</option>
+                      <option value="gift1">gift1</option>
+                </select>
+                </div>
+              </form>
+          </div>
+          <div id="RemoveGiftForInvite" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="inviteList">Select Event to Invite</label>
+                  <select class="col-xl-6"  id="inviteList" name="inviteList" size="1">
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="gift1"> gift to remove</label>
+                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
+                      <option value="gift1">gift1</option>
+                      <option value="gift1">gift1</option>
+                      <option value="gift1">gift1</option>
+                </select>
+                </div>
+              </form>
+          </div>
+          <div id="RespondToInvite" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="inviteList">Event</label>
+                  <select class="col-xl-6" id="inviteList" name="inviteList" size="1">
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                      <option value="invite1">invite1</option>
+                </select>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="gift1">Is Coming</label>
+                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                      <option value="notsure">Not Sure</option>
+                </select>
+                </div>
+              </form>
+          </div>
+          <div id="ChangePassword" style="display:none">
+            <form>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="newPassword">New Password</label>
+                  <input class="col-xl-6"  type="password" placeholder="new password">
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="newPasswordConfirm">Confirm Password</label>
+                  <input class="col-xl-6"  type="password" placeholder="confirm password">
+                </div>
+              </form>
+          </div>
+      </div>
+      <div class="col-xl-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
   </div>
 </div>
 
