@@ -83,81 +83,63 @@
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
                   <label class="col-xl-6" for="date">Exp Gift List</label>
-                  <select class="col-xl-6" id="giftList" name="giftExpectedList" size="3" multiple required>
-                    <option value="Gift1">Gift1</option>
-                    <option value="Gift2">Gift2</option>
-                    <option value="Gift3">Gift3</option>
-                    <option value="Gift4">Gift4</option>
-                  </select>
+                  <div class="col-xl-6" id="expectedGiftListDiv">
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
                   <div class="col-xl-4"></div>
-              <input class="btn-primary col-xl-4" type="submit" value="Submit Player" id='smit'>
+              <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
               <div class="col-xl-4"></div>
                 </div>
               </form>
           </div>
-      <!-- Create Invite  -->
+        <!-- Create Invite  -->
           <div id="InviteUser" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return InviteUserValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="eventList">Event</label>
-                  <select class="col-xl-6" id="eventList" name="eventList" size="1">
-                      <option value="event1">event1</option>
-                      <option value="event1">event1</option>
-                      <option value="event1">event1</option>
-                </select>
+                  <div class="col-xl-6" id="eventListDiv" >
+                    Select List
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="customerList">Customer</label>
-                  <select class="col-xl-6" id="customerList" name="customerList" size="1">
-                      <option value="cust1">cust1</option>
-                      <option value="cust1">cust1</option>
-                      <option value="cust1">cust1</option>
-                </select>
+                  <div class="col-xl-6" id="inviteUserCustomerListDiv">
+                        Select Customer List
+                  </div>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
-      <!-- modify Event  -->
+        <!-- modify Event  -->
           <div id="modifyEvent" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return modifyEventValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="eventList">Select Event to Invite</label>
-                  <select class="col-xl-6"  id="eventList" name="eventList" size="1">
-                      <option value="event1">event1</option>
-                      <option value="event1">event1</option>
-                      <option value="event1">event1</option>
-                </select>
-                </div>
-                <div class="form-group d-flex justify-content-right mb-3">
-                  <label class="col-xl-6"  for="occassionType">Select Occassion Type</label>
-                  <select class="col-xl-6" id="occasion" name="occasionList" size="1">
-                      <option value="Marriage">Marriage</option>
-                      <option value="Birthday">Birthday</option>
-                      <option value="HouseWarming">HouseWarming</option>
-                </select>
+                  <div class="col-xl-6" id="modifyEventeventListDiv" >
+                  event list
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="place">Place of Event</label>
-                  <input class="col-xl-6" id="eventPlace" type="text" />
+                  <input class="col-xl-6" id="modifyeventPlace" type="text" />
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="date">Date of Event</label>
-                  <input class="col-xl-6"  id="eventDate" type="date" />
+                  <input class="col-xl-6"  id="modifyeventDate" type="date" />
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="date">Time of Event</label>
-                  <input class="col-xl-6"  id="eventDate" type="time" />
+                  <input class="col-xl-6"  id="modifyeventTime" type="time" />
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="date">DateTime of Event</label>
-                  <select class="col-xl-6"  id="occasion" name="giftExpectedList" size="1" multiple>
-                    <option value="Gift1">Gift1</option>
-                    <option value="Gift2">Gift2</option>
-                    <option value="Gift3">Gift3</option>
-                    <option value="Gift4">Gift4</option>
-                  </select>
+                  <div class="col-xl-6" id="modifyEventexpectedGiftListDiv">
+                  </div>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
       <!-- Buy gift for invite  -->
