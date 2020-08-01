@@ -8,13 +8,12 @@ namespace MarriageGift.Model.EventModel
     public class Event : BaseObject, IEvent
     {
         private readonly IOccassion occassion;
-        private readonly ILog logger;
-        private string place;       
+        private string place;
         private DateTime date;
         private bool isCanceled;
         private readonly string custId;
         private IGiftCollection<IGift> giftsRecieved = new GiftCollection();
-        private IGiftCollection<IGift> giftsExpected= new GiftCollection();  
+        private IGiftCollection<IGift> giftsExpected= new GiftCollection();
         public string CustId => custId;
 
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
@@ -23,39 +22,29 @@ namespace MarriageGift.Model.EventModel
 
         public Event(IOccassion occassion, string place, DateTime date, string custId)
         : base()
-        {            
+        {
             this.occassion =occassion;
             this.date =date;
             this.place =place;
-            this.custId=custId;            
-            IsCanceled =false;           
+            this.custId=custId;
+            IsCanceled =false;
         }
         public Event(string eventId, IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftsExpected, IGiftCollection<IGift> giftsRecieved, string custId, bool isCanceled)
         : base(eventId)
-        {            
+        {
             this.occassion =occassion;
             this.date =date;
             this.place =place;
             this.custId=custId;
             this.giftsExpected=giftsExpected;
             this.giftsRecieved =giftsRecieved;
-            IsCanceled =isCanceled;           
+            IsCanceled =isCanceled;
         }
 
         public bool Cancel(bool response)
         {
-            var result = false;
-            try
-            {
-                IsCanceled = response;
-                result = true;
-            }
-            catch(Exception e)
-            {
-                logger.Error("Canceling of event failed because " + e.Message);
-                logger.Error(e.StackTrace);
-            }
-            return result;
+              IsCanceled = response;
+            return true;
         }
 
         public bool ModifyDate(DateTime newDate)
@@ -66,10 +55,10 @@ namespace MarriageGift.Model.EventModel
                 date = newDate;
                 result = true;
             }
-            catch(Exception e)
+            catch(Exception)
             {
-                logger.Error("Modify of event date failed because of " + e.Message);
-            }            
+                //logger.Error("Modify of event date failed because of " + e.Message);
+            }
             return result;
         }
 
@@ -81,9 +70,9 @@ namespace MarriageGift.Model.EventModel
                 place = newPlace;
                 result = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                logger.Error("Modify of event venue failed because of " + e.Message);
+                //logger.Error("Modify of event venue failed because of " + e.Message);
             }
             return result;
         }

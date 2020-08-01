@@ -13,24 +13,25 @@ namespace MarriageGift.FAO
         private readonly ILog logger;
         private readonly FileStream streamWriter;
         private readonly StreamWriter csvWriter;
-        
+
         public SaveToFileFao(ILog logger, FileStream  streamWriter, StreamWriter csvWriter)
         {
             this.logger = logger;
             this.streamWriter = streamWriter;
             this.csvWriter = csvWriter;
-        }     
+        }
 
         public void SaveObject(ICustomer baseObject)
         {
             var customer = (Customer)baseObject;
             var formatter = new BinaryFormatter();
-            formatter.Serialize(streamWriter, baseObject);          
+            formatter.Serialize(streamWriter, baseObject);
         }
 
         public void WriteRecords(IBaseObject record)
         {
             csvWriter.WriteLine(record.ToString());
+            csvWriter.Close();
         }
     }
 }
