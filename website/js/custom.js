@@ -81,6 +81,10 @@ function ValidateEventForm() {
     event1["expectedGiftList"]=giftList;
     return isValid;
 }
+function ValidateInviteForm()
+{
+  
+}
 function ChangePassword()
 {
   document.getElementById("createEvent").setAttribute("style", "display:none");
