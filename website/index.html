@@ -88,7 +88,7 @@
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
                   <div class="col-xl-4"></div>
-              <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
+              <input class="btn-primary col-xl-4" type="submit" value="Submit" id='createEventSubmit'>
               <div class="col-xl-4"></div>
                 </div>
               </form>
@@ -108,7 +108,7 @@
                         Select Customer List
                   </div>
                 </div>
-                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='InviteUserSubmit'>
                 <div class="col-xl-4"></div>
               </form>
           </div>
@@ -138,29 +138,27 @@
                   <div class="col-xl-6" id="modifyEventexpectedGiftListDiv">
                   </div>
                 </div>
-                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='smit'>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='modifyEventSubmit'>
                 <div class="col-xl-4"></div>
               </form>
           </div>
       <!-- Buy gift for invite  -->
           <div id="BuyGiftForInvite" style="display:none">
-            <form>
+            <form ction="index.html" onsubmit="return buyGiftForInviteValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="inviteList">Select Event to Invite</label>
-                  <select  class="col-xl-6"  id="inviteList" name="inviteList" size="1">
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                </select>
+                  <div class="col-xl-6" id="BuyGiftForInviteInviteListDiv" >
+                    invite list
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="gift1">Select customer to Invite</label>
-                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
-                      <option value="gift1">gift1</option>
-                      <option value="gift1">gift1</option>
-                      <option value="gift1">gift1</option>
-                </select>
+                  <div class="col-xl-6" id="BuyGiftForInviteExpectedGiftDiv" >
+                    gift list
+                  </div>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='BuyGiftForInviteSubmit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
       <!-- Remove gift for invite  -->

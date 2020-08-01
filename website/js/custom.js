@@ -1,3 +1,4 @@
+var inviteToGiftDict={};
 function createEvent1()
 {
   //reading  options
@@ -34,6 +35,37 @@ function modifyEvent()
     document.getElementById("modifyEventexpectedGiftListDiv").innerHTML=modifyEventExpectedGiftList;
     showOneFormAlone("modifyEvent");
 }
+function BuyGiftForInvite()
+{
+  var buyGiftForInviteInviteList=`<select  id="BuyGiftForInviteInviteListSelect" name="eventList" size="1" onchange="buyGiftForInviteInviteListSelectChanged()" required>`
+      +ConvertJsonToOption("inviteList")
+      +`</select>`
+  document.getElementById("BuyGiftForInviteInviteListDiv").innerHTML=buyGiftForInviteInviteList;
+buyGiftForInviteInviteListSelectChanged();
+    showOneFormAlone("BuyGiftForInvite");
+}
+function buyGiftForInviteInviteListSelectChanged()
+{
+  var  buyGiftForInviteExpectedGiftList=`<select id="BuyGiftForInviteExpectedGiftSelect" name="giftExpectedList" required>
+  `+ConvertJsonToOption("inviteListexpectedGifts")+
+  `  </select>`;
+
+  document.getElementById("BuyGiftForInviteExpectedGiftDiv").innerHTML=buyGiftForInviteExpectedGiftList;
+}
+function RemoveGiftForInvite()
+{
+  showOneFormAlone("RemoveGiftForInvite");
+}
+function RespondToInvite()
+{
+  showOneFormAlone("RespondToInvite");
+}
+function ChangePassword()
+{
+  showOneFormAlone("ChangePassword");
+}
+
+
 function showOneFormAlone(formIdInQ)
 {
     formIdList =["InviteUser","modifyEvent","BuyGiftForInvite", "RemoveGiftForInvite","RespondToInvite","ChangePassword","createEvent"];
@@ -63,6 +95,7 @@ return resultText;
 function GetOptionsForMenu(selectItem)
 {
   var optionList={};
+  var sampleList={};
   if(selectItem=="expectedGifts")
   {
     optionList["abc"] = "Plates";
@@ -82,14 +115,37 @@ function GetOptionsForMenu(selectItem)
       optionList["b"] ="Sonny corleno";
       optionList["c"] ="mira raghunath";
     }
+    else if(selectItem=="inviteList")
+      {
+        sampleList["invite1"]={};
+        sampleList["invite2"]={};
+        sampleList["invite3"]={};
+        sampleList["invite1"]["eventName"] ="Marriage on 22nd";
+        sampleList["invite1"]["gifts"] =[{"1":"apple","2":"orange","3":"banana"}];
+        sampleList["invite2"]["eventName"] ="Birthday on 4th";
+        sampleList["invite2"]["gifts"] =[{"1":"tomate","2":"potato","3":"capsicum"}];
+        sampleList["invite3"]["eventName"] ="HouseWarming on 19th";
+        sampleList["invite3"]["gifts"] =[{"1":"mice","2":"rat","3":"cat"}];
+        inviteToGiftDict=sampleList;
+        for(val in sampleList)
+        {
+          optionList[val]=sampleList[val]["eventName"];
+        }
+      }
+    else if(selectItem=="inviteListexpectedGifts")
+    {
+      var invite =document.getElementById("BuyGiftForInviteInviteListSelect");
+      var selectedInvite = invite.options[invite.selectedIndex].value;
+      optionList=inviteToGiftDict[selectedInvite]["gifts"][0];
+    }
   return JSON.stringify(optionList);
 }
-
 
 function CreateEventDone() {
 document.getElementById("createEvent").setAttribute("style", "display:none");
     alert("donestuff");
 }
+
 function ValidateEventForm() {
     var isValid=true;
     var occassion =document.getElementById("occasion")
@@ -138,6 +194,17 @@ function modifyEventValidateForm() {
   SendObjectToAPI("modifyEvent", result);
 }
 
+function buyGiftForInviteValidateForm()
+{
+  var inviteList =document.getElementById("BuyGiftForInviteInviteListSelect")
+  var invite = inviteList.options[inviteList.selectedIndex].value;
+  var giftList =document.getElementById("BuyGiftForInviteExpectedGiftSelect")
+  var gift = giftList.options[giftList.selectedIndex].value;
+  result={};
+  result[invite]=gift;
+  SendObjectToAPI("buyGiftForInvite", JSON.stringify(result));
+}
+
 function SendObjectToAPI(type, result)
 {
   if(type=="event")
@@ -152,29 +219,12 @@ function SendObjectToAPI(type, result)
   {
     alert(result);
   }
+  if(type="buyGiftForInvite")
+  {
+    alert(result);
+  }
 }
 function ValidateInviteForm()
 {
 
-}
-function ChangePassword()
-{
-  showOneFormAlone("ChangePassword");
-}
-
-
-
-function BuyGiftForInvite()
-{
-    showOneFormAlone("BuyGiftForInvite");
-}
-
-function RemoveGiftForInvite()
-{
-  showOneFormAlone("RemoveGiftForInvite");
-}
-
-function RespondToInvite()
-{
-  showOneFormAlone("RespondToInvite");
 }
