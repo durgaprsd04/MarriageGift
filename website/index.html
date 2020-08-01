@@ -57,11 +57,13 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, maxime. Ex quia rerum eveniet sint magni porro a explicabo repudiandae eos voluptatem, inventore cupiditate. Maxime earum rem voluptatum sunt ut!</p>
       <div class="col-xl-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
       <div class="col-xl-6">
+        <!-- Create Event  -->
           <div id="createEvent" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return ValidateEventForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="occassionType">Occassion Type</label>
-                  <select class="col-xl-6" id="occasion" name="occasionList" size="1">
+                  <select class="col-xl-6" id="occasion" name="occasionList" size="1" required>
+                      <option value="--Select--">--Select--</option>
                       <option value="Marriage">Marriage</option>
                       <option value="Birthday">Birthday</option>
                       <option value="HouseWarming">HouseWarming</option>
@@ -69,27 +71,33 @@
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="place">Place of Event</label>
-                  <input class="col-xl-6 " id="eventPlace" type="text"/>
+                  <input class="col-xl-6 " id="eventPlace" type="text" required/>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="date">Date of Event</label>
-                  <input class="col-xl-6" id="eventDate" type="date" />
+                  <input class="col-xl-6" id="eventDate" type="date" required />
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
                   <label class="col-xl-6" for="date">Time of Event</label>
-                  <input class="col-xl-6" id="eventDate" type="time" />
+                  <input class="col-xl-6" id="eventTime" type="time"  required/>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
-                  <label class="col-xl-6" for="date">DateTime of Event</label>
-                  <select class="col-xl-6" id="occasion" name="giftExpectedList" size="3" multiple>
+                  <label class="col-xl-6" for="date">Exp Gift List</label>
+                  <select class="col-xl-6" id="giftList" name="giftExpectedList" size="3" multiple required>
                     <option value="Gift1">Gift1</option>
                     <option value="Gift2">Gift2</option>
                     <option value="Gift3">Gift3</option>
                     <option value="Gift4">Gift4</option>
                   </select>
                 </div>
+                <div class="form-group d-flex justify-content-right mb-3 ">
+                  <div class="col-xl-4"></div>
+              <input class="btn-primary col-xl-4" type="submit" value="Submit Player" id='smit'>
+              <div class="col-xl-4"></div>
+                </div>
               </form>
           </div>
+      <!-- Create Invite  -->
           <div id="InviteUser" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
@@ -110,6 +118,7 @@
                 </div>
               </form>
           </div>
+      <!-- modify Event  -->
           <div id="modifyEvent" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
@@ -151,6 +160,7 @@
                 </div>
               </form>
           </div>
+      <!-- Buy gift for invite  -->
           <div id="BuyGiftForInvite" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
@@ -171,6 +181,7 @@
                 </div>
               </form>
           </div>
+      <!-- Remove gift for invite  -->
           <div id="RemoveGiftForInvite" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
@@ -191,6 +202,7 @@
                 </div>
               </form>
           </div>
+      <!-- Respond to invite  -->
           <div id="RespondToInvite" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
@@ -211,6 +223,7 @@
                 </div>
               </form>
           </div>
+          <!-- Change password  -->
           <div id="ChangePassword" style="display:none">
             <form>
                 <div class="form-group d-flex justify-content-right mb-3">
