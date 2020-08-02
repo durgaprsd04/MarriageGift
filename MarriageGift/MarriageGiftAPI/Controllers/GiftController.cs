@@ -41,7 +41,7 @@ namespace MarriageGiftAPI.Controllers
                   return listofGifts;
               }
               [HttpPost]
-              public async Task<ActionResult<Gift>> PostGiftItem(Gift gift)
+              public ActionResult<Gift> PostGiftItem(Gift gift)
               {
                   listofGifts.Clear();
                   var newGift = new Gift (gift.Name, gift.GiftItemType, gift.Price);
@@ -49,5 +49,17 @@ namespace MarriageGiftAPI.Controllers
                   admin.CreateGift(newGift);
                   return CreatedAtAction("Get",newGift , gift);
               }
+              [HttpPost("About")]
+              public ActionResult<List<Gift>> PostGiftItem1(Gift gift)
+              {
+                  listofGifts.Clear();
+                var gift1 = new Gift("plates",GiftItemType.Crockery,150);
+                  listofGifts.Add(gift1);
+                  var newGift = new Gift (gift.Name, gift.GiftItemType, gift.Price);
+                  listofGifts.Add(newGift);
+                  admin.CreateGift(newGift);
+                  return listofGifts;
+              }
+              
     }
 }

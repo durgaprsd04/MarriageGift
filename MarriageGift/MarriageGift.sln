@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarriageGift", "MarriageGif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarriageGiftTest", "MarriageGiftTest\MarriageGiftTest.csproj", "{0B5FB9C8-8B30-4DCA-80D2-89C312DE18BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarriageGiftConsoler", "MarriageGiftConsoler\MarriageGiftConsoler.csproj", "{21E14C2D-36E3-4FF9-BA09-C91A22C22953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarriageGiftConsoler", "MarriageGiftConsoler\MarriageGiftConsoler.csproj", "{21E14C2D-36E3-4FF9-BA09-C91A22C22953}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarriageGiftAPI", "MarriageGiftAPI\MarriageGiftAPI.csproj", "{6E78FD36-23F6-4366-A2BE-9D2D809E8B24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{21E14C2D-36E3-4FF9-BA09-C91A22C22953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21E14C2D-36E3-4FF9-BA09-C91A22C22953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21E14C2D-36E3-4FF9-BA09-C91A22C22953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E78FD36-23F6-4366-A2BE-9D2D809E8B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E78FD36-23F6-4366-A2BE-9D2D809E8B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E78FD36-23F6-4366-A2BE-9D2D809E8B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E78FD36-23F6-4366-A2BE-9D2D809E8B24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
