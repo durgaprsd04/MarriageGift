@@ -57,5 +57,10 @@
             public static readonly string Selectinivitation = "select event_id, cust_id_of_invitee from INVITATION ";
             public static readonly string ByInviteId = " where invitation_id ={0}";
         }
+        public class OccassionTypes
+        {
+            public static readonly string SelectAll = "select occassion_type_id, occassion_type from [OCCASSION_TYPE] ";
+            public static readonly string ByOccassionType = SelectAll + " where occassion_type={0}";
+        }
     }
 }

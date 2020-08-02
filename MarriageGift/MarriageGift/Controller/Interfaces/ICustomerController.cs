@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using MarriageGift.Model.Interfaces;
 
 namespace MarriageGift.Controller.Interfaces
 {
     public interface ICustomerController
     {
+        Dictionary<int,string> GetOccasionTypes();
         bool Login(string username, string password);
         bool ChangePassword(string username, string password);
         bool CreateEvent(IOccassion occassion, string place,DateTime date,IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR);

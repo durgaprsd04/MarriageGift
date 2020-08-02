@@ -21,13 +21,10 @@ namespace MarriageGiftAPI.Controllers
             this.logger=logger;
             this.customerController=customerController;
         }
-        [HttpGet]
-        public IEnumerable<Gift> Get()
+        [HttpGet("occassionTypes")]
+        public Dictionary<int,string> Get()
         {
-
-            var gift = new Gift("plates",GiftItemType.Crockery,150);
-            listofGifts.Add(gift);
-            return listofGifts;
+            return customerController.GetOccasionTypes();
         }
     }
 

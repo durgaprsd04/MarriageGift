@@ -1,6 +1,8 @@
 ﻿using MarriageGift.DAO.DAOS;
 using MarriageGift.Model;
 using MarriageGift.DAO.Interfaces;
+using System.Collections.Generic;
+
 namespace MarriageGift.DAO.Wrappers
 {
     public class OccasionDaoWrapper :IOccassionDao
@@ -13,6 +15,11 @@ namespace MarriageGift.DAO.Wrappers
         public IGenericCollection<IBaseObject> GetListOfObjectsByName(string name)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Dictionary<int, string> GetOcccasionTypes()
+        {
+            return OccassionDao.GetOcccasionTypes();
         }
 
         public void Insert(IBaseObject baseObject)

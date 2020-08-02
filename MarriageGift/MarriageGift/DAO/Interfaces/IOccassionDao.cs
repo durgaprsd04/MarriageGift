@@ -6,5 +6,6 @@ namespace MarriageGift.DAO.Interfaces
 {
   public   interface IOccassionDao:IGenericDao
     {
+      Dictionary<int, string> GetOcccasionTypes();
     }
 }

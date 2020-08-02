@@ -7,6 +7,7 @@ using MarriageGift.Controller.Interfaces;
 using System;
 using log4net;
 using MarriageGift.Model.InvitationModel;
+using System.Collections.Generic;
 
 namespace MarriageGift.Controller
 {
@@ -193,6 +194,11 @@ namespace MarriageGift.Controller
         public string GetCustomerId()
         {
             return customer.getId();
+        }
+
+        public Dictionary<int, string> GetOccasionTypes()
+        {
+            return occassionDao.GetOcccasionTypes();
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.GiftModel;
-using log4net;
+using Newtonsoft.Json;
 namespace MarriageGift.Model.EventModel
 {
 
@@ -20,6 +20,7 @@ namespace MarriageGift.Model.EventModel
         public DateTime Date { get => date; }
         public string Place { get => place; }
 
+        [JsonConstructor]
         public Event(IOccassion occassion, string place, DateTime date, string custId)
         : base()
         {
