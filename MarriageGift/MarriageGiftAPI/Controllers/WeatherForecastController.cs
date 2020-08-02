@@ -43,7 +43,7 @@ namespace MarriageGiftAPI.Controllers
 
         }
       [HttpPost]
-      public async Task<ActionResult<WeatherForecast>> PostTodoItem(WeatherForecast weatherForecast)
+      public  ActionResult<WeatherForecast> PostTodoItem(WeatherForecast weatherForecast)
       {
         listOfItems.Clear();
         var newW = new WeatherForecast { Date = weatherForecast.Date, TemperatureC = weatherForecast.TemperatureC, Summary=weatherForecast.Summary };
