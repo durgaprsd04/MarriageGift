@@ -47,21 +47,39 @@ buyGiftForInviteInviteListSelectChanged();
 function buyGiftForInviteInviteListSelectChanged()
 {
   var  buyGiftForInviteExpectedGiftList=`<select id="BuyGiftForInviteExpectedGiftSelect" name="giftExpectedList" required>
-  `+ConvertJsonToOption("inviteListexpectedGifts")+
+  `+ConvertJsonToOption("buyGiftinviteListexpectedGifts")+
   `  </select>`;
 
   document.getElementById("BuyGiftForInviteExpectedGiftDiv").innerHTML=buyGiftForInviteExpectedGiftList;
 }
 function RemoveGiftForInvite()
 {
+  var removeGiftForInviteInviteList=`<select  id="RemoveGiftForInviteinviteListSelect" name="eventList" size="1" onchange="removeGiftForInviteInviteListSelectChanged()" required>`
+      +ConvertJsonToOption("inviteList")
+      +`</select>`
+  document.getElementById("RemoveGiftForInviteinviteListDiv").innerHTML=removeGiftForInviteInviteList;
+  removeGiftForInviteInviteListSelectChanged();
   showOneFormAlone("RemoveGiftForInvite");
 }
+function removeGiftForInviteInviteListSelectChanged()
+{
+  var  removeGiftForInviteExpectedGiftList=`<select id="RemoveGiftForInviteGiftListSelect" name="giftExpectedList" required>
+  `+ConvertJsonToOption("removeGiftinviteListexpectedGifts")+
+  `  </select>`;
+  document.getElementById("RemoveGiftForInviteGiftListDiv").innerHTML=removeGiftForInviteExpectedGiftList;
+}
+
 function RespondToInvite()
 {
+  var removeGiftForInviteInviteList=`<select  id="RespondToInviteInviteListSelect" name="inviteList" size="1" required>`
+      +ConvertJsonToOption("inviteList")
+      +`</select>`
+  document.getElementById("RespondToInviteInviteListDiv").innerHTML=removeGiftForInviteInviteList;
   showOneFormAlone("RespondToInvite");
 }
 function ChangePassword()
 {
+
   showOneFormAlone("ChangePassword");
 }
 
@@ -132,9 +150,15 @@ function GetOptionsForMenu(selectItem)
           optionList[val]=sampleList[val]["eventName"];
         }
       }
-    else if(selectItem=="inviteListexpectedGifts")
+    else if(selectItem=="buyGiftinviteListexpectedGifts")
     {
       var invite =document.getElementById("BuyGiftForInviteInviteListSelect");
+      var selectedInvite = invite.options[invite.selectedIndex].value;
+      optionList=inviteToGiftDict[selectedInvite]["gifts"][0];
+    }
+    else if(selectItem=="removeGiftinviteListexpectedGifts")
+    {
+      var invite =document.getElementById("RemoveGiftForInviteinviteListSelect");
       var selectedInvite = invite.options[invite.selectedIndex].value;
       optionList=inviteToGiftDict[selectedInvite]["gifts"][0];
     }
@@ -204,7 +228,40 @@ function buyGiftForInviteValidateForm()
   result[invite]=gift;
   SendObjectToAPI("buyGiftForInvite", JSON.stringify(result));
 }
-
+function removeGiftForInviteValidateForm()
+{
+  var inviteList =document.getElementById("RemoveGiftForInviteinviteListSelect")
+  var invite = inviteList.options[inviteList.selectedIndex].value;
+  var giftList =document.getElementById("RemoveGiftForInviteGiftListSelect")
+  var gift = giftList.options[giftList.selectedIndex].value;
+  result={};
+  result[invite]=gift;
+  SendObjectToAPI("removeGiftForInvite", JSON.stringify(result));
+}
+function respondToInviteValidateForm()
+{
+  var inviteList =document.getElementById("RespondToInviteInviteListSelect")
+  var invite = inviteList.options[inviteList.selectedIndex].value;
+  var choiceList =document.getElementById("RespondToInviteChoiceListSelect")
+  var choice = choiceList.options[choiceList.selectedIndex].value;
+  result={};
+  result[invite]=choice;
+  SendObjectToAPI("respondToInvite", JSON.stringify(result));
+}
+function changePasswordValidateForm()
+{
+    var newPwd=document.getElementById("changePasswordNewPassword").value;
+    var confirmPwd=document.getElementById("changePasswordConfirmPassword").value;
+    if(newPwd!=confirmPwd)
+    {
+      document.getElementById("passwordMismatchLabel").setAttribute("style","display:inline;  background-color: red;");
+      return false;
+    }
+    result={};
+    result["password"]=confirmPwd;
+    SendObjectToAPI("changepassword", JSON.stringify(result));
+    return true;
+}
 function SendObjectToAPI(type, result)
 {
   if(type=="event")
@@ -223,8 +280,16 @@ function SendObjectToAPI(type, result)
   {
     alert(result);
   }
-}
-function ValidateInviteForm()
-{
-
+  if(type="removeGiftForInvite")
+  {
+    alert(result);
+  }
+  if(type="respondToInvite")
+  {
+    alert(result);
+  }
+  if(type="changepassword")
+  {
+    alert(result)
+  }
 }

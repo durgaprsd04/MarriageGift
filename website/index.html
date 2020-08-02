@@ -144,7 +144,7 @@
           </div>
       <!-- Buy gift for invite  -->
           <div id="BuyGiftForInvite" style="display:none">
-            <form ction="index.html" onsubmit="return buyGiftForInviteValidateForm()" method="post">
+            <form action="index.html" onsubmit="return buyGiftForInviteValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="inviteList">Select Event to Invite</label>
                   <div class="col-xl-6" id="BuyGiftForInviteInviteListDiv" >
@@ -163,57 +163,57 @@
           </div>
       <!-- Remove gift for invite  -->
           <div id="RemoveGiftForInvite" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return removeGiftForInviteValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="inviteList">Select Event to Invite</label>
-                  <select class="col-xl-6"  id="inviteList" name="inviteList" size="1">
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                </select>
+                  <div class="col-xl-6" id="RemoveGiftForInviteinviteListDiv">
+                    invite list
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="gift1"> gift to remove</label>
-                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
-                      <option value="gift1">gift1</option>
-                      <option value="gift1">gift1</option>
-                      <option value="gift1">gift1</option>
-                </select>
+                  <div class="col-xl-6" id="RemoveGiftForInviteGiftListDiv">
+                    gift list
                 </div>
+              </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='BuyGiftForInviteSubmit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
       <!-- Respond to invite  -->
           <div id="RespondToInvite" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return respondToInviteValidateForm()" method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="inviteList">Event</label>
-                  <select class="col-xl-6" id="inviteList" name="inviteList" size="1">
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                      <option value="invite1">invite1</option>
-                </select>
+                  <div class="col-xl-6" id="RespondToInviteInviteListDiv">
+                        invitelist
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="gift1">Is Coming</label>
-                  <select class="col-xl-6"  id="customerList" name="customerList" size="1">
-                      <option value="true">True</option>
-                      <option value="false">False</option>
-                      <option value="notsure">Not Sure</option>
+                  <select class="col-xl-6"  id="RespondToInviteChoiceListSelect" name="customerList" size="1">
+                      <option value="true">Coming</option>
+                      <option value="false">Not Coming</option>
                 </select>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='BuyGiftForInviteSubmit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
           <!-- Change password  -->
           <div id="ChangePassword" style="display:none">
-            <form>
+            <form action="index.html" onsubmit="return changePasswordValidateForm()" method="post">
+                <label class="col-xl-12" id="passwordMismatchLabel" style="display:none"> Passwords should match</label>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="newPassword">New Password</label>
-                  <input class="col-xl-6"  type="password" placeholder="new password">
+                  <input class="col-xl-6" id="changePasswordNewPassword" type="password" placeholder="new password" required>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="newPasswordConfirm">Confirm Password</label>
-                  <input class="col-xl-6"  type="password" placeholder="confirm password">
+                  <input class="col-xl-6" id="changePasswordConfirmPassword" type="password" placeholder="confirm password" required>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='changepasswordSubmit'>
+                <div class="col-xl-4"></div>
               </form>
           </div>
       </div>
