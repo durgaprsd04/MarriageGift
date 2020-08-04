@@ -8,7 +8,8 @@ namespace MarriageGift.DAO.DAOS
 {
     public static class OccassionDao
     {
-        public readonly static string connectionString = ConfigurationManager.ConnectionStrings["MarriageGiftDB"].ToString();
+        
+        public readonly static string connectionString = ConfigurationManager.ConnectionStrings[CommonStaticClass.GetConnectionString()].ToString();
         internal static void Update(IBaseObject baseObject)
         {
             throw new NotImplementedException();

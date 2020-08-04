@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using log4net;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Controller.Interfaces;
@@ -21,6 +22,7 @@ namespace MarriageGiftAPI.Controllers
             this.logger=logger;
             this.customerController=customerController;
         }
+        [EnableCors("policy1")]
         [HttpGet("occassionTypes")]
         public Dictionary<int,string> Get()
         {

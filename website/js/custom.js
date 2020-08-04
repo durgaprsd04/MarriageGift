@@ -1,20 +1,22 @@
 var inviteToGiftDict={};
+var occassionTypeUrl="https://localhost:5001/CustomerAction/occassionTypes";
 function createEvent1()
 {
 //reading occasions
-  var occasionSelect=`<select class="col-xl-6" id="occasion" name="occasionList" size="1" required>
+  var occasionSelect=`<select class="col-xl-6" id="createEventOccasionSelect" name="occasionList" size="1" required>
                       <option value="--Select--">--Select--</option>
                       `+
-                      GetOccassionOtions 
+                      ConvertJsonToOption("occassionlist") 
                       +`
                 </select>`
+  
 
   //reading  options
   var  createEventExpectedGiftList=`<select id="expectedGiftListSelect" name="giftExpectedList" size="3" multiple required>
-    `+ConvertJsonToOption("expectedGifts")+
+    `+ ConvertJsonToOption("expectedGifts")+
     `  </select>`;
   document.getElementById("expectedGiftListDiv").innerHTML=createEventExpectedGiftList;
-  
+  document.getElementById("createEventOccasionDiv").innerHTML=occasionSelect;
 //showing form
 showOneFormAlone("createEvent");
 }
@@ -108,6 +110,7 @@ function showOneFormAlone(formIdInQ)
 function ConvertJsonToOption(selectItem)
 {
   var optionListJson = GetOptionsForMenu(selectItem);
+  //alert(optionListJson);
   var resultText="";
   var part1='<option value="';
   var part2='">';
@@ -171,9 +174,26 @@ function GetOptionsForMenu(selectItem)
       var selectedInvite = invite.options[invite.selectedIndex].value;
       optionList=inviteToGiftDict[selectedInvite]["gifts"][0];
     }
+    else if(selectItem=="occassionlist")
+    {      
+      optionList=getFromRestAPI();  
+    }
+      alert(JSON.stringify(optionList));
   return JSON.stringify(optionList);
-}
 
+}
+async function getFromRestAPI()
+{
+  const response = await fetch(occassionTypeUrl);
+  const json = await response.json();
+  console.log(json);
+  a="";
+  for(k in json)
+    a+=json[k];
+  document.getElementById("createEventOccasionDiv").innerHTML=a;
+  alert(json);
+  return json;
+}
 function CreateEventDone() {
 document.getElementById("createEvent").setAttribute("style", "display:none");
     alert("donestuff");

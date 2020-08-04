@@ -11,3 +11,7 @@ MarriageGift/MarriageGiftConsoler/bin/*
 MarriageGift/MarriageGiftConsoler/obj/*
 MarriageGift/MarriageGiftAPI/bin/*
 MarriageGift/MarriageGiftAPI/obj/*
+MarriageGift/.vs/*
+*.dat
+*.csv
+*.txt
