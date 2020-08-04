@@ -1,11 +1,20 @@
 var inviteToGiftDict={};
 function createEvent1()
 {
+//reading occasions
+  var occasionSelect=`<select class="col-xl-6" id="occasion" name="occasionList" size="1" required>
+                      <option value="--Select--">--Select--</option>
+                      `+
+                      GetOccassionOtions 
+                      +`
+                </select>`
+
   //reading  options
   var  createEventExpectedGiftList=`<select id="expectedGiftListSelect" name="giftExpectedList" size="3" multiple required>
     `+ConvertJsonToOption("expectedGifts")+
     `  </select>`;
   document.getElementById("expectedGiftListDiv").innerHTML=createEventExpectedGiftList;
+  
 //showing form
 showOneFormAlone("createEvent");
 }
