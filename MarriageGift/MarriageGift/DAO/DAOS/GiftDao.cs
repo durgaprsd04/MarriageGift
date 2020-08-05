@@ -40,7 +40,7 @@ namespace MarriageGift.DAO.DAOS
         }
         internal static IDictionary<string,string> GetAllGifts(ILog logger)
         {
-            //logger.Info("here test file");
+            logger.Info("here test file");
             var resultDict = new Dictionary<string,string>();
             var query = Queries.CURDQueries.SelectGifts.SelectAllGifts;
             var sqlCommand = new SqlCommand();
