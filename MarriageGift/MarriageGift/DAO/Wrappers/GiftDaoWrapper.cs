@@ -1,14 +1,26 @@
 ﻿using MarriageGift.DAO.Interfaces;
 using MarriageGift.DAO.DAOS;
 using MarriageGift.Model;
+using log4net;
+using System.Collections.Generic;
 
 namespace MarriageGift.DAO.Wrappers
 {
     public class GiftDaoWrapper:IGiftDao
     {
+        private readonly ILog logger;
+        public GiftDaoWrapper(ILog logger)
+        {
+            this.logger= logger;
+        }
         public void Delete(string id)
         {
             GiftDao.Delete(id);
+        }
+
+        public IDictionary<string, string> GetAllGifts()
+        {
+            return GiftDao.GetAllGifts(logger);
         }
 
         public IGenericCollection<IBaseObject> GetListOfObjectsByName(string name)

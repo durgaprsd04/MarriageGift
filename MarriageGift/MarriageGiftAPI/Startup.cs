@@ -29,7 +29,9 @@ namespace MarriageGiftAPI
                               builder =>
                               {
                                   builder.WithOrigins("http://localhost:5000/CustomerAction/occassionTypes",
-                                                        "https://localhost:5001/CustomerAction/occassionTypes")
+                                                        "https://localhost:5001/CustomerAction/occassionTypes",
+                                                        "http://localhost:5000/CustomerAction/allgifts",
+                                                        "https://localhost:5001/CustomerAction/allgifts")
                                   .AllowAnyHeader()
                                   .AllowAnyMethod()
                                   .AllowAnyOrigin();

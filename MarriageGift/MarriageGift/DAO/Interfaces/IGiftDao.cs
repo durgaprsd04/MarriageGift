@@ -6,5 +6,6 @@ namespace MarriageGift.DAO.Interfaces
 {
     public interface IGiftDao:IGenericDao
     {
+        IDictionary<string, string> GetAllGifts();
     }
 }

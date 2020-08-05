@@ -28,6 +28,12 @@ namespace MarriageGiftAPI.Controllers
         {
             return customerController.GetOccasionTypes();
         }
+        [EnableCors("policy1")]
+        [HttpGet("allgifts")]
+        public IDictionary<string,string> GetAllGifts()
+        {
+            return customerController.GetAllGifts();
+        }
     }
 
 }

@@ -1,24 +1,33 @@
 var inviteToGiftDict={};
-var occassionTypeUrl="https://localhost:5001/CustomerAction/occassionTypes";
-function createEvent1()
+var occassionTypeUrl;
+function getRestUrl(selectItem)
 {
-//reading occasions
-  var occasionSelect=`<select class="col-xl-6" id="createEventOccasionSelect" name="occasionList" size="1" required>
-                      <option value="--Select--">--Select--</option>
-                      `+
-                      ConvertJsonToOption("occassionlist") 
-                      +`
-                </select>`
-  
-
+  result={};
+  if(selectItem=="occassion")
+  {
+    result["url"]="https://localhost:5001/CustomerAction/occassionTypes";
+    result["select"]=`<select  id="createEventOccasionSelect" name="occasionList" size="1" required>
+    <option value="--Select--">--Select--</option>
+    {optionlist}
+    </select>    `
+  }
+  else if (selectItem=="allgifts")
+  {
+    result["url"]="https://localhost:5001/CustomerAction/allgifts";
+    result["select"]=`<select id="expectedGiftListSelect" name="giftExpectedList" size="3" multiple required>
+    {optionlist}
+    </select>`;
+  }
+  return result;
+}
+async function createEvent1()
+{
+  //populating occasions
+ await ConvertJsonToOption("occassion","createEventOccasionDiv");
   //reading  options
-  var  createEventExpectedGiftList=`<select id="expectedGiftListSelect" name="giftExpectedList" size="3" multiple required>
-    `+ ConvertJsonToOption("expectedGifts")+
-    `  </select>`;
-  document.getElementById("expectedGiftListDiv").innerHTML=createEventExpectedGiftList;
-  document.getElementById("createEventOccasionDiv").innerHTML=occasionSelect;
-//showing form
-showOneFormAlone("createEvent");
+ await ConvertJsonToOption("allgifts","expectedGiftListDiv");
+  //show just events
+  showOneFormAlone("createEvent");
 }
 function inviteUser()
 {
@@ -107,19 +116,27 @@ function showOneFormAlone(formIdInQ)
     document.getElementById(formIdInQ).setAttribute("style", "display:block");
 }
 
-function ConvertJsonToOption(selectItem)
+async function ConvertJsonToOption(selectItem, divName)
 {
-  var optionListJson = GetOptionsForMenu(selectItem);
-  //alert(optionListJson);
+  result = getRestUrl(selectItem);
+  var url = result["url"];  
+  console.log("fetching url "+url);
+  const response = await fetch(url);
+  const json = await response.json();
+  console.log(json);
+  options={};  
   var resultText="";
   var part1='<option value="';
   var part2='">';
   var part3='</option>';
-  var options = JSON.parse(optionListJson);
-  for (var key in options) {
-    resultText += part1+key+part2+options[key]+part3;
-}
-return resultText;
+  for (var key in json) 
+  {
+      resultText += part1+key+part2+json[key]+part3;
+  }
+  resultText = result["select"].replace("{optionlist}", resultText);
+  console.log(resultText);
+  console.log(divName);
+  document.getElementById(divName).innerHTML=resultText;
 }
 
 function GetOptionsForMenu(selectItem)
@@ -182,18 +199,7 @@ function GetOptionsForMenu(selectItem)
   return JSON.stringify(optionList);
 
 }
-async function getFromRestAPI()
-{
-  const response = await fetch(occassionTypeUrl);
-  const json = await response.json();
-  console.log(json);
-  a="";
-  for(k in json)
-    a+=json[k];
-  document.getElementById("createEventOccasionDiv").innerHTML=a;
-  alert(json);
-  return json;
-}
+
 function CreateEventDone() {
 document.getElementById("createEvent").setAttribute("style", "display:none");
     alert("donestuff");

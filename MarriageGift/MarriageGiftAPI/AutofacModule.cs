@@ -23,7 +23,7 @@ namespace MarriageGiftAPI
             ILog logger = LogManager.GetLogger(typeof(AutofacModule));
             builder.RegisterType<EventDaoWrapper>().As<IEventDao>();
             builder.RegisterType<CustomerDaoWrapper>().As<ICustomerDao>();
-            builder.RegisterType<GiftDaoWrapper>().As<IGiftDao>();
+            builder.Register(g => new GiftDaoWrapper(logger)).As<IGiftDao>();
             builder.RegisterType<InvitationDaoWrapper>().As<IInvitationDao>();
             builder.RegisterType<OccasionDaoWrapper>().As<IOccassionDao>();
             builder.Register(s => new StreamWriter("customer.txt", true)).As<StreamWriter>();

@@ -50,6 +50,7 @@
             public static readonly string SelectGift = "select gift_name, gift_price, gt.gift_type from gift g "+
                                                         " inner join gift_type gt on gt.gift_type_id =g.gift_Type_id";
             public static readonly string ByGiftId = SelectGift + " where gift_id ={0}";
+            public static readonly string SelectAllGifts = "select gift_id, gift_name from Gift";
           
         }
         public class Selectinivitations

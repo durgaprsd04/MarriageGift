@@ -200,5 +200,10 @@ namespace MarriageGift.Controller
         {
             return occassionDao.GetOcccasionTypes();
         }
+
+        public IDictionary<string, string> GetAllGifts()
+        {
+           return  giftDao.GetAllGifts();
+        }
     }
 }
