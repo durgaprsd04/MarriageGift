@@ -4,6 +4,7 @@ using MarriageGift.Model;
 using MarriageGift.Model.Interfaces;
 using System.Configuration;
 using System.Collections.Generic;
+using log4net;
 namespace MarriageGift.DAO.DAOS
 {
     public static class OccassionDao
@@ -30,25 +31,34 @@ namespace MarriageGift.DAO.DAOS
         {
             throw new NotImplementedException();
         }
-        public static Dictionary<int, string> GetOcccasionTypes()
+        public static Dictionary<int, string> GetOcccasionTypes(ILog logger)
         {
+            logger.Info("Getting all occassions from database");
             var resultDict = new Dictionary<int,string>();
             var query = Queries.CURDQueries.OccassionTypes.SelectAll;
             var sqlCommand = new SqlCommand();
             sqlCommand.CommandText = query;
-            using (var conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                sqlCommand.Connection = conn;
-                using(var reader = sqlCommand.ExecuteReader())
+                    using (var conn = new SqlConnection(connectionString))
                 {
-                    while(reader.Read())
+                    conn.Open();
+                    sqlCommand.Connection = conn;
+                    using(var reader = sqlCommand.ExecuteReader())
                     {
-                        resultDict.Add(reader.GetInt32(0), reader.GetString(1));
+                        while(reader.Read())
+                        {
+                            resultDict.Add(reader.GetInt32(0), reader.GetString(1));
+                        }
                     }
+                    conn.Close();
                 }
-                conn.Close();
             }
+            catch(Exception e)
+            {
+                logger.Error(e.Message+" occured while accessing occassions");
+            }
+           
             return resultDict;
         }
     }

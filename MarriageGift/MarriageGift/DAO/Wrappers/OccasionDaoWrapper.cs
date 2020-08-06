@@ -1,4 +1,5 @@
-﻿using MarriageGift.DAO.DAOS;
+﻿using log4net;
+using MarriageGift.DAO.DAOS;
 using MarriageGift.Model;
 using MarriageGift.DAO.Interfaces;
 using System.Collections.Generic;
@@ -7,6 +8,11 @@ namespace MarriageGift.DAO.Wrappers
 {
     public class OccasionDaoWrapper :IOccassionDao
     {
+        private ILog logger;
+        public OccasionDaoWrapper(ILog logger)
+        {
+            this.logger=logger;
+        }
         public void Delete(string id)
         {
             OccassionDao.Delete(id);
@@ -19,7 +25,7 @@ namespace MarriageGift.DAO.Wrappers
 
         public Dictionary<int, string> GetOcccasionTypes()
         {
-            return OccassionDao.GetOcccasionTypes();
+            return OccassionDao.GetOcccasionTypes(logger);
         }
 
         public void Insert(IBaseObject baseObject)

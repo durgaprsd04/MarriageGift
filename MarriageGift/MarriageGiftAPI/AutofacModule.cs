@@ -25,7 +25,7 @@ namespace MarriageGiftAPI
             builder.RegisterType<CustomerDaoWrapper>().As<ICustomerDao>();
             builder.Register(g => new GiftDaoWrapper(logger)).As<IGiftDao>();
             builder.RegisterType<InvitationDaoWrapper>().As<IInvitationDao>();
-            builder.RegisterType<OccasionDaoWrapper>().As<IOccassionDao>();
+            builder.Register(o=> new OccasionDaoWrapper(logger)).As<IOccassionDao>();
             builder.Register(s => new StreamWriter("customer.txt", true)).As<StreamWriter>();
             builder.Register(f => new FileStream("customer.dat", FileMode.Create)).As<FileStream>();
             builder.RegisterType<SaveToFileFao>().As<ISaveToFileFao>();
