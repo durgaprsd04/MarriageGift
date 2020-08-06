@@ -31,11 +31,17 @@ namespace MarriageGiftAPI
             builder.RegisterType<SaveToFileFao>().As<ISaveToFileFao>();
             builder.Register(c => new Customer("Jeff", "pass@jeff")).As<ICustomer>();
             builder.Register(l=>logger).As<ILog>();   
+            
             builder.Register(c => new CustomerActionController(c.Resolve<ICustomer>(), c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>(), c.Resolve<ISaveToFileFao>(), c.Resolve<ILog>()))
                 .As<ICustomerController>()
                 .InstancePerLifetimeScope();
+            
             builder.Register(c =>logger)
-            .As<ILog>()
+                .As<ILog>()
+                .InstancePerLifetimeScope();
+            
+            builder.Register(c => new SelectionController( c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>()))
+                .As<ISelectionController>()
                 .InstancePerLifetimeScope();
         }
     }

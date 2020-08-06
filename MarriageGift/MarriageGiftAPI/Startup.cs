@@ -1,7 +1,7 @@
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using log4net;
+using MarriageGift.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -58,11 +58,12 @@ namespace MarriageGiftAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            //loggerFactory.AddProvider();
+            loggerFactory.AddLog4Net("log4net.config");
+            
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors();
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

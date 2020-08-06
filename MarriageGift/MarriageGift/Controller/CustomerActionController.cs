@@ -21,6 +21,7 @@ namespace MarriageGift.Controller
         private readonly IGiftDao giftDao;
         private readonly ISaveToFileFao saveToFileFAO;
         private readonly ILog logger;
+        private readonly ISelectionController selectionController;
 
         public CustomerActionController(ICustomer customer, ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
         {
@@ -194,16 +195,6 @@ namespace MarriageGift.Controller
         public string GetCustomerId()
         {
             return customer.getId();
-        }
-
-        public Dictionary<int, string> GetOccasionTypes()
-        {
-            return occassionDao.GetOcccasionTypes();
-        }
-
-        public IDictionary<string, string> GetAllGifts()
-        {
-           return  giftDao.GetAllGifts();
         }
     }
 }

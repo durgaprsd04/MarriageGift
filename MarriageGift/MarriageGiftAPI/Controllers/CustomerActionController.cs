@@ -16,23 +16,25 @@ namespace MarriageGiftAPI.Controllers
         private readonly ILog logger;
         private static List<Gift> listofGifts = new List<Gift>();
         private ICustomerController customerController;
+        private ISelectionController selectionController;
 
-        public CustomerActionController(ICustomerController customerController, ILog logger)
+        public CustomerActionController(ICustomerController customerController, ILog logger, ISelectionController selectionController)
         {
             this.logger=logger;
             this.customerController=customerController;
+            this.selectionController =selectionController;           
         }
         [EnableCors("policy1")]
         [HttpGet("occassionTypes")]
         public Dictionary<int,string> Get()
         {
-            return customerController.GetOccasionTypes();
+            return selectionController.GetOccasionTypes();
         }
         [EnableCors("policy1")]
         [HttpGet("allgifts")]
         public IDictionary<string,string> GetAllGifts()
         {
-            return customerController.GetAllGifts();
+            return selectionController.GetAllGifts();
         }
     }
 
