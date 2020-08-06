@@ -106,7 +106,7 @@ function ChangePassword()
 
 function showOneFormAlone(formIdInQ)
 {
-    formIdList =["InviteUser","modifyEvent","BuyGiftForInvite", "RemoveGiftForInvite","RespondToInvite","ChangePassword","createEvent"];
+    formIdList =["InviteUser","modifyEvent","BuyGiftForInvite", "RemoveGiftForInvite","RespondToInvite","ChangePassword","createEvent","loginScreenDiv"];
     for(formId in formIdList)
     {
         if(formIdInQ==formIdList[formId])
@@ -297,6 +297,17 @@ function changePasswordValidateForm()
     SendObjectToAPI("changepassword", JSON.stringify(result));
     return true;
 }
+function loginScreenValidateForm()
+{
+  var username=document.getElementById("loginScreenUsername").value;
+  var password=document.getElementById("loginScreenPassword").value;
+  result={};
+  result["username"]=username;
+  result["password"]=password;
+  sessionStorage.setItem("userDetails", result);
+  SendObjectToAPI("login", JSON.stringify(result));
+  return true;
+}
 function SendObjectToAPI(type, result)
 {
   if(type=="event")
@@ -311,20 +322,32 @@ function SendObjectToAPI(type, result)
   {
     alert(result);
   }
-  if(type="buyGiftForInvite")
+  if(type=="buyGiftForInvite")
   {
     alert(result);
   }
-  if(type="removeGiftForInvite")
+  if(type=="removeGiftForInvite")
   {
     alert(result);
   }
-  if(type="respondToInvite")
+  if(type=="respondToInvite")
   {
     alert(result);
   }
-  if(type="changepassword")
+  if(type=="changepassword")
   {
     alert(result)
   }
+  if(type=="login")
+  {
+    //alert(result);
+    makeUserActionVisible();
+  }
+}
+function makeUserActionVisible()
+{
+  if(sessionStorage.getItem("userDetails")!=null)
+    document.getElementById("UserActionMenu").setAttribute("style","display:inline");
+  else 
+    document.getElementById("UserActionMenu").setAttribute("style","display:none");
 }

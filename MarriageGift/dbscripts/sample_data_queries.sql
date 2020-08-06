@@ -29,3 +29,11 @@ insert into gift_type values('Electronics'),
 ('Furniture'),
 ('Crockery'),
 ('Trips')
+
+
+select * from customer
+select * from customer
+
+insert into customer
+values(newid(), 'Jeff','pass@word'),
+(newid(), 'Larry','larry@word')

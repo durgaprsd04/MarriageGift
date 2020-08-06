@@ -13,7 +13,7 @@
 
     </script>
 </head>
-<body>
+<body onload="makeUserActionVisible()">
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -39,7 +39,7 @@
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown ml-right">
-            <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+            <a class="nav-link dropdown-toggle"   id="UserActionMenu" style="display:none" data-toggle="dropdown">
               User  actions
             </a>
             <div class="dropdown-menu">
@@ -210,6 +210,23 @@
                   <label class="col-xl-6"  for="newPasswordConfirm">Confirm Password</label>
                   <input class="col-xl-6" id="changePasswordConfirmPassword" type="password" placeholder="confirm password" required>
                 </div>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='changepasswordSubmit'>
+                <div class="col-xl-4"></div>
+              </form>
+          </div>
+          <!-- Login screen -->
+          <div action="#" id="loginScreenDiv" style="display:block">
+            <form  onsubmit="return loginScreenValidateForm()" method="post">
+                <label class="col-xl-12" id="passwordIncorrectLabel" style="display:none"> Passwords incorrect</label>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="loginScreenUsername">Username</label>
+                  <input class="col-xl-6" id="loginScreenUsername" type="text" placeholder="Username" required>
+                </div>
+                <div class="form-group d-flex justify-content-right mb-3">
+                  <label class="col-xl-6"  for="loginScreenPassword">Password</label>
+                  <input class="col-xl-6" id="loginScreenPassword" type="password" placeholder="Password" required>
+                </div>
+                <div class="col-xl-4"></div>
                 <input class="btn-primary col-xl-4" type="submit" value="Submit" id='changepasswordSubmit'>
                 <div class="col-xl-4"></div>
               </form>

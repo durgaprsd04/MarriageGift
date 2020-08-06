@@ -29,7 +29,7 @@ namespace MarriageGiftAPI
             builder.Register(s => new StreamWriter("customer.txt", true)).As<StreamWriter>();
             builder.Register(f => new FileStream("customer.dat", FileMode.Create)).As<FileStream>();
             builder.RegisterType<SaveToFileFao>().As<ISaveToFileFao>();
-            builder.Register(c => new Customer("Jeff", "pass@jeff")).As<ICustomer>();
+            builder.Register(c => new Customer("Jeff", "pass@word")).As<ICustomer>();
             builder.Register(l=>logger).As<ILog>();   
             
             builder.Register(c => new CustomerActionController(c.Resolve<ICustomer>(), c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>(), c.Resolve<ISaveToFileFao>(), c.Resolve<ILog>()))
