@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Controller.Interfaces;
+using MarriageGift.Model.CustomerModel;
 namespace MarriageGift.Controller
 {
     public class SelectionController: ISelectionController
@@ -26,6 +27,12 @@ namespace MarriageGift.Controller
         public IDictionary<string, string> GetAllGifts()
         {
            return  giftDao.GetAllGifts();
+        }
+        public string GetCustomerById(string customerId)
+        {
+            if(string.IsNullOrWhiteSpace(customerId))
+                return new Customer("invalid", "invalid").ToString();
+            return customerDao.Read(customerId).ToString();
         }
     }
 }

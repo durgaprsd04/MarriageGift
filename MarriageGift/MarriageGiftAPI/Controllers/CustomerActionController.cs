@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using log4net;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Controller.Interfaces;
-using MarriageGift.Enums;
+using MarriageGift.Model.CustomerModel;
 
 namespace MarriageGiftAPI.Controllers
 {
@@ -36,6 +36,15 @@ namespace MarriageGiftAPI.Controllers
         {
             return selectionController.GetAllGifts();
         }
+      
+        [EnableCors("policy1")]
+        [HttpPost("login")]
+        public ActionResult<string> Login(Customer customer)
+        {
+            var custId = customerController.Login(customer.GetUserName(), customer.GetPassword());
+            return  selectionController.GetCustomerById(custId);            
+        }
+
     }
 
 }

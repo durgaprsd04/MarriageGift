@@ -8,7 +8,7 @@
             {
 
                 public static readonly string SelectCustomer = "select username, password from MarriageGift.dbo.Customer ";
-                public static readonly string ByCustId = SelectCustomer + " where customer_id ={0}";
+                public static readonly string ByCustId = SelectCustomer + " where customer_id ='{0}'";
                 public static readonly string ByUsername = SelectCustomer + " where username  like '{0}'";
             }
             public static class DeleteCustomers
@@ -31,8 +31,8 @@
             }
             public static class  LoginCustomers
             {
-                public static readonly string loginCustomer = "select customer_id from customer"
-                                                        + "where username = '{0}' and[password]='{1}'";
+                public static readonly string loginCustomer = "select customer_id from dbo.customer"
+                                                        + " where username = '{0}' and  [password]='{1}'";
             }
         }
        

@@ -7,6 +7,7 @@ using MarriageGift.Exceptions.InvitationExceptions;
 using MarriageGift.Exceptions.GiftExceptions;
 using MarriageGift.Exceptions.EventExceptions;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace MarriageGift.Model.CustomerModel
 {
@@ -17,13 +18,14 @@ namespace MarriageGift.Model.CustomerModel
         private readonly IInvitationCollection invitations= new InvitationCollection();
         private readonly IEventCollection events= new EventCollection();
 
-       
+       [JsonConstructor]
         public Customer(string userName, string passWord)
         :base()
         {   
             this.userName  =userName;
             this.passWord = passWord;           
         }
+        //[JsonConstructor]
         public Customer(string custId, string userName, string passWord, IInvitationCollection invitations, IEventCollection events)
         :base(custId)
         {   

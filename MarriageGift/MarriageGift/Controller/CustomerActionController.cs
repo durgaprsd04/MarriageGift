@@ -7,21 +7,20 @@ using MarriageGift.Controller.Interfaces;
 using System;
 using log4net;
 using MarriageGift.Model.InvitationModel;
-using System.Collections.Generic;
+using MarriageGift.Model.CustomerModel;
 
 namespace MarriageGift.Controller
 {
     public class CustomerActionController :ICustomerController
     {
-        private readonly ICustomer customer;
+        private ICustomer customer;
         private readonly ICustomerDao customerDao;
         private readonly IEventDao eventDao;
         private readonly IOccassionDao occassionDao;
         private readonly IInvitationDao invitationDao;
         private readonly IGiftDao giftDao;
         private readonly ISaveToFileFao saveToFileFAO;
-        private readonly ILog logger;
-        private readonly ISelectionController selectionController;
+        private readonly ILog logger;       
 
         public CustomerActionController(ICustomer customer, ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
         {
@@ -51,14 +50,25 @@ namespace MarriageGift.Controller
                 throw new CustomerCollectionAddException(e.Message);
             }
         }
+        public ICustomer GetCustomer()
+        {
+            return this.customer;
+        }
 
-        public bool Login(string username, string password)
+        public string Login(string username, string password)
         {
             var result = customerDao.Login(username, password);
-            if (result)
+            
+            if (result!=null)
+            {
                 logger.Info("Login successful");
+                this.customer = (Customer)customerDao.Read(result);
+            }               
             else
+            {
                 logger.Info("login unsuccessful");
+            }
+                
             return result;
         }
 

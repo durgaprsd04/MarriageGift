@@ -1,11 +1,16 @@
 ﻿using MarriageGift.DAO.DAOS;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Model;
-
+using log4net;
 namespace MarriageGift.DAO.Wrappers
 {
     public class CustomerDaoWrapper : ICustomerDao
     {
+        private readonly ILog logger;
+        public CustomerDaoWrapper(ILog logger)
+        {
+            this.logger=logger;
+        }
         public void Delete(string id)
         {
             CustomerDao.Delete(id);
@@ -21,9 +26,9 @@ namespace MarriageGift.DAO.Wrappers
             CustomerDao.Insert(baseObject);
         }
 
-        public bool Login(string username, string password)
+        public string Login(string username, string password)
         {
-            return CustomerDao.Login(username, password);
+            return CustomerDao.Login(username, password, logger);
         }
 
         public IBaseObject Read(string id)

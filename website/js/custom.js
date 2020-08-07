@@ -341,8 +341,33 @@ function SendObjectToAPI(type, result)
   if(type=="login")
   {
     //alert(result);
+    SendDataForCustomerLogin(result);
     makeUserActionVisible();
   }
+}
+async function SendDataForCustomerLogin(result)
+{
+  //post body 
+ const data = {
+   userName: result["username"],
+   passWord :result["password"]
+ };
+
+await fetch('https://localhost:5001/CustomerAction/login', {
+  method: 'POST', // or 'PUT'
+  mode: '*cors',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Success:', response);
+})
+.catch((error) => {
+  console.error('Error:', error);
+});
 }
 function makeUserActionVisible()
 {

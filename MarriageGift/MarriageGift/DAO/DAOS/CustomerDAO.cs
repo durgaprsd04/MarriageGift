@@ -1,9 +1,14 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
+using MarriageGift.Model.InvitationModel;
+using MarriageGift.Model.EventModel;
+
 using MarriageGift.DAO.Queries;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model.CustomerModel;
 using MarriageGift.Model;
 using System.Configuration;
+using log4net;
 
 namespace MarriageGift.DAO.DAOS
 {
@@ -59,8 +64,10 @@ namespace MarriageGift.DAO.DAOS
                 }
                     conn.Close();
             }
-            var invites = InvitationDao.GetInvitesForCustId(custId);
-            var events = EventDao.GetEventsForCustId(custId);
+            var invites = new InvitationCollection();
+            //InvitationDao.GetInvitesForCustId(custId);
+            var events = new EventCollection();
+            //EventDao.GetEventsForCustId(custId);
             return new Customer(custId, username, password, invites, events);
         }
 
@@ -78,21 +85,30 @@ namespace MarriageGift.DAO.DAOS
                 conn.Close();
             }
         }
-        internal static bool Login(string username,string password)
-        {
-            var flag = false;
+        internal static string Login(string username,string password, ILog logger)
+        {       
+            logger.InfoFormat("Fetchign customer id for customer {0}",username);
+            var custId= string.Empty;     
             var query = string.Format(CURDQueries.Customers.LoginCustomers.loginCustomer, username, password);
             var sqlCommand = new SqlCommand();
             sqlCommand.CommandText = query;
-            using (var conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                sqlCommand.Connection = conn;
-                var result = sqlCommand.ExecuteScalar();
-                flag = result == null ? false : true;
-                conn.Close();
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    sqlCommand.Connection = conn;
+                    var result = sqlCommand.ExecuteScalar(); 
+                    custId = result?.ToString();              
+                    conn.Close();
+                }
             }
-            return flag;
+            catch(Exception e)
+            {
+                logger.Error("Error while login "+e.Message);
+            }
+            
+            return custId;
         }
     }
 }

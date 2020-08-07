@@ -53,7 +53,7 @@ namespace MarriageGiftConsoler
                 var password = Console.ReadLine();
                 
                 var isExisting = customerController.Login(userName, password);
-                if(!isExisting)
+                if(string.IsNullOrWhiteSpace (isExisting))
                 {
                     Console.WriteLine("New user Created, chagne password");
                     var newPassword = Console.ReadLine();

@@ -31,10 +31,14 @@ namespace MarriageGiftAPI
                                   builder.WithOrigins("http://localhost:5000/CustomerAction/occassionTypes",
                                                         "https://localhost:5001/CustomerAction/occassionTypes",
                                                         "http://localhost:5000/CustomerAction/allgifts",
-                                                        "https://localhost:5001/CustomerAction/allgifts")
+                                                        "https://localhost:5001/CustomerAction/allgifts",
+                                                        "https://localhost:5001/CustomerAction/login",
+                                                        "http://localhost:5000/CustomerAction/login")
+                                   .WithMethods("PUT", "POST", "GET")
                                   .AllowAnyHeader()
                                   .AllowAnyMethod()
                                   .AllowAnyOrigin();
+                                  
                     
                               }); 
         });  
