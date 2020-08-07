@@ -28,18 +28,10 @@ namespace MarriageGiftAPI
             options.AddPolicy(name: "policy1",
                               builder =>
                               {
-                                  builder.WithOrigins("http://localhost:5000/CustomerAction/occassionTypes",
-                                                        "https://localhost:5001/CustomerAction/occassionTypes",
-                                                        "http://localhost:5000/CustomerAction/allgifts",
-                                                        "https://localhost:5001/CustomerAction/allgifts",
-                                                        "https://localhost:5001/CustomerAction/login",
-                                                        "http://localhost:5000/CustomerAction/login")
-                                   .WithMethods("PUT", "POST", "GET")
-                                  .AllowAnyHeader()
+                                  builder.AllowAnyHeader()
                                   .AllowAnyMethod()
                                   .AllowAnyOrigin();
-                                  
-                    
+                                 
                               }); 
         });  
             services.AddControllers().AddNewtonsoftJson();
@@ -69,6 +61,7 @@ namespace MarriageGiftAPI
             app.UseCors();
             
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

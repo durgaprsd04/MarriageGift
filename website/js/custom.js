@@ -355,19 +355,21 @@ async function SendDataForCustomerLogin(result)
 
 await fetch('https://localhost:5001/CustomerAction/login', {
   method: 'POST', // or 'PUT'
-  mode: '*cors',
+  mode: 'cors',
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Headers':'*'
   },
   body: JSON.stringify(data),
 })
 .then(response => response.json())
-.then(data => {
+.then(response => {
   console.log('Success:', response);
 })
 .catch((error) => {
   console.error('Error:', error);
 });
+alert("xdfd");
 }
 function makeUserActionVisible()
 {
