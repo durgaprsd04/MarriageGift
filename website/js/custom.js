@@ -1,4 +1,5 @@
 var inviteToGiftDict={};
+var selectionDicts={};
 var occassionTypeUrl;
 function getRestUrl(selectItem)
 {
@@ -6,7 +7,7 @@ function getRestUrl(selectItem)
   if(selectItem=="occassion")
   {
     result["url"]="https://localhost:5001/CustomerAction/occassionTypes";
-    result["select"]=`<select  id="createEventOccasionSelect" name="occasionList" size="1" required>
+    result["select"]=`<select  id="createEventOccasionSelect" name="occasionList" size="1" onchange="occassionTypeSelected()" required>
     <option value="--Select--">--Select--</option>
     {optionlist}
     </select>    `
@@ -126,6 +127,7 @@ async function ConvertJsonToOption(selectItem, divName)
   const response = await fetch(url);
   const json = await response.json();
   console.log(json);
+  selectionDicts[selectItem]=json;
   options={};
   var resultText="";
   var part1='<option value="';
@@ -212,6 +214,8 @@ function ValidateEventForm() {
     var occassion =document.getElementById("createEventOccasionSelect")
     var selectedOccasion = occassion.options[occassion.selectedIndex].value;
     var eventPlace = document.getElementById("eventPlace").value;
+    var person1 = document.getElementById("createEventOccasionPerson1name").value;
+    var person2 = document.getElementById("createEventOccasionPerson2name").value;
     var eventDate = document.getElementById("eventDate").value;
     var eventTime = document.getElementById("eventTime").value;
     var giftList =  $('#expectedGiftListSelect').val();
@@ -223,6 +227,8 @@ function ValidateEventForm() {
     event1["place"]=eventPlace;
     event1["date"]=eventDate;
     event1["time"]=eventTime;
+    event1["person1"]=person1;
+    event1["person2"]=person2;
     event1["expectedGiftList"]=giftList;
     var result = JSON.stringify(event1);
     if(isValid)
@@ -397,4 +403,31 @@ function makeUserActionVisible(username)
   }
   else
     document.getElementById("UserActionMenu").setAttribute("style","display:none");
+}
+function occassionTypeSelected()
+{
+  var occassion =document.getElementById("createEventOccasionSelect")
+  var selectedOccasion = selectionDicts["occassion"][occassion.selectedIndex];
+  var noSelect=occassion.selectedIndex;
+  if(noSelect==0)
+  {
+      document.getElementById("createEventOccasionPerson2Div").classList.remove('d-flex');
+      document.getElementById("createEventOccasionPerson1Div").classList.remove('d-flex');
+      document.getElementById("createEventOccasionPerson2Div").classList.add('d-none');
+      document.getElementById("createEventOccasionPerson1Div").classList.add('d-none');
+  }
+  else if(selectedOccasion=='Marriage')
+  {
+    document.getElementById("createEventOccasionPerson1Div").classList.remove('d-none');
+    document.getElementById("createEventOccasionPerson2Div").classList.remove('d-none');
+    document.getElementById("createEventOccasionPerson2Div").classList.add('d-flex');
+    document.getElementById("createEventOccasionPerson1Div").classList.add('d-flex');
+  }
+  else if(selectedOccasion=='BirthDay' || selectedOccasion=='HouseWarming')
+  {
+    document.getElementById("createEventOccasionPerson2Div").classList.remove('d-none');
+    document.getElementById("createEventOccasionPerson2Div").classList.add('d-flex');
+    document.getElementById("createEventOccasionPerson1Div").classList.add('d-none');
+    document.getElementById("createEventOccasionPerson1Div").classList.remove('d-flex');
+  }
 }

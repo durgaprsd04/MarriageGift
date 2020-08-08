@@ -18,7 +18,11 @@ namespace MarriageGift.DAO.DAOS
 
         internal static void Insert(IBaseObject baseObject)
         {
-            throw new NotImplementedException();
+            var event1 = baseObject as Event ;
+            if(event1!=null)
+            {
+                
+            }
         }
 
         internal static IEvent Read(string eventId)
