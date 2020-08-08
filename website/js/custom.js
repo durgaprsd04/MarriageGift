@@ -119,17 +119,17 @@ function showOneFormAlone(formIdInQ)
 async function ConvertJsonToOption(selectItem, divName)
 {
   result = getRestUrl(selectItem);
-  var url = result["url"];  
+  var url = result["url"];
   console.log("fetching url "+url);
   const response = await fetch(url);
   const json = await response.json();
   console.log(json);
-  options={};  
+  options={};
   var resultText="";
   var part1='<option value="';
   var part2='">';
   var part3='</option>';
-  for (var key in json) 
+  for (var key in json)
   {
       resultText += part1+key+part2+json[key]+part3;
   }
@@ -192,8 +192,8 @@ function GetOptionsForMenu(selectItem)
       optionList=inviteToGiftDict[selectedInvite]["gifts"][0];
     }
     else if(selectItem=="occassionlist")
-    {      
-      optionList=getFromRestAPI();  
+    {
+      optionList=getFromRestAPI();
     }
       alert(JSON.stringify(optionList));
   return JSON.stringify(optionList);
@@ -302,10 +302,11 @@ function loginScreenValidateForm()
   var username=document.getElementById("loginScreenUsername").value;
   var password=document.getElementById("loginScreenPassword").value;
   result={};
+  result["id"]="";
   result["username"]=username;
   result["password"]=password;
   sessionStorage.setItem("userDetails", result);
-  SendObjectToAPI("login", JSON.stringify(result));
+  SendObjectToAPI("login",JSON.stringify(result));
   return true;
 }
 function SendObjectToAPI(type, result)
@@ -342,39 +343,51 @@ function SendObjectToAPI(type, result)
   {
     //alert(result);
     SendDataForCustomerLogin(result);
-    makeUserActionVisible();
   }
 }
 async function SendDataForCustomerLogin(result)
 {
-  //post body 
- const data = {
-   userName: result["username"],
-   passWord :result["password"]
- };
-
-await fetch('https://localhost:5001/CustomerAction/login', {
-  method: 'POST', // or 'PUT'
-  mode: 'cors',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Headers':'*'
-  },
-  body: JSON.stringify(data),
-})
-.then(response => response.json())
-.then(response => {
-  console.log('Success:', response);
-})
-.catch((error) => {
-  console.error('Error:', error);
-});
-alert("xdfd");
+    var dataStatus=false;
+    await fetch('https://localhost:5001/CustomerAction/login', {
+      method: 'POST', // or 'PUT'
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'https://localhost:5001/CustomerAction/login'
+      },
+      body: result,
+    })
+    .then(response => {
+      console.log('Success:', response);
+      dataStatus=true;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    var name = JSON.parse(result)["username"];
+    if(dataStatus)
+    {
+      GetCustomerIdByName(name);
+    }
 }
-function makeUserActionVisible()
+async function GetCustomerIdByName(customerName)
+{
+  var getIdUrl="https://localhost:5001/CustomerAction/customerName="+customerName;
+  console.log(getIdUrl);
+  const response = await fetch(getIdUrl);
+  const json = await response.json();
+  console.log(json);
+  sessionStorage["customerId"] = json["id"];
+  makeUserActionVisible(json["username"]);
+}
+function makeUserActionVisible(username)
 {
   if(sessionStorage.getItem("userDetails")!=null)
+  {
     document.getElementById("UserActionMenu").setAttribute("style","display:inline");
-  else 
+    document.getElementById("UserActionMenu").innerHTML=  username +"'s Action(s)";
+    document.getElementById("CustomerActionMenu").classList.remove('disabled');
+  }
+  else
     document.getElementById("UserActionMenu").setAttribute("style","display:none");
 }

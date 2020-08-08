@@ -22,7 +22,7 @@
   <ul class="navbar-nav">
     <!-- Customer actions  -->
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle disabled" id="CustomerActionMenu" data-toggle="dropdown">
         Customer Actions
       </a>
       <div class="dropdown-menu">
@@ -64,7 +64,7 @@
                   <label class="col-xl-6" for="occassionType">Occassion Type</label>
                   <div class="col-xl-6" id="createEventOccasionDiv">
                     occasionlist
-                  </div>                  
+                  </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="place">Place of Event</label>
@@ -216,7 +216,7 @@
           </div>
           <!-- Login screen -->
           <div action="#" id="loginScreenDiv" style="display:block">
-            <form  onsubmit="return loginScreenValidateForm()" method="post">
+            <div >
                 <label class="col-xl-12" id="passwordIncorrectLabel" style="display:none"> Passwords incorrect</label>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6"  for="loginScreenUsername">Username</label>
@@ -227,9 +227,9 @@
                   <input class="col-xl-6" id="loginScreenPassword" type="password" placeholder="Password" required>
                 </div>
                 <div class="col-xl-4"></div>
-                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='changepasswordSubmit'>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='changepasswordSubmit' onclick="loginScreenValidateForm()">
                 <div class="col-xl-4"></div>
-              </form>
+              </div>
           </div>
       </div>
       <div class="col-xl-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>

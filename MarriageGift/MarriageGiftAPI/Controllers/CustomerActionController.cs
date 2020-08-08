@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using log4net;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Controller.Interfaces;
-using MarriageGift.Model.CustomerModel;
+using MarriageGift.Model;
 
 namespace MarriageGiftAPI.Controllers
 {
@@ -14,6 +14,7 @@ namespace MarriageGiftAPI.Controllers
     {
 
         private readonly ILog logger;
+        private static Customer customerObj;
         private static List<Gift> listofGifts = new List<Gift>();
         private ICustomerController customerController;
         private ISelectionController selectionController;
@@ -22,7 +23,7 @@ namespace MarriageGiftAPI.Controllers
         {
             this.logger=logger;
             this.customerController=customerController;
-            this.selectionController =selectionController;           
+            this.selectionController =selectionController;
         }
         [EnableCors("policy1")]
         [HttpGet("occassionTypes")]
@@ -36,13 +37,23 @@ namespace MarriageGiftAPI.Controllers
         {
             return selectionController.GetAllGifts();
         }
-      
+
         [EnableCors("policy1")]
-        [HttpPost("login")]
-        public ActionResult<string> Login(Customer customer)
+        [HttpGet("{customerName}",  Name="GetCustomerByCustomerName")]
+        public Customer GetCustomerByCustomerName(string customerName)
         {
-            var custId = customerController.Login(customer.GetUserName(), customer.GetPassword());
-            return  selectionController.GetCustomerById(custId);            
+          return customerObj;
+        }
+
+        [HttpPost("login")]
+        public ActionResult<Customer> Login(Customer customer)
+        {
+            var custId = customerController.Login(customer.username, customer.password);
+            var result = selectionController.GetCustomerById(custId).Split('|');
+            logger.InfoFormat("result 0 {0} result 1 {1}", result[0],result[1]);
+            customerObj = new Customer(result[0], result[1], customer.password);
+            return CreatedAtAction(nameof(GetCustomerByCustomerName),
+                   new { customerName =result[0] }, customerObj);
         }
 
     }

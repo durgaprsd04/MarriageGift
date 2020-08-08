@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MarriageGiftAPI
 {
@@ -19,22 +20,28 @@ namespace MarriageGiftAPI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
-        {
-            options.AddPolicy(name: "policy1",
+            {
+              options.AddPolicy(name: "policy1",
                               builder =>
                               {
                                   builder.AllowAnyHeader()
                                   .AllowAnyMethod()
-                                  .AllowAnyOrigin();
-                                 
-                              }); 
-        });  
-            services.AddControllers().AddNewtonsoftJson();
+                                  .AllowCredentials()
+                                  .SetIsOriginAllowed(origin => true)
+                                  .WithOrigins("https://localhost:5001/CustomerAction/login",
+                                        "http://localhost:5000/CustomerAction/login");
+                              });
+          });
+          services.AddControllers().AddNewtonsoftJson();
+          services.AddAuthorization(options =>
+          {
+              options.AddPolicy("AllUsers", policy => policy.RequireAuthenticatedUser());
+          });
+          services.AddCors();
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -55,17 +62,17 @@ namespace MarriageGiftAPI
                 app.UseDeveloperExceptionPage();
             }
             loggerFactory.AddLog4Net("log4net.config");
-            
+
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors();
-            
+            app.UseCors("policy1");
+
             app.UseAuthorization();
             app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+              endpoints.MapControllers();
             });
         }
     }
