@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Controller.Interfaces;
 using MarriageGift.Model.CustomerModel;
+using MarriageGift.Model.OccasionModel;
+using MarriageGift.Enums;
+using MarriageGift.Model.GiftModel;
+using MarriageGift.Model.Interfaces;
 namespace MarriageGift.Controller
 {
     public class SelectionController: ISelectionController
@@ -33,6 +37,30 @@ namespace MarriageGift.Controller
             if(string.IsNullOrWhiteSpace(customerId))
                 return new Customer("invalid", "invalid").ToString();
             return customerDao.Read(customerId).ToString();
+        }
+        public IGiftCollection<IGift> GetGiftsForGiftIds(string [] giftIdList)
+        {
+            var giftCollection = new GiftCollection(); 
+            foreach(var giftId in giftIdList)
+                giftCollection.Add((IGift)giftDao.Read(giftId));
+            return giftCollection;
+        }
+        public IOccassion GetDummyOccassion(Occasion occassion )
+        {
+            IOccassion occassionInQ=null ;
+            switch(occassion)
+            {
+                case Occasion.Marriage:
+                    occassionInQ = new Marriage("dummybride","dummyGroom");
+                    break;
+                case Occasion.Birthday:
+                    occassionInQ = new Birthday("dummyperson");
+                    break;
+                case Occasion.HouseWarming:
+                    occassionInQ = new HouseWarming("dummyperson");
+                    break;                    
+            }
+            return occassionInQ;
         }
     }
 }

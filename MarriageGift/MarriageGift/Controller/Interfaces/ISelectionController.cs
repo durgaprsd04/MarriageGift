@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using MarriageGift.Model.CustomerModel;
+using MarriageGift.Model.Interfaces;
+using MarriageGift.Enums;
 
 namespace MarriageGift.Controller.Interfaces
 {
@@ -8,5 +9,7 @@ namespace MarriageGift.Controller.Interfaces
         Dictionary<int,string> GetOccasionTypes();
         IDictionary<string,string> GetAllGifts();
         string GetCustomerById(string customerId);
+        IGiftCollection<IGift> GetGiftsForGiftIds(string [] ids);
+        IOccassion GetDummyOccassion(Occasion type);
     }
 }

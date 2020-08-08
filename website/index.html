@@ -59,37 +59,37 @@
       <div class="col-xl-6">
         <!-- Create Event  -->
           <div id="createEvent" style="display:none">
-            <form action="index.html" onsubmit="return ValidateEventForm()" method="post">
+            <div method="post">
                 <div class="form-group d-flex justify-content-right mb-3">
-                  <label class="col-xl-6" for="occassionType">Occassion Type</label>
+                  <label class="col-xl-6" id="createEventOccasionLabel" for="occassionType">Occassion Type</label>
                   <div class="col-xl-6" id="createEventOccasionDiv">
                     occasionlist
                   </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
-                  <label class="col-xl-6" for="place">Place of Event</label>
+                  <label class="col-xl-6" id="eventPlaceLabel" for="place">Place of Event</label>
                   <input class="col-xl-6 " id="eventPlace" type="text" required/>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3">
-                  <label class="col-xl-6" for="date">Date of Event</label>
+                  <label class="col-xl-6" id="eventDateLabel" for="date">Date of Event</label>
                   <input class="col-xl-6" id="eventDate" type="date" required />
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
-                  <label class="col-xl-6" for="date">Time of Event</label>
+                  <label class="col-xl-6" id="eventTimeLabel" for="date">Time of Event</label>
                   <input class="col-xl-6" id="eventTime" type="time"  required/>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
-                  <label class="col-xl-6" for="date">Exp Gift List</label>
+                  <label class="col-xl-6" id="expectedGiftListLabel" for="date">Exp Gift List</label>
                   <div class="col-xl-6" id="expectedGiftListDiv">
                     expected gift list
                   </div>
                 </div>
                 <div class="form-group d-flex justify-content-right mb-3 ">
                   <div class="col-xl-4"></div>
-              <input class="btn-primary col-xl-4" type="submit" value="Submit" id='createEventSubmit'>
+              <input class="btn-primary col-xl-4" type="submit" value="Submit" id='createEventSubmit' onclick="ValidateEventForm()">
               <div class="col-xl-4"></div>
                 </div>
-              </form>
+              </div >
           </div>
         <!-- Create Invite  -->
           <div id="InviteUser" style="display:none">

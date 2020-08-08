@@ -113,6 +113,8 @@ function showOneFormAlone(formIdInQ)
           continue;
         document.getElementById(formIdList[formId]).setAttribute("style", "display:none");
     }
+    if(formIdInQ=="none")
+      return;
     document.getElementById(formIdInQ).setAttribute("style", "display:block");
 }
 
@@ -207,12 +209,15 @@ document.getElementById("createEvent").setAttribute("style", "display:none");
 
 function ValidateEventForm() {
     var isValid=true;
-    var occassion =document.getElementById("occasion")
+    var occassion =document.getElementById("createEventOccasionSelect")
     var selectedOccasion = occassion.options[occassion.selectedIndex].value;
     var eventPlace = document.getElementById("eventPlace").value;
     var eventDate = document.getElementById("eventDate").value;
     var eventTime = document.getElementById("eventTime").value;
     var giftList =  $('#expectedGiftListSelect').val();
+    //do all kind of validations here.
+    if(selectedOccasion=='--Select--')
+        document.getElementById("createEventOccasionLabel").setAttribute("style","color:red")
     var event1={};
     event1["occassion"]=selectedOccasion;
     event1["place"]=eventPlace;
@@ -220,8 +225,9 @@ function ValidateEventForm() {
     event1["time"]=eventTime;
     event1["expectedGiftList"]=giftList;
     var result = JSON.stringify(event1);
-    SendObjectToAPI("event", result);
-
+    if(isValid)
+      SendObjectToAPI("event", result);
+    return isValid;
 }
 
 function InviteUserValidateForm()
@@ -384,6 +390,7 @@ function makeUserActionVisible(username)
 {
   if(sessionStorage.getItem("userDetails")!=null)
   {
+    showOneFormAlone("none");
     document.getElementById("UserActionMenu").setAttribute("style","display:inline");
     document.getElementById("UserActionMenu").innerHTML=  username +"'s Action(s)";
     document.getElementById("CustomerActionMenu").classList.remove('disabled');

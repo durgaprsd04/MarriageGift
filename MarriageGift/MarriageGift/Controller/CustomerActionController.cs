@@ -72,15 +72,15 @@ namespace MarriageGift.Controller
             return result;
         }
 
-        public bool CreateEvent(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR)
+        public string CreateEvent(IOccassion occassion, string place, DateTime date, IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR)
         {
-            var result = false;
+            var result = string.Empty;
             try
             {
                 var newEvent = new Event(occassion, place, date, customer.getId());
                 newEvent.AddExpectedGifts(giftE);
-                eventDao.Insert(newEvent);
-                result= true;
+                eventDao.Insert(newEvent);  
+                result = newEvent.getId();      
             }
             catch(Exception e)
             {

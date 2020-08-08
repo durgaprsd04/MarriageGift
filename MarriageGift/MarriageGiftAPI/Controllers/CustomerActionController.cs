@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using log4net;
 using MarriageGift.Model.GiftModel;
+using MarriageGift.Model.Interfaces;
 using MarriageGift.Controller.Interfaces;
-using MarriageGift.Model;
+using System;
+using System.Globalization;
 
 namespace MarriageGiftAPI.Controllers
 {
@@ -54,6 +56,16 @@ namespace MarriageGiftAPI.Controllers
             customerObj = new Customer(result[0], result[1], customer.password);
             return CreatedAtAction(nameof(GetCustomerByCustomerName),
                    new { customerName =result[0] }, customerObj);
+        }
+        [HttpPost("createEvent")]
+        public ActionResult<string> CreateEvent(Event event1)
+        {
+            var format="yyyy-MM-dd HH:mm";    
+            var giftE = selectionController.GetGiftsForGiftIds(event1.giftIds);  
+            var giftR =  new GiftCollection();     
+            var date = DateTime.ParseExact(event1.date+" "+event1.time,format, CultureInfo.InvariantCulture);
+            IOccassion occassion =  selectionController.GetDummyOccassion(event1.occassionType);
+            return customerController.CreateEvent(occassion, event1.place,date, giftE, giftR );
         }
 
     }
