@@ -9,15 +9,16 @@ values('Marriage'),
 ('HouseWarming');
 
 
-select * from OCCASSION_TYPE
+select occassion_type_id, occassion_type from OCCASSION_TYPE
 
+select * from OCCASSION
 select NEWID()
 
 select gift_id, gift_name from Gift
 
 select * from Gift
 
-insert into GIFT
+select * from  GIFT_TYPE
 
 Values(newid(), 4,'Trip to Thailand','30000')
 ,(newid(), 2,'TV Stand','8000')

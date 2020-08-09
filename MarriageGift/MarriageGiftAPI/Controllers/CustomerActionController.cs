@@ -16,6 +16,7 @@ namespace MarriageGiftAPI.Controllers
     {
 
         private readonly ILog logger;
+        private static MarriageGift.Model.Interfaces.ICustomer loggedInCustomer;
         private static Customer customerObj;
         private static List<Gift> listofGifts = new List<Gift>();
         private ICustomerController customerController;
@@ -50,23 +51,28 @@ namespace MarriageGiftAPI.Controllers
         [HttpPost("login")]
         public ActionResult<Customer> Login(Customer customer)
         {
-            var custId = customerController.Login(customer.username, customer.password);
+            var custId = customerController.Login(customer.username, customer.password, out loggedInCustomer);
             var result = selectionController.GetCustomerById(custId).Split('|');
             logger.InfoFormat("result 0 {0} result 1 {1}", result[0],result[1]);
             customerObj = new Customer(result[0], result[1], customer.password);
+         
             return CreatedAtAction(nameof(GetCustomerByCustomerName),
                    new { customerName =result[0] }, customerObj);
         }
         [HttpPost("createEvent")]
         public ActionResult<string> CreateEvent(Event event1)
         {
+            customerController.SetCustomer(loggedInCustomer);
+            logger.Info("Came here");
             var format="yyyy-MM-dd HH:mm";
             var giftE = selectionController.GetGiftsForGiftIds(event1.giftIds);
             var giftR =  new GiftCollection();
             var date = DateTime.ParseExact(event1.date+" "+event1.time,format, CultureInfo.InvariantCulture);
+            logger.Info("date is formateed to "+date.ToString());
             IOccassion occassionInQ =  selectionController.GetOccassion(event1.occassionType, event1.person1, event1.person2);
             customerController.CreateOccassion(occassionInQ);
-            return customerController.CreateEvent(occassionInQ, event1.place,date, giftE, giftR );
+            var result = customerController.CreateEvent(occassionInQ, event1.place,date, giftE, giftR );
+            return result;
         }
 
     }

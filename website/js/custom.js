@@ -229,10 +229,10 @@ function ValidateEventForm() {
     event1["time"]=eventTime;
     event1["person1"]=person1;
     event1["person2"]=person2;
-    event1["expectedGiftList"]=giftList;
+    event1["giftIds"]=giftList;
     var result = JSON.stringify(event1);
     if(isValid)
-      SendObjectToAPI("event", result);
+      SendObjectToAPI("CreateEvent", result);
     return isValid;
 }
 
@@ -323,9 +323,10 @@ function loginScreenValidateForm()
 }
 function SendObjectToAPI(type, result)
 {
-  if(type=="event")
+  if(type=="CreateEvent")
   {
     alert(result);
+    SendDataForEventCreation(result);
   }
   if(type=="customerInvitedForEvent")
   {
@@ -357,15 +358,31 @@ function SendObjectToAPI(type, result)
     SendDataForCustomerLogin(result);
   }
 }
-async function SendDataForCustomerLogin(result)
+async function SendDataForEventCreation(result)
 {
-    var dataStatus=false;
-    await fetch('https://localhost:5001/CustomerAction/login', {
+  alert("here");
+  var statusOfEvent= postDataToServer(result,'https://localhost:5001/CustomerAction/createEvent');
+  if(statusOfEvent)
+    console.log("Event created successfully");
+}
+async function SendDataForCustomerLogin(result)
+{    
+    var name = JSON.parse(result)["username"];
+    var dataStatus =await postDataToServer(result, 'https://localhost:5001/CustomerAction/login');
+    if(dataStatus)
+    {
+      GetCustomerIdByName(name);
+    }
+}
+async function postDataToServer(result, url)
+{
+  var dataStatus=false;
+    await fetch(url, {
       method: 'POST', // or 'PUT'
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'https://localhost:5001/CustomerAction/login'
+        'Access-Control-Allow-Origin':url
       },
       body: result,
     })
@@ -376,11 +393,7 @@ async function SendDataForCustomerLogin(result)
     .catch((error) => {
       console.error('Error:', error);
     });
-    var name = JSON.parse(result)["username"];
-    if(dataStatus)
-    {
-      GetCustomerIdByName(name);
-    }
+    return dataStatus;
 }
 async function GetCustomerIdByName(customerName)
 {

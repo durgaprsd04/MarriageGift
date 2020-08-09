@@ -14,7 +14,7 @@ namespace MarriageGift.DAO.DAOS
 {
     public static class CustomerDao 
     {
-        public readonly static string connectionString = ConfigurationManager.ConnectionStrings["MarriageGiftDB"].ToString();
+        public readonly static string connectionString = ConfigurationManager.ConnectionStrings[CommonStaticClass.GetConnectionString()].ToString();
         internal static void Delete(string custId)
         {
             var query = string.Format(CURDQueries.Customers.DeleteCustomers.ByCustId, custId);            

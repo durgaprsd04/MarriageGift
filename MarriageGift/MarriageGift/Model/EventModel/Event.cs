@@ -20,6 +20,8 @@ namespace MarriageGift.Model.EventModel
         public DateTime Date { get => date; }
         public string Place { get => place; }
 
+        public IOccassion Occassion => occassion;
+
         [JsonConstructor]
         public Event(IOccassion occassion, string place, DateTime date, string custId)
         : base()

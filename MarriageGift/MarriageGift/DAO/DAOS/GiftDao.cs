@@ -25,7 +25,7 @@ namespace MarriageGift.DAO.DAOS
 
         internal static IBaseObject Read(string id)
         {
-          var query = string.Format(Queries.CURDQueries.SelectGifts.ByGiftId, id);
+          var query = string.Format(Queries.CURDQueries.SelectGifts.ByGiftIdAlone, id);
           var sqlCommand = new SqlCommand();
           Gift gift=null;
           sqlCommand.CommandText = query;
@@ -37,7 +37,7 @@ namespace MarriageGift.DAO.DAOS
               {
                   while(reader.Read())
                   {
-                      gift = new Gift(id, reader.GetString(0), (GiftItemType)reader.GetInt32(2),reader.GetFloat(1));
+                      gift = new Gift(id, reader.GetString(0), (GiftItemType)reader.GetInt32(2),reader.GetDouble(1));
                   }
               }
               conn.Close();

@@ -20,7 +20,9 @@ namespace MarriageGift.Controller
         private readonly IInvitationDao invitationDao;
         private readonly IGiftDao giftDao;
         private readonly ISaveToFileFao saveToFileFAO;
-        private readonly ILog logger;       
+        private readonly ILog logger;
+
+        public ICustomer Customer { get => customer; set => customer = value; }
 
         public CustomerActionController(ICustomer customer, ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao, ISaveToFileFao saveToFileFAO, ILog logger )
         {
@@ -55,7 +57,7 @@ namespace MarriageGift.Controller
             return this.customer;
         }
 
-        public string Login(string username, string password)
+        public string Login(string username, string password, out ICustomer customer2)
         {
             var result = customerDao.Login(username, password);
             
@@ -63,12 +65,13 @@ namespace MarriageGift.Controller
             {
                 logger.Info("Login successful");
                 this.customer = (Customer)customerDao.Read(result);
+                logger.InfoFormat("Login successful with id {0}", customer.getId());
             }               
             else
             {
                 logger.Info("login unsuccessful");
             }
-                
+            customer2 = customer;
             return result;
         }
 
@@ -209,6 +212,11 @@ namespace MarriageGift.Controller
         public void  CreateOccassion(IOccassion occassion1)
         {
             occassionDao.Insert(occassion1);
-        }   
+        }
+
+        public void SetCustomer(ICustomer customer)
+        {
+            this.customer=customer;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace MarriageGift.DAO.DAOS
 {
    public class EventDao
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["MarriageGiftDB"].ToString();
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings[CommonStaticClass.GetConnectionString()].ToString();
         internal static void Delete(string id)
         {
             throw new NotImplementedException();
@@ -19,9 +19,18 @@ namespace MarriageGift.DAO.DAOS
         internal static void Insert(IBaseObject baseObject)
         {
             var event1 = baseObject as Event ;
+            SqlCommand sqlCommand = new SqlCommand();
             if(event1!=null)
             {
-                
+                sqlCommand.CommandText= string.Format(CURDQueries.Events.InsertEvents.InsertEvent,  event1.Occassion.getId(), event1.getId(),   event1.Place, event1.Date.ToString(), event1.CustId,0);
+                Console.WriteLine(sqlCommand.CommandText);
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    sqlCommand.Connection=conn;
+                    sqlCommand.ExecuteNonQuery();
+                    conn.Close();
+                }    
             }
         }
 
@@ -29,7 +38,7 @@ namespace MarriageGift.DAO.DAOS
         {
             string venue = string.Empty, date = string.Empty, custId = string.Empty, occassionId =string.Empty ;
             var isCanceled=false;
-            var query = string.Format(CURDQueries.SelectEvents.ByEventId, eventId);
+            var query = string.Format(CURDQueries.Events.SelectEvents.ByEventId, eventId);
             var sqlCommand = new SqlCommand();
             sqlCommand.CommandText = query;
             using (var conn = new SqlConnection(connectionString))

@@ -28,7 +28,7 @@ namespace MarriageGift.DAO.DAOS
             {
                 OccassionTypeDict.Clear();
                 var sqlCommand = new SqlCommand();
-                var query = Queries.CURDQueries.Occassion.SelectOccassionTypes;
+                sqlCommand.CommandText=Queries.CURDQueries.Occassion.SelectOccassionTypes;;
                 using (var conn = new SqlConnection(connectionString))
                     {
                         conn.Open();
@@ -51,7 +51,7 @@ namespace MarriageGift.DAO.DAOS
           var occassionTypeId = GetOccassionTypeId(occassionInQ.GetOccassionType());
           var personList = occassionInQ.GetPerson().Split('|');
           var sqlCommand = new SqlCommand();
-          var query = string.Format(Queries.CURDQueries.Occassion.InsertOccassion,occassionInQ.getId(), personList[0], personList[1],occassionTypeId);
+          sqlCommand.CommandText = string.Format(Queries.CURDQueries.Occassion.InsertOccassion,occassionInQ.getId(), personList[0], personList[1],occassionTypeId);
           using (var conn = new SqlConnection(connectionString))
           {
               conn.Open();
