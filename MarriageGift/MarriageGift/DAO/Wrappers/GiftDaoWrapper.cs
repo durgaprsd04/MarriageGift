@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
+using log4net;
 ﻿using MarriageGift.DAO.Interfaces;
 using MarriageGift.DAO.DAOS;
 using MarriageGift.Model;
-using log4net;
-using System.Collections.Generic;
+using MarriageGift.Model.Interfaces;
 
 namespace MarriageGift.DAO.Wrappers
 {
@@ -35,7 +37,17 @@ namespace MarriageGift.DAO.Wrappers
 
         public IBaseObject Read(string id)
         {
-            return GiftDao.Read(id);
+          IGift gift=null;
+          try
+          {
+            logger.InfoFormat("Getting gift from database for Id {0}", id);
+            gift= (IGift)GiftDao.Read(id);
+          }
+          catch(Exception e)
+          {
+            logger.ErrorFormat("Error {1} occured while calling getting gift for id {0} ",id, e.Message);
+          }
+          return gift;
         }
 
         public void Update(IBaseObject baseObject)

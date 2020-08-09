@@ -60,11 +60,11 @@ namespace MarriageGiftAPI.Controllers
         [HttpPost("createEvent")]
         public ActionResult<string> CreateEvent(Event event1)
         {
-            var format="yyyy-MM-dd HH:mm";    
-            var giftE = selectionController.GetGiftsForGiftIds(event1.giftIds);  
-            var giftR =  new GiftCollection();     
+            var format="yyyy-MM-dd HH:mm";
+            var giftE = selectionController.GetGiftsForGiftIds(event1.giftIds);
+            var giftR =  new GiftCollection();
             var date = DateTime.ParseExact(event1.date+" "+event1.time,format, CultureInfo.InvariantCulture);
-            IOccassion occassion =  selectionController.GetDummyOccassion(event1.occassionType);
+            IOccassion occassion =  selectionController.GetDummyOccassion(event1.occassionType, event1.person1, event1.person2);
             return customerController.CreateEvent(occassion, event1.place,date, giftE, giftR );
         }
 

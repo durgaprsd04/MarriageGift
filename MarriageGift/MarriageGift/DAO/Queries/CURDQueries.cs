@@ -35,7 +35,11 @@
                                                         + " where username = '{0}' and  [password]='{1}'";
             }
         }
-       
+        public static class Occassion
+        {        
+            public static readonly string InsertOccassion ="insert into MarriageGift.dbo.Occassion(person1, person2, occassion_type_id) values('{0}','{1}',{2})";
+        }
+
         public class SelectEvents
         {
             public static readonly string SelectEvent = "select event_venue, event_date, customer_id, is_Canceled from MarriageGift.dbo.[Events] ";
@@ -51,7 +55,7 @@
                                                         " inner join gift_type gt on gt.gift_type_id =g.gift_Type_id";
             public static readonly string ByGiftId = SelectGift + " where gift_id ={0}";
             public static readonly string SelectAllGifts = "select gift_id, gift_name from Gift";
-          
+
         }
         public class Selectinivitations
         {

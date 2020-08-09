@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using MarriageGift.Model;
+using MarriageGift.Model.OccassionModel;
 using MarriageGift.Model.Interfaces;
 using System.Configuration;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace MarriageGift.DAO.DAOS
 {
     public static class OccassionDao
     {
-        
+
         public readonly static string connectionString = ConfigurationManager.ConnectionStrings[CommonStaticClass.GetConnectionString()].ToString();
         internal static void Update(IBaseObject baseObject)
         {
@@ -21,7 +22,21 @@ namespace MarriageGift.DAO.DAOS
         }
         internal static void Insert(IBaseObject baseObject)
         {
-            throw new NotImplementedException();
+          var occassionInQ = (Occassion)baseObject;
+          var query = string.Format(Queries.CURDQueries.Occassion.InsertOccassion,;
+          using (var conn = new SqlConnection(connectionString))
+          {
+              conn.Open();
+              sqlCommand.Connection = conn;
+              using(var reader = sqlCommand.ExecuteReader())
+              {
+                  while(reader.Read())
+                  {
+                      resultDict.Add(reader.GetInt32(0), reader.GetString(1));
+                  }
+              }
+              conn.Close();
+          }
         }
         internal static IOccassion Read(string custId)
         {
@@ -58,7 +73,7 @@ namespace MarriageGift.DAO.DAOS
             {
                 logger.Error(e.Message+" occured while accessing occassions");
             }
-           
+
             return resultDict;
         }
     }

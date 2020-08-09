@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MarriageGift.Model.Event
 
 namespace MarriageGift.Model.Interfaces
 {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MarriageGift.DAO.Interfaces
 {
-  public   interface IOccassionDao:IGenericDao
+  public interface IOccassionDao:IGenericDao 
     {
       Dictionary<int, string> GetOcccasionTypes();
     }

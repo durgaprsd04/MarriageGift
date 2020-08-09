@@ -5,6 +5,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Model;
+using MarriageGift.Enums;
+using MarriageGift.Model.GiftModel;
 
 namespace MarriageGift.DAO.DAOS
 {
@@ -23,7 +25,24 @@ namespace MarriageGift.DAO.DAOS
 
         internal static IBaseObject Read(string id)
         {
-            throw new NotImplementedException();
+          var query = string.Format(Queries.CURDQueries.SelectGifts.ByGiftId, id);
+          var sqlCommand = new SqlCommand();
+          Gift gift=null;
+          sqlCommand.CommandText = query;
+          using (var conn = new SqlConnection(connectionString))
+          {
+              conn.Open();
+              sqlCommand.Connection = conn;
+              using(var reader = sqlCommand.ExecuteReader())
+              {
+                  while(reader.Read())
+                  {
+                      gift = new Gift(id, reader.GetString(0), (GiftItemType)reader.GetInt32(2),reader.GetFloat(1));
+                  }
+              }
+              conn.Close();
+          }
+          return gift;
         }
 
         internal static void Update(IBaseObject baseObject)

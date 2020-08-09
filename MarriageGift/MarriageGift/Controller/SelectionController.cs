@@ -40,26 +40,27 @@ namespace MarriageGift.Controller
         }
         public IGiftCollection<IGift> GetGiftsForGiftIds(string [] giftIdList)
         {
-            var giftCollection = new GiftCollection(); 
+            var giftCollection = new GiftCollection();
             foreach(var giftId in giftIdList)
                 giftCollection.Add((IGift)giftDao.Read(giftId));
             return giftCollection;
         }
-        public IOccassion GetDummyOccassion(Occasion occassion )
+        public IOccassion GetDummyOccassion(Occasion occassion, string person1, string person2)
         {
             IOccassion occassionInQ=null ;
             switch(occassion)
             {
                 case Occasion.Marriage:
-                    occassionInQ = new Marriage("dummybride","dummyGroom");
+                    occassionInQ = new Marriage(person1,person2);
                     break;
                 case Occasion.Birthday:
-                    occassionInQ = new Birthday("dummyperson");
+                    occassionInQ = new Birthday(person2);
                     break;
                 case Occasion.HouseWarming:
-                    occassionInQ = new HouseWarming("dummyperson");
-                    break;                    
+                    occassionInQ = new HouseWarming(person2);
+                    break;
             }
+            occassionDao.Insert(occassionInQ);
             return occassionInQ;
         }
     }
