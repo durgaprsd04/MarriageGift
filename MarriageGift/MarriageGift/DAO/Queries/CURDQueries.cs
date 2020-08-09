@@ -37,7 +37,8 @@
         }
         public static class Occassion
         {        
-            public static readonly string InsertOccassion ="insert into MarriageGift.dbo.Occassion(person1, person2, occassion_type_id) values('{0}','{1}',{2})";
+            public static readonly string SelectOccassionTypes="select occassion_type_id, occassion_type from OCCASSION_TYPE";
+            public static readonly string InsertOccassion ="insert into MarriageGift.dbo.Occassion(occasion_id, person1, person2, occassion_type_id) values('{0}','{1}','{2}',{3})";
         }
 
         public class SelectEvents

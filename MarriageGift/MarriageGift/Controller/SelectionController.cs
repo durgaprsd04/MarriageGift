@@ -45,7 +45,7 @@ namespace MarriageGift.Controller
                 giftCollection.Add((IGift)giftDao.Read(giftId));
             return giftCollection;
         }
-        public IOccassion GetDummyOccassion(Occasion occassion, string person1, string person2)
+        public IOccassion GetOccassion(Occasion occassion, string person1, string person2)
         {
             IOccassion occassionInQ=null ;
             switch(occassion)
@@ -60,7 +60,6 @@ namespace MarriageGift.Controller
                     occassionInQ = new HouseWarming(person2);
                     break;
             }
-            occassionDao.Insert(occassionInQ);
             return occassionInQ;
         }
     }

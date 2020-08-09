@@ -35,5 +35,9 @@ namespace MarriageGift.Model.OccasionModel
             groom = occassion.groom;
             return true;
         }
+        public override string GetPerson()
+        {
+            return bride+"|"+groom;
+        }
     }
 }

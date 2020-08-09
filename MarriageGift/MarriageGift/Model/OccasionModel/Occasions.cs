@@ -18,6 +18,12 @@ namespace MarriageGift.Model.OccasionModel
         }
         protected Occasion occasion;
         protected string occasionId;
-        public abstract bool modifyOccasion(IOccassion occassion); 
+        public abstract bool modifyOccasion(IOccassion occassion);
+        public abstract string GetPerson();
+
+        public Occasion GetOccassionType()
+        {
+            return occasion;
+        }
     }
 }

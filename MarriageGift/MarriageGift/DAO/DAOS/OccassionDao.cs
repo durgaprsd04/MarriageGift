@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
 using MarriageGift.Model;
-using MarriageGift.Model.OccassionModel;
+using MarriageGift.Enums;
+using MarriageGift.Model.OccasionModel;
 using MarriageGift.Model.Interfaces;
 using System.Configuration;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace MarriageGift.DAO.DAOS
     public static class OccassionDao
     {
 
+        public static Dictionary<string, int> OccassionTypeDict =new Dictionary<string, int>(); 
         public readonly static string connectionString = ConfigurationManager.ConnectionStrings[CommonStaticClass.GetConnectionString()].ToString();
         internal static void Update(IBaseObject baseObject)
         {
@@ -20,21 +22,41 @@ namespace MarriageGift.DAO.DAOS
         {
             throw new NotImplementedException();
         }
+        internal static int GetOccassionTypeId(Occasion occasion)
+        {
+            if(!OccassionTypeDict.ContainsKey(occasion.ToString()))
+            {
+                OccassionTypeDict.Clear();
+                var sqlCommand = new SqlCommand();
+                var query = Queries.CURDQueries.Occassion.SelectOccassionTypes;
+                using (var conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        sqlCommand.Connection = conn;
+                        using(var reader = sqlCommand.ExecuteReader())
+                        {
+                            while(reader.Read())
+                            {
+                                OccassionTypeDict.Add(reader.GetString(1),reader.GetInt32(0));
+                            }
+                        }
+                        conn.Close();
+                    }
+            }
+            return OccassionTypeDict[occasion.ToString()];
+        }
         internal static void Insert(IBaseObject baseObject)
         {
-          var occassionInQ = (Occassion)baseObject;
-          var query = string.Format(Queries.CURDQueries.Occassion.InsertOccassion,;
+          var occassionInQ = (IOccassion)baseObject;
+          var occassionTypeId = GetOccassionTypeId(occassionInQ.GetOccassionType());
+          var personList = occassionInQ.GetPerson().Split('|');
+          var sqlCommand = new SqlCommand();
+          var query = string.Format(Queries.CURDQueries.Occassion.InsertOccassion,occassionInQ.getId(), personList[0], personList[1],occassionTypeId);
           using (var conn = new SqlConnection(connectionString))
           {
               conn.Open();
               sqlCommand.Connection = conn;
-              using(var reader = sqlCommand.ExecuteReader())
-              {
-                  while(reader.Read())
-                  {
-                      resultDict.Add(reader.GetInt32(0), reader.GetString(1));
-                  }
-              }
+              sqlCommand.ExecuteNonQuery();
               conn.Close();
           }
         }

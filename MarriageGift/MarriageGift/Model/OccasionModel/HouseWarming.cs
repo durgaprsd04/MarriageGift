@@ -21,6 +21,11 @@ namespace MarriageGift.Model.OccasionModel
         }
         public string Owner { get => owner;}
 
+        public override string GetPerson()
+        {
+            return Owner+"|empty";
+        }
+
         public override bool modifyOccasion(IOccassion occassionItem)
         {
             var occassion = occassionItem as HouseWarming;

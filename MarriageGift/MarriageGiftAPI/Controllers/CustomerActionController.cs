@@ -64,8 +64,9 @@ namespace MarriageGiftAPI.Controllers
             var giftE = selectionController.GetGiftsForGiftIds(event1.giftIds);
             var giftR =  new GiftCollection();
             var date = DateTime.ParseExact(event1.date+" "+event1.time,format, CultureInfo.InvariantCulture);
-            IOccassion occassion =  selectionController.GetDummyOccassion(event1.occassionType, event1.person1, event1.person2);
-            return customerController.CreateEvent(occassion, event1.place,date, giftE, giftR );
+            IOccassion occassionInQ =  selectionController.GetOccassion(event1.occassionType, event1.person1, event1.person2);
+            customerController.CreateOccassion(occassionInQ);
+            return customerController.CreateEvent(occassionInQ, event1.place,date, giftE, giftR );
         }
 
     }

@@ -206,5 +206,9 @@ namespace MarriageGift.Controller
         {
             return customer.getId();
         }
+        public void  CreateOccassion(IOccassion occassion1)
+        {
+            occassionDao.Insert(occassion1);
+        }   
     }
 }

@@ -10,6 +10,6 @@ namespace MarriageGift.Controller.Interfaces
         IDictionary<string,string> GetAllGifts();
         string GetCustomerById(string customerId);
         IGiftCollection<IGift> GetGiftsForGiftIds(string [] ids);
-        IOccassion GetDummyOccassion(Occasion occassion, string person1, string person2);
+        IOccassion GetOccassion(Occasion occassion, string person1, string person2);
     }
 }

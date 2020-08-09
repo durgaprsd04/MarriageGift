@@ -16,5 +16,6 @@ namespace MarriageGift.Controller.Interfaces
         bool ModifEvent(IEvent eventInQ);
         bool SaveCustomerToFile();
         string GetCustomerId();
+        void  CreateOccassion(IOccassion occassion1);
     }
 }

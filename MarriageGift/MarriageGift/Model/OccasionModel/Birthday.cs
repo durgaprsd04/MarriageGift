@@ -31,5 +31,10 @@ namespace MarriageGift.Model.OccasionModel
             person = occassion.person;
             return true ;
         }
+
+        public override string GetPerson()
+        {
+            return person+"|empty";
+        }
     }
 }
