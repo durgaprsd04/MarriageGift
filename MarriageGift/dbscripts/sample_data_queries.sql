@@ -32,7 +32,20 @@ insert into gift_type values('Electronics'),
 ('Trips')
 
 
-select * from customer
+sp_Tables '%gift%'
+
+
+sp_help GIFT_EXPECTED
+
+
+select * from GIFT_EXPECTED
+
+select * from [occassion]
+
+select * from [Events]
+
+select * from gift
+
 select * from customer
 
 insert into customer
