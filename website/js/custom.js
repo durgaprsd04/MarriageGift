@@ -1,6 +1,11 @@
 var inviteToGiftDict={};
 var selectionDicts={};
 var occassionTypeUrl;
+
+class test
+{
+
+}
 function getRestUrl(selectItem)
 {
   result={};
@@ -366,7 +371,7 @@ async function SendDataForEventCreation(result)
     console.log("Event created successfully");
 }
 async function SendDataForCustomerLogin(result)
-{    
+{
     var name = JSON.parse(result)["username"];
     var dataStatus =await postDataToServer(result, 'https://localhost:5001/CustomerAction/login');
     if(dataStatus)
