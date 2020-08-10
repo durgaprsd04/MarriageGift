@@ -56,7 +56,8 @@ namespace MarriageGift.DAO.Wrappers
         }
         public void AddGiftToExpectedGifts(IGift gift, string eventId )
         {
-
+          logger.InfoFormat("Adding gift with id {0} to exepcted gift list {1}", gift.getId(), eventId);
+          GiftDao.AddGiftToExpectedGifts(gift, eventId);
         }
     }
 }

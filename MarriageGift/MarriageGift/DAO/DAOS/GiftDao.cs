@@ -25,7 +25,7 @@ namespace MarriageGift.DAO.DAOS
 
         internal static IBaseObject Read(string id)
         {
-          var query = string.Format(Queries.CURDQueries.SelectGifts.ByGiftIdAlone, id);
+          var query = string.Format(Queries.CURDQueries.Gifts.SelectGifts.ByGiftIdAlone, id);
           var sqlCommand = new SqlCommand();
           Gift gift=null;
           sqlCommand.CommandText = query;
@@ -61,7 +61,7 @@ namespace MarriageGift.DAO.DAOS
         {
             logger.Info("Getting all gifts from database");
             var resultDict = new Dictionary<string,string>();
-            var query = Queries.CURDQueries.SelectGifts.SelectAllGifts;
+            var query = Queries.CURDQueries.Gifts.SelectGifts.SelectAllGifts;
             var sqlCommand = new SqlCommand();
             sqlCommand.CommandText = query;
             try
@@ -87,9 +87,19 @@ namespace MarriageGift.DAO.DAOS
             }
             return resultDict;
         }
-        internal static AddGiftToExpectedGifts(IGift gift, string eventId)
+        internal static void AddGiftToExpectedGifts(IGift gift, string eventId)
         {
-
+          var resultDict = new Dictionary<string,string>();
+          var query = string.Format(Queries.CURDQueries.Gifts.InsertExpectedGifts.InsertIntoGift, eventId,gift.getId());
+          var sqlCommand = new SqlCommand();
+          sqlCommand.CommandText = query;
+          using (var conn = new SqlConnection(connectionString))
+          {
+              conn.Open();
+              sqlCommand.Connection = conn;
+              sqlCommand.ExecuteNonQuery();
+              conn.Close();
+          }
         }
     }
 }

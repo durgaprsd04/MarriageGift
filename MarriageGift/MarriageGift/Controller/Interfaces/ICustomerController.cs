@@ -5,7 +5,7 @@ using MarriageGift.Model.Interfaces;
 namespace MarriageGift.Controller.Interfaces
 {
     public interface ICustomerController
-    {        
+    {
         string Login(string username, string password, out ICustomer customer1);
         bool ChangePassword(string username, string password);
         string CreateEvent(IOccassion occassion, string place,DateTime date,IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR);
@@ -15,8 +15,9 @@ namespace MarriageGift.Controller.Interfaces
         bool RespondToInvite(string inviteId, bool response);
         bool ModifEvent(IEvent eventInQ);
         bool SaveCustomerToFile();
-        string GetCustomerId();   
+        string GetCustomerId();
         void SetCustomer(ICustomer customer);
         void  CreateOccassion(IOccassion occassion1);
+        void AddToExpectedGifts(IGiftCollection<IGift> giftCollection, string eventId);
     }
 }

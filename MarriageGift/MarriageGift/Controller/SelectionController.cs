@@ -6,6 +6,7 @@ using MarriageGift.Model.OccasionModel;
 using MarriageGift.Enums;
 using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.Interfaces;
+using log4net;
 namespace MarriageGift.Controller
 {
     public class SelectionController: ISelectionController
@@ -15,13 +16,15 @@ namespace MarriageGift.Controller
         private readonly IOccassionDao occassionDao;
         private readonly IInvitationDao invitationDao;
         private readonly IGiftDao giftDao;
-        public SelectionController(ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao)
+        private readonly ILog logger;
+        public SelectionController(ICustomerDao customerDao, IEventDao eventDao, IInvitationDao invitationDao, IOccassionDao occassionDao,IGiftDao giftDao, ILog logger)
         {
             this.customerDao = customerDao;
             this.eventDao = eventDao;
             this.occassionDao = occassionDao;
             this.invitationDao = invitationDao;
             this.giftDao = giftDao;
+            this.logger = logger;
         }
         public Dictionary<int, string> GetOccasionTypes()
         {
@@ -43,7 +46,9 @@ namespace MarriageGift.Controller
             var giftCollection = new GiftCollection();
             foreach(var giftId in giftIdList)
             {
-                giftCollection.Add((IGift)giftDao.Read(giftId));
+              var gift =(IGift)giftDao.Read(giftId);
+              logger.InfoFormat("Gift with id {0} added", gift.getId());
+                giftCollection.Add(gift);
             }
 
             return giftCollection;

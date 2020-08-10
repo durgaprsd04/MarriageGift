@@ -88,7 +88,7 @@ namespace MarriageGift.Controller
             catch(Exception e)
             {
                 logger.Error(e.Message);
-                throw new Exceptions.EventExceptions.EventCollectionAddException(e.Message);
+                //throw new Exceptions.EventExceptions.EventCollectionAddException(e.Message);
             }
             return result;
         }
@@ -218,11 +218,11 @@ namespace MarriageGift.Controller
         {
             this.customer=customer;
         }
-        public void AddToExpectedGifts(IGiftCollection giftCollection, string eventId)
+        public void AddToExpectedGifts(IGiftCollection<IGift> giftCollection, string eventId)
         {
-            foreach(var gift in giftCollection)
+            foreach(var gift in giftCollection.GetUnderlyingDictionary())
             {
-              giftDao.AddGiftToExpectedGifts(IGiftCollection gift, string eventId )
+              giftDao.AddGiftToExpectedGifts((IGift)gift.Value, eventId);
             }
         }
     }

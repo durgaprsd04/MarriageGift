@@ -58,7 +58,7 @@
             public static readonly string InsertEvent ="insert into MarriageGift.dbo.[Events](occassion_id, event_id, event_venue, event_date, customer_id, is_canceled) values('{0}','{1}','{2}','{3}','{4}',{5})";
         }
     }
-    public class gifts{
+    public class Gifts{
       public class SelectGifts
       {
           public static readonly string SelectGift = "select gift_name, gift_price, gt.gift_type from gift g "+
@@ -72,7 +72,7 @@
       }
       public class InsertExpectedGifts
       {
-        public static readonly string InsertIntoGift="insert into MarriageGift.dbo.GIFT_EXPECTED(event_id, gift_id) values('{0}','{1}');"
+        public static readonly string InsertIntoGift="insert into MarriageGift.dbo.GIFT_EXPECTED(event_id, gift_id) values('{0}','{1}')";
       }
     }
 

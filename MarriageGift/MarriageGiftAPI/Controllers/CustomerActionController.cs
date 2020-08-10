@@ -55,7 +55,7 @@ namespace MarriageGiftAPI.Controllers
             var result = selectionController.GetCustomerById(custId).Split('|');
             logger.InfoFormat("result 0 {0} result 1 {1}", result[0],result[1]);
             customerObj = new Customer(result[0], result[1], customer.password);
-         
+
             return CreatedAtAction(nameof(GetCustomerByCustomerName),
                    new { customerName =result[0] }, customerObj);
         }
@@ -72,6 +72,7 @@ namespace MarriageGiftAPI.Controllers
             IOccassion occassionInQ =  selectionController.GetOccassion(event1.occassionType, event1.person1, event1.person2);
             customerController.CreateOccassion(occassionInQ);
             var result = customerController.CreateEvent(occassionInQ, event1.place,date, giftE, giftR );
+            customerController.AddToExpectedGifts(giftE,result);
             return result;
         }
 

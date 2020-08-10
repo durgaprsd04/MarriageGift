@@ -19,7 +19,7 @@ namespace MarriageGiftAPI
             // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
             // It was then registered with Autofac using the Populate method. All of this starts
             // with the `UseServiceProviderFactory(new AutofacServiceProviderFactory())` that happens in Program and registers Autofac
-            // as the service provider.          
+            // as the service provider.
             ILog logger = LogManager.GetLogger(typeof(AutofacModule));
             builder.RegisterType<EventDaoWrapper>().As<IEventDao>();
             builder.RegisterType<CustomerDaoWrapper>().As<ICustomerDao>();
@@ -30,17 +30,17 @@ namespace MarriageGiftAPI
             builder.Register(f => new FileStream("customer.dat", FileMode.Create)).As<FileStream>();
             builder.RegisterType<SaveToFileFao>().As<ISaveToFileFao>();
             builder.Register(c => new Customer("Jeff", "pass@word")).As<ICustomer>();
-            builder.Register(l=>logger).As<ILog>();   
-            
+            builder.Register(l=>logger).As<ILog>();
+
             builder.Register(c => new CustomerActionController(c.Resolve<ICustomer>(), c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>(), c.Resolve<ISaveToFileFao>(), c.Resolve<ILog>()))
                 .As<ICustomerController>()
                 .InstancePerLifetimeScope();
-            
+
             builder.Register(c =>logger)
                 .As<ILog>()
                 .InstancePerLifetimeScope();
-            
-            builder.Register(c => new SelectionController( c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>()))
+
+            builder.Register(c => new SelectionController( c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>(), c.Resolve<ILog>()))
                 .As<ISelectionController>()
                 .InstancePerLifetimeScope();
         }
