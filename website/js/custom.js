@@ -33,7 +33,7 @@ async function createEvent1()
   //reading  options
  await ConvertJsonToOption("allgifts","expectedGiftListDiv");
   //show just events
-  showOneFormAlone("createEvent");
+ showOneFormAlone("createEvent");
 }
 function inviteUser()
 {
