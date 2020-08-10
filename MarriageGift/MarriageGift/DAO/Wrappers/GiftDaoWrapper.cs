@@ -54,5 +54,9 @@ namespace MarriageGift.DAO.Wrappers
         {
             GiftDao.Update(baseObject);
         }
+        public void AddGiftToExpectedGifts(IGift gift, string eventId )
+        {
+
+        }
     }
 }

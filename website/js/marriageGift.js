@@ -46,6 +46,8 @@ class URIProvider
       return 'https://localhost:5001/CustomerAction/login';
     else if(type=='getCustomerByName')
       return 'https://localhost:5001/CustomerAction';
+    else if(type='createEvent')
+      return 'https://localhost:5001/CustomerAction/createEvent';
   }
   static GetParameterListForType(type)
   {
@@ -78,13 +80,50 @@ class HTMLFormatter
       document.getElementById("UserActionMenu").innerHTML=  username +"'s Action(s)";
       document.getElementById("CustomerActionMenu").classList.remove('disabled');
     }
+    static occassionTypeSelected()
+    {
+      var occassion =document.getElementById("createEventOccasionListSelect")
+      var selectedOccasion = occassion.options[occassion.selectedIndex].innerHTML;
+      //console.log( StaticObjectHolder.KVPHolder["occassionDict"]['result']);
+      //console.log(selectedOccasion);
+      if(selectedOccasion=='--Select--')
+      {
+          HTMLFormatter.MakeDivInVisible("createEventOccasionPerson2Div");
+          HTMLFormatter.MakeDivInVisible("createEventOccasionPerson1Div");
+      }
+      else if(selectedOccasion=='Marriage')
+      {
+          HTMLFormatter.MakeDivVisible("createEventOccasionPerson2Div");
+          HTMLFormatter.MakeDivVisible("createEventOccasionPerson1Div");
+      }
+      else if(selectedOccasion=='BirthDay' || selectedOccasion=='HouseWarming')
+      {
+          HTMLFormatter.MakeDivVisible("createEventOccasionPerson2Div");
+          HTMLFormatter.MakeDivInVisible("createEventOccasionPerson1Div");
+      }
+    }
+    static MakeDivVisible(divName)
+    {
+      document.getElementById(divName).classList.remove('d-none');
+      document.getElementById(divName).classList.add('d-flex');
+    }
+    static MakeDivInVisible(divName)
+    {
+      document.getElementById(divName).classList.remove('d-flex');
+      document.getElementById(divName).classList.add('d-none');
+    }
   }
 
 class HTMLSnippets
 {
-  GetSelectList(selectListId, isMultiple, maxNumberOfSelects, optionDict)
+  GetSelectList(selectListId, isMultiple, maxNumberOfSelects, optionDict, onChangeFunction="default", isSelectNeeded=false)
   {
-    var initSelect = `<select id='`+selectListId+`' name='`+selectListId+`' size='`;
+    var onChangeFunctionText= "";
+    if(onChangeFunction!='default')
+    {
+        onChangeFunctionText="onchange='"+onChangeFunction+"()'";
+    }
+    var initSelect = `<select id='`+selectListId+`' name='`+selectListId+`' `+ onChangeFunctionText +`size='`;
     if(isMultiple)
       initSelect = initSelect + maxNumberOfSelects+`' multiple required> {optionList} </select>`;
     else
@@ -93,8 +132,17 @@ class HTMLSnippets
     var part1=`<option value='`;
     var part2=`'>`;
     var part3=`</option>`;
+    if(isSelectNeeded)
+    {
+      optionDict['--Select--']='--Select--';
+    }
+
     for (var key in optionDict)
     {
+      if(key=='--Select--')
+        part2=`' selected="selected">`
+      else
+        part2=`'>`;
         resultText += part1+key+part2+optionDict[key]+part3;
     }
     //console.log(resultText);
@@ -127,26 +175,41 @@ class LoginActions
     return result;
   }
 }
-class DataFormatter
+class EventActions
 {
-  FormatJSONToDict(json)
+  async SendDataForEventCreation(result)
   {
-    return JSON.parse(json);
+    var createEventUri =URIProvider.GetURIForOccassion("createEvent");
+    console.log("Sending data for event creation to url "+createEventUri);
+    var statusOfEvent= await ServerInteraction.postData(result,createEventUri);
+    if(statusOfEvent)
+    {
+      console.log("Event created successfully");
+    }
+    else
+    {
+      console.log('Event creation failed');
+    }
   }
+}
+class StaticObjectHolder
+{
+  static KVPHolder = {};
 }
 async function createEvent1()
 {
   var divElementOccassionPreText="createEventOccasionList";
   var divElementEventPreText="createEventExpectedGiftList";
-  var dataFormatter = new DataFormatter();
   var htmlSnippets = new HTMLSnippets();
   var uriProvider = new URIProvider();
   //populating occasions
   var occassionDict =await ServerInteraction.getData(URIProvider.GetURIForOccassion("occassion"));
-  document.getElementById(divElementOccassionPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementOccassionPreText+"Select", false, 3,occassionDict['result']);
+  document.getElementById(divElementOccassionPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementOccassionPreText+"Select", false, 3,occassionDict['result'],"HTMLFormatter.occassionTypeSelected", true);
+  StaticObjectHolder.KVPHolder['occassionDict']=occassionDict;
   //reading  gifts
   var giftDict = await ServerInteraction.getData(URIProvider.GetURIForOccassion("allgifts"));
   document.getElementById(divElementEventPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementEventPreText+"Select", true, 3,giftDict['result']);
+
   //show just create event
  HTMLFormatter.showOneFormAlone("createEvent");
 }
@@ -170,4 +233,31 @@ async function loginScreenValidateForm()
     sessionStorage.setItem("userDetails",userDetails['result']);
     HTMLFormatter.makeUserActionVisible(username);
   }
+}
+async function ValidateEventForm() {
+    var isValid=true;
+    var occassion =document.getElementById("createEventOccasionListSelect")
+    var selectedOccasion = occassion.options[occassion.selectedIndex].value;
+    var eventPlace = document.getElementById("eventPlace").value;
+    var person1 = document.getElementById("createEventOccasionPerson1name").value;
+    var person2 = document.getElementById("createEventOccasionPerson2name").value;
+    var eventDate = document.getElementById("eventDate").value;
+    var eventTime = document.getElementById("eventTime").value;
+    var giftList =  $('#createEventExpectedGiftListSelect').val();
+    //do all kind of validations here.
+    if(selectedOccasion=='--Select--')
+        document.getElementById("createEventOccasionLabel").setAttribute("style","color:red")
+    var event1={};
+    event1["occassion"]=selectedOccasion;
+    event1["place"]=eventPlace;
+    event1["date"]=eventDate;
+    event1["time"]=eventTime;
+    event1["person1"]=person1;
+    event1["person2"]=person2;
+    event1["giftIds"]=giftList;
+    var result = JSON.stringify(event1);
+    var eventActions = new EventActions();
+    if(isValid)
+      await eventActions.SendDataForEventCreation(result);
+    HTMLFormatter.showOneFormAlone("none");
 }

@@ -42,7 +42,10 @@ namespace MarriageGift.Controller
         {
             var giftCollection = new GiftCollection();
             foreach(var giftId in giftIdList)
+            {
                 giftCollection.Add((IGift)giftDao.Read(giftId));
+            }
+
             return giftCollection;
         }
         public IOccassion GetOccassion(Occasion occassion, string person1, string person2)

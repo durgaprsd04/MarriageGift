@@ -87,5 +87,9 @@ namespace MarriageGift.DAO.DAOS
             }
             return resultDict;
         }
+        internal static AddGiftToExpectedGifts(IGift gift, string eventId)
+        {
+
+        }
     }
 }

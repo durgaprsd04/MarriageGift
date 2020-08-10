@@ -60,13 +60,13 @@ namespace MarriageGift.Controller
         public string Login(string username, string password, out ICustomer customer2)
         {
             var result = customerDao.Login(username, password);
-            
+
             if (result!=null)
             {
                 logger.Info("Login successful");
                 this.customer = (Customer)customerDao.Read(result);
                 logger.InfoFormat("Login successful with id {0}", customer.getId());
-            }               
+            }
             else
             {
                 logger.Info("login unsuccessful");
@@ -82,8 +82,8 @@ namespace MarriageGift.Controller
             {
                 var newEvent = new Event(occassion, place, date, customer.getId());
                 newEvent.AddExpectedGifts(giftE);
-                eventDao.Insert(newEvent);  
-                result = newEvent.getId();      
+                eventDao.Insert(newEvent);
+                result = newEvent.getId();
             }
             catch(Exception e)
             {
@@ -170,7 +170,7 @@ namespace MarriageGift.Controller
         {
             var result = false;
             try
-            {               
+            {
                 eventDao.Update(eventInQ);
                 result = true;
             }
@@ -217,6 +217,13 @@ namespace MarriageGift.Controller
         public void SetCustomer(ICustomer customer)
         {
             this.customer=customer;
+        }
+        public void AddToExpectedGifts(IGiftCollection giftCollection, string eventId)
+        {
+            foreach(var gift in giftCollection)
+            {
+              giftDao.AddGiftToExpectedGifts(IGiftCollection gift, string eventId )
+            }
         }
     }
 }

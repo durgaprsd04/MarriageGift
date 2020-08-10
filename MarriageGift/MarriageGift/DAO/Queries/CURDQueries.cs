@@ -36,13 +36,14 @@
             }
         }
         public static class Occassion
-        {        
+        {
             public static readonly string SelectOccassionTypes="select occassion_type_id, occassion_type from OCCASSION_TYPE";
             public static readonly string InsertOccassion ="insert into MarriageGift.dbo.Occassion(occasion_id, person1, person2, occassion_type_id) values('{0}','{1}','{2}',{3})";
         }
 
-    public static class Events{
-public class SelectEvents
+    public static class Events
+    {
+        public class SelectEvents
         {
             public static readonly string SelectEvent = "select event_venue, event_date, customer_id, is_Canceled from MarriageGift.dbo.[Events] ";
             public static readonly string ByEventId = SelectEvent + " where event_id ={0}";
@@ -57,17 +58,24 @@ public class SelectEvents
             public static readonly string InsertEvent ="insert into MarriageGift.dbo.[Events](occassion_id, event_id, event_venue, event_date, customer_id, is_canceled) values('{0}','{1}','{2}','{3}','{4}',{5})";
         }
     }
-                public class SelectGifts
-        {
-            public static readonly string SelectGift = "select gift_name, gift_price, gt.gift_type from gift g "+
-                                                        " inner join gift_type gt on gt.gift_type_id =g.gift_Type_id";
-            public static readonly string ByGiftId = SelectGift + " where gift_id ='{0}'";
-            public static readonly string SelectAllGifts = "select gift_id, gift_name from Gift";
-            public static readonly string SelectGiftAlone="select  gift_name, gift_price, gift_type_id from gift" ;
-            public static readonly string ByGiftIdAlone = SelectGiftAlone + " where gift_id ='{0}'";
-            
+    public class gifts{
+      public class SelectGifts
+      {
+          public static readonly string SelectGift = "select gift_name, gift_price, gt.gift_type from gift g "+
+                                                      " inner join gift_type gt on gt.gift_type_id =g.gift_Type_id";
+          public static readonly string ByGiftId = SelectGift + " where gift_id ='{0}'";
+          public static readonly string SelectAllGifts = "select gift_id, gift_name from Gift";
+          public static readonly string SelectGiftAlone="select  gift_name, gift_price, gift_type_id from gift" ;
+          public static readonly string ByGiftIdAlone = SelectGiftAlone + " where gift_id ='{0}'";
 
-        }
+
+      }
+      public class InsertExpectedGifts
+      {
+        public static readonly string InsertIntoGift="insert into MarriageGift.dbo.GIFT_EXPECTED(event_id, gift_id) values('{0}','{1}');"
+      }
+    }
+
         public class Selectinivitations
         {
             public static readonly string Selectinivitation = "select event_id, cust_id_of_invitee from INVITATION ";
