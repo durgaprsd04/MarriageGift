@@ -39,7 +39,6 @@ namespace MarriageGiftAPI
             builder.Register(c =>logger)
                 .As<ILog>()
                 .InstancePerLifetimeScope();
-
             builder.Register(c => new SelectionController( c.Resolve<ICustomerDao>(), c.Resolve<IEventDao>(), c.Resolve<IInvitationDao>(), c.Resolve<IOccassionDao>(), c.Resolve<IGiftDao>(), c.Resolve<ILog>()))
                 .As<ISelectionController>()
                 .InstancePerLifetimeScope();

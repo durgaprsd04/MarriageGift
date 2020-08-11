@@ -6,7 +6,7 @@ namespace MarriageGift.Controller.Interfaces
 {
     public interface ICustomerController
     {
-        string Login(string username, string password, out ICustomer customer1);
+        ICustomer Login(string username, string password);
         bool ChangePassword(string username, string password);
         string CreateEvent(IOccassion occassion, string place,DateTime date,IGiftCollection<IGift> giftE, IGiftCollection<IGift> giftR);
         bool InvitePerson(IEvent eventInQuestion, ICustomer customer);

@@ -6,6 +6,7 @@ using MarriageGift.Model.GiftModel;
 using MarriageGift.Model.Interfaces;
 using MarriageGift.Controller.Interfaces;
 using System;
+using MarriageGift.Model;
 using System.Globalization;
 
 namespace MarriageGiftAPI.Controllers
@@ -43,21 +44,24 @@ namespace MarriageGiftAPI.Controllers
 
         [EnableCors("policy1")]
         [HttpGet("{customerName}",  Name="GetCustomerByCustomerName")]
-        public Customer GetCustomerByCustomerName(string customerName)
+        public ICustomer GetCustomerByCustomerName(string customerName)
         {
-          return customerObj;
+          return loggedInCustomer;
         }
-
-        [HttpPost("login")]
-        public ActionResult<Customer> Login(Customer customer)
+        [EnableCors("policy1")]
+        [HttpGet("customer_id")]
+        public IGenericCollection<IBaseObject> GetCustomerByCustomerId(string customer_id)
         {
-            var custId = customerController.Login(customer.username, customer.password, out loggedInCustomer);
-            var result = selectionController.GetCustomerById(custId).Split('|');
-            logger.InfoFormat("result 0 {0} result 1 {1}", result[0],result[1]);
-            customerObj = new Customer(result[0], result[1], customer.password);
-
+          //test included comments
+          return loggedInCustomer.GetMyEvents();
+        }
+        [HttpPost("login")]
+        public ActionResult<ICustomer> Login(Customer customer)
+        {
+            loggedInCustomer = customerController.Login(customer.username, customer.password);
+            logger.InfoFormat("result 0 {0} result 1 {1}", loggedInCustomer.getId() ,loggedInCustomer.GetUserName());
             return CreatedAtAction(nameof(GetCustomerByCustomerName),
-                   new { customerName =result[0] }, customerObj);
+                   new { customerName =loggedInCustomer.GetUserName()}, loggedInCustomer);
         }
         [HttpPost("createEvent")]
         public ActionResult<string> CreateEvent(Event event1)
@@ -75,7 +79,5 @@ namespace MarriageGiftAPI.Controllers
             customerController.AddToExpectedGifts(giftE,result);
             return result;
         }
-
     }
-
 }

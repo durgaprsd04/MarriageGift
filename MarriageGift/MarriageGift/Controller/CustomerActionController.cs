@@ -57,21 +57,24 @@ namespace MarriageGift.Controller
             return this.customer;
         }
 
-        public string Login(string username, string password, out ICustomer customer2)
+        public ICustomer Login(string username, string password)
         {
             var result = customerDao.Login(username, password);
-
+            var eventCollection = eventDao.geteventsbycustomerid(result.getId());
+            foreach(var eventInQ in eventCollection.GetUnderlyingDictionary())
+            {
+              result.AddMyEvents((IEvent)eventInQ.Value);
+            }
+            //similar way add invitations also.
             if (result!=null)
             {
                 logger.Info("Login successful");
-                this.customer = (Customer)customerDao.Read(result);
-                logger.InfoFormat("Login successful with id {0}", customer.getId());
+                logger.InfoFormat("Login successful with id {0}", result.getId());
             }
             else
             {
                 logger.Info("login unsuccessful");
             }
-            customer2 = customer;
             return result;
         }
 
@@ -83,6 +86,7 @@ namespace MarriageGift.Controller
                 var newEvent = new Event(occassion, place, date, customer.getId());
                 newEvent.AddExpectedGifts(giftE);
                 eventDao.Insert(newEvent);
+                customer.AddMyEvents(newEvent);
                 result = newEvent.getId();
             }
             catch(Exception e)

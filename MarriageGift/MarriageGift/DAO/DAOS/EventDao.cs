@@ -30,7 +30,7 @@ namespace MarriageGift.DAO.DAOS
                     sqlCommand.Connection=conn;
                     sqlCommand.ExecuteNonQuery();
                     conn.Close();
-                }    
+                }
             }
         }
 
@@ -70,9 +70,34 @@ namespace MarriageGift.DAO.DAOS
         {
             throw new NotImplementedException();
         }
-        internal static IEventCollection GetEventsForCustId(string custId)
+        internal static IEvent GetEventsForCustId(string custId)
         {
-            throw new NotImplementedException();
-        }
+            IEventCollection eventCollection = new EventCollection();
+            var query = string.Format(CURDQueries.Events.SelectEvents.ByCustId, custId);
+            var sqlCommand = new SqlCommand();
+            sqlCommand.CommandText = query;
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                sqlCommand.Connection = conn;
+                using (var reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        venue = reader["event_venue"].ToString();
+                        date = reader["event_date"].ToString();
+                        custId = reader["customer_id"].ToString();
+                        occassionId = reader["occassion_id"].ToString();
+                        isCanceled = reader["is_canceled"].ToString() == "1";
+                        var date1 = DateTime.ParseExact(date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                        var occassion = OccassionDao.GetOccassionByEventId(eventId);
+                        var giftE = GiftDao.GetExpectedGiftsForEvent(eventId);
+                        var giftR = GiftDao.GetRecievedGiftsForEvent(eventId);
+                        eventCollection.AddEvent(new Event(eventId, occassion, venue, date0, giftE, giftR, custId, isCanceled));
+                    }
+                }
+                conn.Close();
+          }
+      }
     }
 }

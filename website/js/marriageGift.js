@@ -46,6 +46,8 @@ class URIProvider
       return 'https://localhost:5001/CustomerAction/login';
     else if(type=='getCustomerByName')
       return 'https://localhost:5001/CustomerAction';
+    else if(type=='getCustomerById')
+        return 'https://localhost:5001/CustomerAction';
     else if(type='createEvent')
       return 'https://localhost:5001/CustomerAction/createEvent';
   }
@@ -54,6 +56,10 @@ class URIProvider
     if(type=='getCustomerByName')
     {
       return ['customerName'];
+    }
+    if(type=='getCustomerById')
+    {
+      return ['customer_id'];
     }
   }
 }
@@ -150,7 +156,31 @@ class HTMLSnippets
     return initSelect;
   }
 }
+class HTMLDisplay
+{
+  static async createEvent1()
+  {
+    var divElementOccassionPreText="createEventOccasionList";
+    var divElementEventPreText="createEventExpectedGiftList";
+    var htmlSnippets = new HTMLSnippets();
+    var uriProvider = new URIProvider();
+    //populating occasions
+    var occassionDict =await ServerInteraction.getData(URIProvider.GetURIForOccassion("occassion"));
+    document.getElementById(divElementOccassionPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementOccassionPreText+"Select", false, 3,occassionDict['result'],"HTMLFormatter.occassionTypeSelected", true);
+    StaticObjectHolder.KVPHolder['occassionDict']=occassionDict;
+    //reading  gifts
+    var giftDict = await ServerInteraction.getData(URIProvider.GetURIForOccassion("allgifts"));
+    document.getElementById(divElementEventPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementEventPreText+"Select", true, 3,giftDict['result']);
 
+    //show just create event
+   HTMLFormatter.showOneFormAlone("createEvent");
+  }
+  static async inviteUser()
+  {
+
+      HTMLFormatter.showOneFormAlone("InviteUser");
+  }
+}
 class LoginActions
 {
   async SendDataForCustomerLogin(result)
@@ -196,23 +226,7 @@ class StaticObjectHolder
 {
   static KVPHolder = {};
 }
-async function createEvent1()
-{
-  var divElementOccassionPreText="createEventOccasionList";
-  var divElementEventPreText="createEventExpectedGiftList";
-  var htmlSnippets = new HTMLSnippets();
-  var uriProvider = new URIProvider();
-  //populating occasions
-  var occassionDict =await ServerInteraction.getData(URIProvider.GetURIForOccassion("occassion"));
-  document.getElementById(divElementOccassionPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementOccassionPreText+"Select", false, 3,occassionDict['result'],"HTMLFormatter.occassionTypeSelected", true);
-  StaticObjectHolder.KVPHolder['occassionDict']=occassionDict;
-  //reading  gifts
-  var giftDict = await ServerInteraction.getData(URIProvider.GetURIForOccassion("allgifts"));
-  document.getElementById(divElementEventPreText+"Div").innerHTML=htmlSnippets.GetSelectList(divElementEventPreText+"Select", true, 3,giftDict['result']);
 
-  //show just create event
- HTMLFormatter.showOneFormAlone("createEvent");
-}
 async function loginScreenValidateForm()
 {
   var username=document.getElementById("loginScreenUsername").value;

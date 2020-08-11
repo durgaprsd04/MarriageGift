@@ -1,6 +1,7 @@
 ﻿using MarriageGift.DAO.DAOS;
 using MarriageGift.DAO.Interfaces;
 using MarriageGift.Model;
+using MarriageGift.Model.Interfaces;
 using log4net;
 namespace MarriageGift.DAO.Wrappers
 {
@@ -26,7 +27,7 @@ namespace MarriageGift.DAO.Wrappers
             CustomerDao.Insert(baseObject);
         }
 
-        public string Login(string username, string password)
+        public ICustomer  Login(string username, string password)
         {
             return CustomerDao.Login(username, password, logger);
         }

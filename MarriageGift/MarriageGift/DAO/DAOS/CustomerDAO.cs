@@ -85,10 +85,10 @@ namespace MarriageGift.DAO.DAOS
                 conn.Close();
             }
         }
-        internal static string Login(string username,string password, ILog logger)
-        {       
+        internal static ICustomer Login(string username,string password, ILog logger)
+        {
             logger.InfoFormat("Fetchign customer id for customer {0}",username);
-            var custId= string.Empty;     
+            var custId= string.Empty;
             var query = string.Format(CURDQueries.Customers.LoginCustomers.loginCustomer, username, password);
             var sqlCommand = new SqlCommand();
             sqlCommand.CommandText = query;
@@ -99,7 +99,7 @@ namespace MarriageGift.DAO.DAOS
                     conn.Open();
                     sqlCommand.Connection = conn;
                     var result = sqlCommand.ExecuteScalar(); 
-                    custId = result?.ToString();              
+                    custId = result?.ToString();
                     conn.Close();
                 }
             }
@@ -107,8 +107,7 @@ namespace MarriageGift.DAO.DAOS
             {
                 logger.Error("Error while login "+e.Message);
             }
-            
-            return custId;
+            return Read(custId);
         }
     }
 }

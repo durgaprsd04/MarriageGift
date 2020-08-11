@@ -26,8 +26,8 @@
         Customer Actions
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" onclick="inviteUser()">Invite User</a>
-        <a class="dropdown-item" onclick="createEvent1()">Create Event</a>
+        <a class="dropdown-item" onclick="HTMLDisplay.inviteUser()">Invite User</a>
+        <a class="dropdown-item" onclick="HTMLDisplay.createEvent1()">Create Event</a>
         <a class="dropdown-item" onclick="modifyEvent()">Modify Event</a>
         <a class="dropdown-item" onclick="BuyGiftForInvite()">Buy Gift for Invite</a>
         <a class="dropdown-item" onclick="RemoveGiftForInvite()">Remove Gift for Invite</a>
@@ -101,10 +101,10 @@
           </div>
         <!-- Create Invite  -->
           <div id="InviteUser" style="display:none">
-            <form action="index.html" onsubmit="return InviteUserValidateForm()" method="post">
+            <div>
                 <div class="form-group d-flex justify-content-right mb-3">
                   <label class="col-xl-6" for="eventList">Event</label>
-                  <div class="col-xl-6" id="eventListDiv" >
+                  <div class="col-xl-6" id="InviteUserEventListDiv" >
                     Select List
                   </div>
                 </div>
@@ -114,9 +114,9 @@
                         Select Customer List
                   </div>
                 </div>
-                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='InviteUserSubmit'>
+                <input class="btn-primary col-xl-4" type="submit" value="Submit" id='InviteUserSubmit' onclick="InviteUserValidateForm()">
                 <div class="col-xl-4"></div>
-              </form>
+              </div>
           </div>
         <!-- modify Event  -->
           <div id="modifyEvent" style="display:none">

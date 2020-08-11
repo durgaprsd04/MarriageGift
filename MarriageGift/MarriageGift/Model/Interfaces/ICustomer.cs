@@ -5,13 +5,13 @@ using System.Text;
 namespace MarriageGift.Model.Interfaces
 {
     public interface ICustomer:IBaseObject, ISerializable
-    {       
+    {
          bool AddMyEvents(IEvent myEvent);
          bool AddMyInvitations(IInvitation invitation);
-        string GetUserName();
-        string GetPassword();
+         string GetUserName();
+         string GetPassword();
          IGenericCollection<IBaseObject> GetMyEvents();
-            IGenericCollection<IBaseObject> GetMyInvitations();
+         IGenericCollection<IBaseObject> GetMyInvitations();
          bool CancelEvent(string eventId);
          bool ChangeEventTime(string eventId, DateTime date);
          bool ChangeEventVenue(string eventId, string place);
@@ -19,7 +19,7 @@ namespace MarriageGift.Model.Interfaces
          void RespondToInvitation(string invitationId, bool response);
          bool BuyGiftForInvitation(string invitationId, string giftId);
          bool ModifyGiftForInvitation(string invitationId, string giftIdToBeRemoved, string newGiftId);
-         bool RemoveGiftForInvitation(string invitationId, string giftId);         
+         bool RemoveGiftForInvitation(string invitationId, string giftId);
     }
-   
+
 }
